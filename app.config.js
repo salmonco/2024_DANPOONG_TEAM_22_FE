@@ -1,32 +1,33 @@
 export default ({ config }) => ({
   ...config,
-  name: "내일모래",
-  slug: "NM",
-  version: "1.0.0",
-  orientation: "portrait",
-  icon: "./assets/icon.png",
+  name: '내일모래',
+  slug: 'NM',
+  version: '1.0.0',
+  orientation: 'portrait',
+  icon: './assets/icon.png',
   extra: {
     storybookEnabled: process.env.STORYBOOK_ENABLED,
   },
   splash: {
-    image: "./assets/splash.png",
-    resizeMode: "contain",
-    backgroundColor: "#ffffff",
+    image: './assets/splash.png',
+    resizeMode: 'contain',
+    backgroundColor: '#ffffff',
   },
   updates: {
     fallbackToCacheTimeout: 0,
   },
-  assetBundlePatterns: ["**/*"],
+  assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: "./assets/adaptive-icon.png",
-      backgroundColor: "#FFFFFF",
+      foregroundImage: './assets/adaptive-icon.png',
+      backgroundColor: '#FFFFFF',
     },
   },
   web: {
-    favicon: "./assets/favicon.png",
+    favicon: './assets/favicon.png',
   },
-});
+  newArchEnabled: true,
+})
