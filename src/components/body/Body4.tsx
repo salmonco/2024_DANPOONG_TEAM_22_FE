@@ -3,7 +3,7 @@ import { Text } from 'react-native'
 
 const Body4 = ({ text, className, ...props }: Readonly<TextProps>) => {
   const size = 16
-  console.log(props, className)
+
   return (
     <Text
       {...props}
