@@ -39,6 +39,7 @@ module.exports = {
       borderColor: {
         gray500: '#333333',
         yellow200: '#fdfdc4',
+        yellowPrimary: '#f9f96c',
       },
     },
   },
