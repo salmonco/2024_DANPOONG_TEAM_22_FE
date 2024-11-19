@@ -19,7 +19,7 @@ const RoleSelectScreen = ({ navigation }: Readonly<AuthProps>) => {
 
   const handleNext = () => {
     console.log('go next')
-    navigation.navigate('RoleSelectScreen')
+    navigation.navigate('MemberInfoWriteScreen')
   }
 
   return (
@@ -50,7 +50,7 @@ const RoleSelectScreen = ({ navigation }: Readonly<AuthProps>) => {
                 </View>
               </Pressable>
               <Pressable
-                className={`relative w-1/2 pt-[41] h-[180] bg-white/10 items-center border ${
+                className={`relative w-1/2 pt-[41] h-[180] items-center border ${
                   role === '청년'
                     ? 'bg-white/20 border-yellowPrimary'
                     : 'bg-white/10 border-white/10'
