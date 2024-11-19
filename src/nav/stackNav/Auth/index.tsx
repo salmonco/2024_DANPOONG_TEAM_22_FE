@@ -3,12 +3,14 @@ import LoginScreen from '@screens/Login'
 import MemberInfoWriteScreen from '@screens/MemberInfoWrite'
 import NicknameWriteScreen from '@screens/NicknameWrite'
 import RoleSelectScreen from '@screens/RoleSelect'
+import VolunteerOnboardingScreen from '@screens/VolunteerOnboarding'
 
 export type AuthStackParamList = {
   LoginScreen: undefined
   NicknameWriteScreen: undefined
   RoleSelectScreen: { nickname: string }
   MemberInfoWriteScreen: { nickname: string; role: string }
+  VolunteerOnboardingScreen: undefined
 }
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>()
@@ -35,6 +37,11 @@ const AuthStackNav = () => {
         name="MemberInfoWriteScreen"
         component={MemberInfoWriteScreen}
         options={{ title: '정보 입력' }}
+      />
+      <AuthStack.Screen
+        name="VolunteerOnboardingScreen"
+        component={VolunteerOnboardingScreen}
+        options={{ title: '온보딩' }}
       />
     </AuthStack.Navigator>
   )

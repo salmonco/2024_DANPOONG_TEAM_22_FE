@@ -19,6 +19,8 @@ const fetchFonts = () => {
     'WantedSans-SemiBold': require('./assets/fonts/WantedSans-SemiBold.otf'),
     'WantedSans-Regular': require('./assets/fonts/WantedSans-Regular.otf'),
     'WantedSans-Medium': require('./assets/fonts/WantedSans-Medium.otf'),
+    'Voltaire-Regular': require('./assets/fonts/Voltaire-Regular.ttf'),
+    'LeeSeoyun-Regular': require('./assets/fonts/LeeSeoyun-Regular.ttf'),
   })
 }
 
