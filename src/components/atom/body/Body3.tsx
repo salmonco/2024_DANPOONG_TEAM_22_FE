@@ -1,4 +1,4 @@
-import { TextProps } from '@components/title/Title1'
+import { TextProps } from '@components/atom/title/Title1'
 import { Text } from 'react-native'
 
 const Body3 = ({ text, ...props }: Readonly<TextProps>) => {

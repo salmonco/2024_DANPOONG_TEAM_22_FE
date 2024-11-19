@@ -1,4 +1,4 @@
-import Body3 from '@components/body/Body3'
+import Body3 from '@components/atom/body/Body3'
 import { Pressable } from 'react-native'
 
 type ButtonProps = {

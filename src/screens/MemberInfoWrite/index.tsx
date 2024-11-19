@@ -4,10 +4,10 @@ import BackgroundImage from '../../../assets/images/login/background.svg'
 import MainPageBack from '@components/MainPageBack'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { AuthStackParamList } from '@stackNav/Auth'
-import Title2 from '@components/title/Title2'
+import Title2 from '@components/atom/title/Title2'
 import { useState } from 'react'
-import Button from '@components/button/Button'
-import Title3 from '@components/title/Title3'
+import Button from '@components/atom/button/Button'
+import Title3 from '@components/atom/title/Title3'
 
 type AuthProps = NativeStackScreenProps<
   AuthStackParamList,

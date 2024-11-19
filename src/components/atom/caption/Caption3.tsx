@@ -1,8 +1,8 @@
-import { TextProps } from '@components/title/Title1'
+import { TextProps } from '@components/atom/title/Title1'
 import { Text } from 'react-native'
 
-const Body2 = ({ text, ...props }: Readonly<TextProps>) => {
-  const size = 20
+const Caption3 = ({ text, ...props }: Readonly<TextProps>) => {
+  const size = 10
 
   return (
     <Text
@@ -23,4 +23,4 @@ const Body2 = ({ text, ...props }: Readonly<TextProps>) => {
   )
 }
 
-export default Body2
+export default Caption3
