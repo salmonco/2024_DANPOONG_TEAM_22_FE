@@ -8,12 +8,15 @@ const Caption1 = ({ text, ...props }: Readonly<TextProps>) => {
     <Text
       {...props}
       className={props.className}
-      style={{
-        fontFamily: 'WantedSans-Medium',
-        fontSize: size,
-        lineHeight: size * 1.5,
-        letterSpacing: size * -0.025,
-      }}
+      style={[
+        {
+          fontFamily: 'WantedSans-Medium',
+          fontSize: size,
+          lineHeight: size * 1.5,
+          letterSpacing: size * -0.025,
+        },
+        props.style,
+      ]}
     >
       {text}
     </Text>
