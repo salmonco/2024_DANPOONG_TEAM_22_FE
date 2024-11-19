@@ -50,7 +50,7 @@ function App() {
         }}
       >
         {/* <Stack.Screen name="Splash" component={Splash}/> */}
-        <Stack.Screen name="AuthStackNav" component={AuthStackNav} />
+        {/* <Stack.Screen name="AuthStackNav" component={AuthStackNav} /> */}
         <Stack.Screen name="AppTabNav" component={AppTabNav} />
       </Stack.Navigator>
     </NavigationContainer>
