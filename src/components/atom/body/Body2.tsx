@@ -1,8 +1,8 @@
-import { TextProps } from '@components/title/Title1'
+import { TextProps } from '@components/atom/title/Title1'
 import { Text } from 'react-native'
 
-const Title2 = ({ text, ...props }: Readonly<TextProps>) => {
-  const size = 26
+const Body2 = ({ text, ...props }: Readonly<TextProps>) => {
+  const size = 20
 
   return (
     <Text
@@ -10,7 +10,7 @@ const Title2 = ({ text, ...props }: Readonly<TextProps>) => {
       className={props.className}
       style={[
         {
-          fontFamily: 'WantedSans-SemiBold',
+          fontFamily: 'WantedSans-Regular',
           fontSize: size,
           lineHeight: size * 1.5,
           letterSpacing: size * -0.025,
@@ -23,4 +23,4 @@ const Title2 = ({ text, ...props }: Readonly<TextProps>) => {
   )
 }
 
-export default Title2
+export default Body2

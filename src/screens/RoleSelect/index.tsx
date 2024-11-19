@@ -4,13 +4,13 @@ import BackgroundImage from '../../../assets/images/login/background.svg'
 import MainPageBack from '@components/MainPageBack'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { AuthStackParamList } from '@stackNav/Auth'
-import Title2 from '@components/title/Title2'
+import Title2 from '@components/atom/title/Title2'
 import { useState } from 'react'
-import Button from '@components/button/Button'
+import Button from '@components/atom/button/Button'
 import VolunteerIcon from '../../../assets/images/login/volunteer.svg'
 import YouthIcon from '../../../assets/images/login/youth.svg'
-import Body3 from '@components/body/Body3'
-import Title3 from '@components/title/Title3'
+import Body3 from '@components/atom/body/Body3'
+import Title3 from '@components/atom/title/Title3'
 
 type AuthProps = NativeStackScreenProps<AuthStackParamList, 'RoleSelectScreen'>
 
@@ -19,7 +19,7 @@ const RoleSelectScreen = ({ navigation }: Readonly<AuthProps>) => {
 
   const handleNext = () => {
     console.log('go next')
-    navigation.navigate('RoleSelectScreen')
+    navigation.navigate('MemberInfoWriteScreen')
   }
 
   return (
@@ -50,7 +50,7 @@ const RoleSelectScreen = ({ navigation }: Readonly<AuthProps>) => {
                 </View>
               </Pressable>
               <Pressable
-                className={`relative w-1/2 pt-[41] h-[180] bg-white/10 items-center border ${
+                className={`relative w-1/2 pt-[41] h-[180] items-center border ${
                   role === '청년'
                     ? 'bg-white/20 border-yellowPrimary'
                     : 'bg-white/10 border-white/10'

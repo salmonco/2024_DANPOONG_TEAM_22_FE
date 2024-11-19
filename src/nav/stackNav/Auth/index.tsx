@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import LoginScreen from '@screens/Login'
+import MemberInfoWriteScreen from '@screens/MemberInfoWrite'
 import NicknameWriteScreen from '@screens/NicknameWrite'
 import RoleSelectScreen from '@screens/RoleSelect'
 
@@ -29,6 +30,11 @@ const AuthStackNav = () => {
         name="RoleSelectScreen"
         component={RoleSelectScreen}
         options={{ title: '역할 선택' }}
+      />
+      <AuthStack.Screen
+        name="MemberInfoWriteScreen"
+        component={MemberInfoWriteScreen}
+        options={{ title: '정보 입력' }}
       />
     </AuthStack.Navigator>
   )
