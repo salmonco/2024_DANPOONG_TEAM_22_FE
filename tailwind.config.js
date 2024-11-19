@@ -41,6 +41,20 @@ module.exports = {
         yellow200: '#fdfdc4',
         yellowPrimary: '#f9f96c',
       },
+      borderRadius: {
+        'btn': '16px',
+        'card':'10px'
+      },
+      padding: {
+        'btn': '13px',
+        'px': '30px',
+        'pt': '157px', // 상단에 appBar 가 없을때 padding Top 크기입니다.
+        'ptt' : '63px', // 상단에 appBar 기 있을때 padding Top 크기입니다.
+        'pb': '55px',
+      },
+      margin:{
+        'mb':'55px'
+      }
     },
   },
   plugins: [],
