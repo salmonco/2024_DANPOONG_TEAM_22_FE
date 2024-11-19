@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import LoginScreen from '@screens/Login'
+import NicknameWriteScreen from '@screens/NicknameWrite'
 
 export type AuthStackParamList = {
   LoginScreen: undefined
@@ -17,6 +18,11 @@ const AuthStackNav = () => {
         name="LoginScreen"
         component={LoginScreen}
         options={{ title: '로그인' }}
+      />
+      <AuthStack.Screen
+        name="NicknameWriteScreen"
+        component={NicknameWriteScreen}
+        options={{ title: '닉네임 입력' }}
       />
     </AuthStack.Navigator>
   )

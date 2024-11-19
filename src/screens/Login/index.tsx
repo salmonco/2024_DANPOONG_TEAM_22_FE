@@ -5,10 +5,15 @@ import BackgroundImage from '../../../assets/images/login/background.svg'
 import MainPageBack from '@components/MainPageBack'
 import Body3 from '@components/body/Body3'
 import KakaoIcon from '../../../assets/images/login/kakao.svg'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { AuthStackParamList } from '@stackNav/Auth'
 
-const LoginScreen = () => {
+type AuthProps = NativeStackScreenProps<AuthStackParamList, 'LoginScreen'>
+
+const LoginScreen = ({ navigation }: Readonly<AuthProps>) => {
   const handleKakaoLogin = () => {
     console.log('Kakao login')
+    navigation.navigate('NicknameWriteScreen')
   }
 
   const handleUseWithoutLogin = () => {
@@ -16,7 +21,7 @@ const LoginScreen = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 justify-center items-center relative">
+    <SafeAreaView className="flex-1 justify-center items-center">
       <MainPageBack>
         <View className="flex-1">
           <View className="items-center pt-[165]">
@@ -35,7 +40,7 @@ const LoginScreen = () => {
               onPress={handleKakaoLogin}
             >
               <KakaoIcon />
-              <Body3 text="카카오 로그인" className="ml-[9.39] font-semiBold" />
+              <Body3 text="카카오 로그인" className="ml-[9.39] font-sb" />
             </Pressable>
             <Pressable onPress={handleUseWithoutLogin}>
               <Body4

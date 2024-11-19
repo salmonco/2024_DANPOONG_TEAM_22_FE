@@ -4,10 +4,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        bold: 'WantedSans-Bold',
-        semiBold: 'WantedSans-SemiBold',
-        regular: 'WantedSans-Regular',
-        medium: 'WantedSans-Medium',
+        b: 'WantedSans-Bold',
+        sb: 'WantedSans-SemiBold',
+        r: 'WantedSans-Regular',
+        m: 'WantedSans-Medium',
       },
       textColor: {
         white: '#fafafa',
@@ -33,6 +33,12 @@ module.exports = {
         tabIcon: '#585a6c',
         mainPageBack100: '#121320',
         mainPageBack200: '#252738',
+        gray300: '#a0a0a0',
+        yellowPrimary: '#f9f96c',
+      },
+      borderColor: {
+        gray500: '#333333',
+        yellow200: '#fdfdc4',
       },
     },
   },
