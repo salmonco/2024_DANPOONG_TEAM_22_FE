@@ -7,11 +7,13 @@
       "@constants/*": ["./src/libs/constants/*"],
       "@apis/*": ["./src/libs/apis/*"],
       "@utils/*": ["./src/libs/utils/*"],
+      "@hooks/*": ["./src/libs/hooks/*"],
       "@api/*": ["./src/api/*"],
       "@stackNav/*": ["./src/nav/stackNav/*"],
       "@tabNav/*": ["./src/nav/tabNav/*"],
       "@screens/*": ["./src/screens/*"],
-      "@assets/*": ["./assets/*"]
+      "@assets/*": ["./assets/*"],
+      "@types/*": ["./src/types/*"]
     }
   }
 }
