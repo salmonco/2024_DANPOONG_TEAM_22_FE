@@ -6,7 +6,8 @@ import Button from '../../components/atom/button/Button'
 import { ImageBackground } from 'react-native'
 import { useNavigation, RouteProp, NavigationProp } from '@react-navigation/native'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
-
+import { getRCDList, RCD } from '@apis/RCDApis/getRCDList'
+import { useState, useEffect } from 'react'
 const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>}) => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   const {type} = route.params
@@ -14,6 +15,23 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
   const entries = [
     {head:'비가 오는 날 외출하는\n청년을 위한 한 마디'}, 
     {head:'비가 오는 날 외출하는\n청년다방'}]
+  const [rcdList, setRcdList] = useState<RCD[]>([])
+  useEffect(() => {
+    console.log(rcdList)
+  }, [rcdList])
+  useEffect(() => {
+    let categoryType: 'DAILY' | 'COMFORT' = 'DAILY'
+    if (type === '일상') {
+      categoryType = 'DAILY'
+    } else {
+      categoryType = 'COMFORT'
+    }
+    try {
+      getRCDList(categoryType).then(setRcdList)
+    } catch (error) {
+      console.error('RCD 목록을 가져오는데 실패했습니다:', error)
+    }
+  }, [])
   return (
     <BG type="gradation">
       {/* BG Image */}
