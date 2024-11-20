@@ -43,7 +43,7 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
         </View>
         {/* list */}
         <View className="w-full h-[302]">
-        <Carousel entries={entries} />
+        {/* <Carousel entries={entries} /> */}
         </View>
         {/* button */}
         <View className="mb-pb px-px">
