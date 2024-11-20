@@ -29,16 +29,18 @@ const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
         source={require('../../../assets/images/youth/background1.png')}
         className="flex-1 items-center"
       >
-        <Title3
-          text="고독한 울프님, 반가워요!"
-          className="text-gray300 pt-[117] px-[30]"
-        />
-        <View className="mt-[9] px-[30]">
-          <View className="flex-row items-center">
-            <Title2 text="1000명의 목소리" className="text-yellowPrimary" />
-            <Title2 text="가" className="text-white" />
+        <View className="self-start">
+          <Title3
+            text="고독한 울프님, 반가워요!"
+            className="text-gray300 pt-[117] px-[30]"
+          />
+          <View className="mt-[9] px-[30]">
+            <View className="flex-row items-center">
+              <Title2 text="1000명의 목소리" className="text-yellowPrimary" />
+              <Title2 text="가" className="text-white" />
+            </View>
+            <Title2 text="당신의 일상을 비추고 있어요" className="text-white" />
           </View>
-          <Title2 text="당신의 일상을 비추고 있어요" className="text-white" />
         </View>
 
         <View
