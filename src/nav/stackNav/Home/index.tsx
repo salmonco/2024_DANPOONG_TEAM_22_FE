@@ -36,39 +36,32 @@ const HomeStackNav = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{title: 'Welcome',headerShown: false}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="RCDList"
           component={RCDListScreen}
-          options={{title: 'Welcome'}}
         />
         <Stack.Screen
           name="RCDFeedBack"
           component={RCDFeedBackScreen}
-          options={{title: 'Welcome'}}
         />
         <Stack.Screen
           name="RCDNotice"
           component={RCDNoticeScreen}
-          options={{title: 'Welcome'}}
         />
         <Stack.Screen
           name="RCDRecord"
           component={RCDRecordScreen}
-          options={{title: 'Welcome'}}
         />
         <Stack.Screen
           name="RCDText"
           component={RCDTextScreen}
-          options={{title: 'Welcome'}}
         />  
         <Stack.Screen
         name="RCDSelectText"
         component={RCDSelectTextScreen}
-        options={{}}
         />
-
       </Stack.Navigator>
     )
 }
