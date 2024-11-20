@@ -1,7 +1,6 @@
 import Body4 from '@components/atom/body/Body4'
 import { Image, Pressable, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import BackgroundImage from '../../../assets/images/login/background.svg'
 import MainPageBack from '@components/MainPageBack'
 import Body3 from '@components/atom/body/Body3'
 import KakaoIcon from '../../../assets/images/login/kakao.svg'
@@ -32,7 +31,10 @@ const LoginScreen = ({ navigation }: Readonly<AuthProps>) => {
               style={{ width: 200, height: 72, marginTop: 16 }}
             />
           </View>
-          <BackgroundImage />
+          <Image
+            source={require('../../../assets/images/login/background1.png')}
+            className="w-full h-auto flex-1"
+          />
           <View className="absolute left-0 bottom-[72] w-full px-[40]">
             <Pressable
               className="h-[52.8] bg-[#FEE500] justify-center items-center flex-row"

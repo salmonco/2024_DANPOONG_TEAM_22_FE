@@ -1,6 +1,5 @@
-import { Pressable, View } from 'react-native'
+import { Image, Pressable, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import BackgroundImage from '../../../assets/images/login/background.svg'
 import MainPageBack from '@components/MainPageBack'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { AuthStackParamList } from '@stackNav/Auth'
@@ -19,7 +18,7 @@ const RoleSelectScreen = ({ navigation }: Readonly<AuthProps>) => {
 
   const handleNext = () => {
     console.log('go next')
-    navigation.navigate('VolunteerOnboardingScreen')
+    navigation.navigate('MemberInfoWriteScreen')
   }
 
   return (
@@ -68,7 +67,10 @@ const RoleSelectScreen = ({ navigation }: Readonly<AuthProps>) => {
               </Pressable>
             </View>
           </View>
-          <BackgroundImage />
+          <Image
+            source={require('../../../assets/images/login/background2.png')}
+            className="w-full h-auto flex-1 mt-[54]"
+          />
           <View className="absolute left-0 bottom-[30] w-full px-[40]">
             <Button text="다음" onPress={handleNext} disabled={!role} />
           </View>

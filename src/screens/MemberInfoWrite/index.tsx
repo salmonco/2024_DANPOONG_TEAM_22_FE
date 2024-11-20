@@ -1,6 +1,5 @@
-import { Pressable, TextInput, View } from 'react-native'
+import { Image, Pressable, TextInput, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import BackgroundImage from '../../../assets/images/login/background.svg'
 import MainPageBack from '@components/MainPageBack'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { AuthStackParamList } from '@stackNav/Auth'
@@ -20,7 +19,7 @@ const MemberInfoWriteScreen = ({ navigation }: Readonly<AuthProps>) => {
 
   const handleNext = () => {
     console.log('go next')
-    navigation.navigate('MemberInfoWriteScreen')
+    navigation.navigate('VolunteerOnboardingScreen')
   }
 
   return (
@@ -71,7 +70,10 @@ const MemberInfoWriteScreen = ({ navigation }: Readonly<AuthProps>) => {
               </View>
             </View>
           </View>
-          <BackgroundImage />
+          <Image
+            source={require('../../../assets/images/login/background2.png')}
+            className="w-full h-auto flex-1 mt-[54]"
+          />
           <View className="absolute left-0 bottom-[30] w-full px-[40]">
             <Button
               text="다음"
