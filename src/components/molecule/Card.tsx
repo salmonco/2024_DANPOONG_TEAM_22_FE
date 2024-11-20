@@ -2,6 +2,7 @@ import { View } from 'react-native'
 import Txt from '../atom/Txt'
 import ShadowView from '../atom/ShadowView'
 import { ImageBackground } from 'react-native'
+import StarPNG from '@components/atom/StarPNG'
 const Card = ({head}:{head:string}) => {
   return (
     <ShadowView>
@@ -9,10 +10,7 @@ const Card = ({head}:{head:string}) => {
       <View className="w-full h-full justify-evenly items-center">
         {/* 별 이미지 */}
         <View className="flex flex-row justify-center items-center">
-          <ImageBackground
-            source={require('../../../assets/pngs/Start2.png')}
-            style={{ width: 24, height: 24 }}
-          />
+          <StarPNG />
         </View>
         {/* 제목 head*/}
         <View>
