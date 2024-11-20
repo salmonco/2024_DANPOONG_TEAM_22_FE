@@ -18,7 +18,7 @@ const RoleSelectScreen = ({ navigation }: Readonly<AuthProps>) => {
 
   const handleNext = () => {
     console.log('go next')
-    navigation.navigate('MemberInfoWriteScreen')
+    navigation.navigate('VolunteerOnboardingScreen')
   }
 
   return (
