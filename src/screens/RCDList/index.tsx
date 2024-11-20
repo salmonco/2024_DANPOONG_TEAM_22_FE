@@ -12,8 +12,8 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
   const {type} = route.params
   // test data - 나중에 api 요청 받아서 데이터 넣어주기
   const entries = [
-    {head:'비가 오는 날 외출하는\n청년을 위한 한 마디', sub:'오늘 비 와서 날씨가 춥다는데\n따뜻하게 입고 우산 꼭 챙겨서 나가렴'}, 
-    {head:'비가 오는 날 외출하는\n청년다방', sub:'오늘 비 와서 날씨가 춥다는데\n춥게 나가렴'}]
+    {head:'비가 오는 날 외출하는\n청년을 위한 한 마디'}, 
+    {head:'비가 오는 날 외출하는\n청년다방'}]
   return (
     <BG type="gradation">
       {/* BG Image */}
@@ -43,7 +43,7 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
         </View>
         {/* list */}
         <View className="w-full h-[302]">
-        <Carousel entries={entries} />
+        {/* <Carousel entries={entries} /> */}
         </View>
         {/* button */}
         <View className="mb-pb px-px">

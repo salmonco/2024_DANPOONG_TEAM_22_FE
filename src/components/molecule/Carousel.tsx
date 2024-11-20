@@ -1,11 +1,11 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import Carousel  from 'react-native-reanimated-carousel';
+import {default as MyCarousel} from 'react-native-reanimated-carousel';
 import Card from './Card';
-const MyCarousel = ({ entries }: { entries: any[] }) => {
+const Carousel = ({ entries }: { entries: any[] }) => {
     const width = Dimensions.get('window').width;
     return (
-        <Carousel
+        <MyCarousel
         loop={true}
         scrollAnimationDuration={1000}
         mode="parallax"
@@ -16,12 +16,12 @@ const MyCarousel = ({ entries }: { entries: any[] }) => {
         width={width}
         height={302}
         data={entries}
-        onSnapToItem={(index) => console.log('current index:', index)}
-        renderItem={({ index }) => (
-            <Card key={index} head={entries[index].head} sub={entries[index].sub}/>
+        // onSnapToItem={(index) => console.log('current index:', index)}
+        renderItem={({ item,index}) => (
+            <Card key={index} head={item.head}/>
             )}
         />
     );
 };
 
-export default MyCarousel;
+export default Carousel;
