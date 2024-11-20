@@ -1,10 +1,9 @@
 import { Text, View, Animated, Dimensions, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import BackgroundImage from '../../../assets/images/login/background.svg'
 import MainPageBack from '@components/MainPageBack'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { AuthStackParamList } from '@stackNav/Auth'
-import React, { useState } from 'react'
+import React from 'react'
 import Button from '@components/atom/button/Button'
 import Body2 from '@components/atom/body/Body2'
 import PagerView, {
@@ -76,7 +75,10 @@ const Page2 = () => {
         text="마치 사막을 여행하는 나그네와 같아요"
         className="text-gray200 text-center"
       />
-      <BackgroundImage />
+      <Image
+        source={require('../../../assets/images/login/background3.png')}
+        className="w-full h-[466] absolute bottom-0"
+      />
     </View>
   )
 }
@@ -96,7 +98,10 @@ const Page3 = () => {
         text="나그네의 길을 안내해줄 수 있어요"
         className="text-gray200 text-center"
       />
-      <BackgroundImage />
+      <Image
+        source={require('../../../assets/images/login/background1.png')}
+        className="w-full h-auto"
+      />
     </View>
   )
 }
