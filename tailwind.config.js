@@ -42,9 +42,11 @@ module.exports = {
       },
       borderColor: {
         gray100: '#efefef',
+        gray200: '#d0d0d0',
         gray500: '#333333',
         yellow200: '#fdfdc4',
         yellowPrimary: '#f9f96c',
+        tabIcon: '#585a6c',
       },
       borderRadius: {
         btn: '16px',

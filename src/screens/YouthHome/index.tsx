@@ -10,9 +10,18 @@ import {
   View,
 } from 'react-native'
 import CancelIcon from '../../../assets/images/youth/cancel.svg'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { YouthStackParamList } from '@stackNav/Youth'
 
-const YouthHomeScreen = () => {
+type YouthProps = NativeStackScreenProps<YouthStackParamList, 'YouthHomeScreen'>
+
+const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
   const [clicked, setClicked] = useState(false)
+
+  const handleButtonClick = (label: string) => {
+    console.log(label)
+    navigation.navigate('YouthListenScreen')
+  }
 
   return (
     <SafeAreaView className="flex-1">
@@ -43,18 +52,21 @@ const YouthHomeScreen = () => {
                 <Pressable
                   className="mb-[15] bg-tabIcon border border-gray100 h-[59] px-[22] justify-center items-center"
                   style={{ borderRadius: 100 }}
+                  onPress={() => handleButtonClick('위로')}
                 >
                   <Title3 text="위로" className="text-gray100" />
                 </Pressable>
                 <Pressable
                   className="mb-[15] bg-tabIcon border border-gray100 h-[59] px-[22] justify-center items-center"
                   style={{ borderRadius: 100 }}
+                  onPress={() => handleButtonClick('칭찬과 격려')}
                 >
                   <Title3 text="칭찬과 격려" className="text-gray100" />
                 </Pressable>
                 <Pressable
                   className="bg-tabIcon border border-gray100 h-[59] px-[22] justify-center items-center"
                   style={{ borderRadius: 100 }}
+                  onPress={() => handleButtonClick('우울과 불안')}
                 >
                   <Title3 text="우울과 불안" className="text-gray100" />
                 </Pressable>
