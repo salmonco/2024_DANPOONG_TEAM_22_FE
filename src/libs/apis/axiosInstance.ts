@@ -1,8 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
-import getEnvVars from 'environment'
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: getEnvVars().apiUrl,
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
 })
 
 export default axiosInstance

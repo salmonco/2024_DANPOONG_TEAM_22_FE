@@ -1,16 +1,14 @@
 import { LoginRequestData, LoginResultResponseData } from '@type/auth'
 import axios from 'axios'
-import getEnvVars from 'environment'
 
-const login = async ({
+const postLogin = async ({
   accessToken,
   loginType,
 }: Readonly<LoginRequestData>) => {
   const res = await axios.post<LoginResultResponseData>(
-    `${getEnvVars().apiUrl}/api/v1/auth/login`,
-    { accessToken, loginType }
+    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/login?accessToken=${accessToken}&loginType=${loginType}`
   )
   return res.data
 }
 
-export { login }
+export { postLogin }
