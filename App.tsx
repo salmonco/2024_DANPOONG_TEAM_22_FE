@@ -10,6 +10,7 @@ import * as Font from 'expo-font'
 //Tab
 import AppTabNav from './src/nav/tabNav/App'
 import AuthStackNav from '@stackNav/Auth'
+import YouthStackNav from '@stackNav/Youth'
 //
 
 //font를 가져오는 함수
@@ -51,7 +52,8 @@ function App() {
       >
         {/* <Stack.Screen name="Splash" component={Splash}/> */}
         {/* <Stack.Screen name="AuthStackNav" component={AuthStackNav} /> */}
-        <Stack.Screen name="AppTabNav" component={AppTabNav} />
+        <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
+        {/* <Stack.Screen name="AppTabNav" component={AppTabNav} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )
