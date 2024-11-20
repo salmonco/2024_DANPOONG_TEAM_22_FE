@@ -2,7 +2,7 @@ import { View } from 'react-native'
 import Txt from '../atom/Txt'
 import ShadowView from '../atom/ShadowView'
 import { ImageBackground } from 'react-native'
-const Card = ({head, sub}:{head:string, sub:string}) => {
+const Card = ({head}:{head:string}) => {
   return (
     <ShadowView>
       {/* frame */}
@@ -23,15 +23,6 @@ const Card = ({head, sub}:{head:string, sub:string}) => {
             align="center"
           />
         </View>
-        {/* 설명 sub*/}
-        {/* <View>
-          <Txt
-            type="body4"
-            content={`"\n${sub}\n"`}
-            color="primary"
-            align="center"
-          />
-        </View> */}
       </View>
     </ShadowView>
   )
