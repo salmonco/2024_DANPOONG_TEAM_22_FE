@@ -6,27 +6,33 @@ import Body3 from '@components/atom/body/Body3'
 import KakaoIcon from '../../../assets/images/login/kakao.svg'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { AuthStackParamList } from '@stackNav/Auth'
-// import {
-//   getProfile,
-//   KakaoOAuthToken,
-//   KakaoProfile,
-//   login,
-// } from '@react-native-seoul/kakao-login'
+import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login'
+import { postLogin } from '@apis/auth'
+import * as SecureStore from 'expo-secure-store'
 
 type AuthProps = NativeStackScreenProps<AuthStackParamList, 'LoginScreen'>
 
 const LoginScreen = ({ navigation }: Readonly<AuthProps>) => {
-  // const signInWithKakao = async (): Promise<void> => {
-  //   const token: KakaoOAuthToken = await login()
-  //   console.log(token)
-  //   const profile: KakaoProfile = await getProfile()
-  //   console.log(profile)
-  // }
-
   const handleKakaoLogin = async () => {
-    console.log('Kakao login')
-    // await signInWithKakao()
-    // navigation.navigate('NicknameWriteScreen')
+    try {
+      const token: KakaoOAuthToken = await login()
+
+      const { result } = await postLogin({
+        accessToken: token.accessToken,
+        loginType: 'KAKAO',
+      })
+
+      const { accessToken, refreshToken, memberId, serviceMember } = result
+      console.log('serviceMember', serviceMember)
+
+      await SecureStore.setItemAsync('accessToken', accessToken)
+      await SecureStore.setItemAsync('refreshToken', refreshToken)
+      await SecureStore.setItemAsync('memberId', String(memberId))
+
+      navigation.navigate('NicknameWriteScreen')
+    } catch (error) {
+      console.error('Kakao login error:', error)
+    }
   }
 
   const handleUseWithoutLogin = () => {
