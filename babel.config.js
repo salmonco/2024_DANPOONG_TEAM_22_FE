@@ -28,6 +28,7 @@ module.exports = function (api) {
             '@stackNav': './src/nav/stackNav',
             '@tabNav': './src/nav/tabNav',
             '@screens': './src/screens',
+            '@type': './src/types',
           },
         },
       ],
