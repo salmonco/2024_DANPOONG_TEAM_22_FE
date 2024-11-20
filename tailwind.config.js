@@ -33,7 +33,11 @@ module.exports = {
         tabIcon: '#585a6c',
         mainPageBack100: '#121320',
         mainPageBack200: '#252738',
+        gray100: '#efefef',
+        gray200: '#d0d0d0',
         gray300: '#a0a0a0',
+        gray400: '#717171',
+        gray500: '#333333',
         yellowPrimary: '#f9f96c',
       },
       borderColor: {

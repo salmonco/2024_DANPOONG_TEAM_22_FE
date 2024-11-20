@@ -3,16 +3,17 @@ import BG from '@components/atom/BG'
 import StarPNG from '@components/atom/StarPNG'
 import Txt from '@components/atom/Txt'
 import Button from '@components/atom/button/Button'
-import { useNavigation } from '@react-navigation/native'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 import ShadowView from '@components/atom/ShadowView'
 import { useState, useRef } from 'react'
+import { HomeStackParamList } from '../../types/HomeStackParamList'
 const RCDTextScreen = () => {
-  const navigation = useNavigation()
   const [text, setText] = useState('')
   const onChangeText = (text:string) => {
     setText(text)
   }
   const textInputRef = useRef<TextInput>(null);
+  const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
 
   return (
     <BG type="solid">
@@ -82,7 +83,7 @@ const RCDTextScreen = () => {
         <Button
           text="녹음하기"
           onPress={() => {
-            navigation.navigate('RCD' as never)
+            navigation.navigate('RCDRecord' )
           }}
           disabled={text.length===0}
         />
