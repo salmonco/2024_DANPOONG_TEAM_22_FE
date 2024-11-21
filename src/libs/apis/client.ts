@@ -1,9 +1,8 @@
 import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-
+import * as SecureStore from 'expo-secure-store'
 
 const client = axios.create({
-  baseURL: 'http://nysams.com:8081/',
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -12,17 +11,13 @@ const client = axios.create({
 // Request Interceptor: 모든 요청 전에 토큰을 헤더에 추가
 client.interceptors.request.use(async (config) => {
   try {
-    const authData = await AsyncStorage.getItem('auth-storage')
-    if (authData) {
-      const parsedData = JSON.parse(authData)
-      const accessToken = parsedData.state.accessToken
-      if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`
-        return config
-      }
+    const accessToken = await SecureStore.getItemAsync('accessToken')
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`
     }
+    return config
   } catch (error) {
-    console.error('토큰 또는 디바이스 ID 가져오기 실패:', error)
+    console.error('토큰 가져오기 실패:', error)
     return config
   }
 })
@@ -38,11 +33,11 @@ client.interceptors.response.use(
           try {
             // 토큰 갱신 로직 추가 예정
             // const newToken = await refreshToken()
-            // await AsyncStorage.setItem('auth-storage', JSON.stringify({ state: { accessToken: newToken } }))
+            // await SecureStore.setItemAsync('accessToken', newToken)
             return
           } catch (refreshError) {
             // 토큰 갱신 실패 시 로그아웃 처리 등
-            await AsyncStorage.removeItem('auth-storage')
+            await SecureStore.deleteItemAsync('accessToken')
             throw new Error('[401] 인증이 만료되었습니다. 다시 로그인해주세요.')
           }
         case 404:

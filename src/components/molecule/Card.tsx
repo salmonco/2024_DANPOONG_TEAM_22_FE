@@ -6,32 +6,33 @@ import { ImageBackground } from 'react-native'
 import StarPNG from '@components/atom/StarPNG'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
-const Card = ({head,mx,width}:{head:string,mx:number,width:number}) => {
+import { RCD } from '@apis/RCDApis/getRCDList';
+const Card = ({item}:{item:RCD}) => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   return (
-  <View className={`w-[${width}] h-full mx-[${mx}]`}>
+  <View className={`w-[352] h-full ml-[14] mr-[14]`}>
     <ShadowView>
       {/* frame */}
-      <View className="w-full h-full justify-evenly items-center">
+      <View className="w-full h-full justify-evenly items-center px-px">
         {/* 별 이미지 */}
-        <View className="flex flex-row justify-center items-center">
+        <View className="flex w-full flex-row justify-center items-center">
           <StarPNG />
         </View>
         {/* 제목 head*/}
-        <View>
+        <View className="w-full">
           <Txt
             type="title3"
-            content={head}
+            content={item.title}
             color="white"
             align="center"
           />
         </View>
         {/* button */}
-        <View className='w-full px-px'>
+        <View className='w-full'>
         <Button
           text="녹음하기"
           onPress={() => {
-            navigation.navigate('RCDNotice')
+            navigation.navigate('RCDNotice',{item})
           }}
           disabled={false}
         />
