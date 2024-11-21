@@ -14,7 +14,11 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
   // test data - 나중에 api 요청 받아서 데이터 넣어주기
   const entries = [
     {head:'비가 오는 날 외출하는\n청년을 위한 한 마디'}, 
-    {head:'비가 오는 날 외출하는\n청년다방'}]
+    {head:'비가 오는 날 외출하는\n청년다방'},
+    {head:'1'},
+    {head:'2'},
+    {head:'3'},
+    {head:'4'}]
   const [rcdList, setRcdList] = useState<RCD[]>([])
   useEffect(() => {
     console.log(rcdList)
@@ -60,18 +64,13 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
           
         </View>
         {/* list */}
+        <Carousel entries={entries} />
+
         <View className="w-full h-[302]">
-        {/* <Carousel entries={entries} /> */}
         </View>
         {/* button */}
         <View className="mb-pb px-px">
-        <Button
-          text="녹음하기"
-          onPress={() => {
-            navigation.navigate('RCDNotice')
-          }}
-          disabled={false}
-        />
+       
         </View>
     </BG>
   )
