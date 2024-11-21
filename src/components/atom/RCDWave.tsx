@@ -84,7 +84,7 @@ useEffect(()=>{
 
   return (
     // 전체 틀
-    <View style={{ width, height: '22.25%' }}>
+    <View style={{ width, height: 204 }}>
       {/* 배경 색 */}
       <View className="w-full h-full bg-white opacity-10" />
       {/* 가로 회색선 */}

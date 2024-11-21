@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av'
 import RCDWave from '@components/atom/RCDWave'
 import BG from '@components/atom/BG'
@@ -7,8 +7,14 @@ import RCDBtnBar from '@components/molecule/RCDBtnBar'
 import RCDTimer from '@components/atom/RCDTimer'
 import { AudioOption } from '../../libs/constants/AudioOption'
 import Txt from '@components/atom/Txt'
+// import RNFS from 'react-native-fs';
 
-const RCDRecordScreen = () => {
+import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native'
+import { HomeStackParamList } from '../../types/HomeStackParamList'
+import { postVoiceAnalysis } from '@apis/RCDApis/postVoiceAnalysis'
+const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDRecord'>}) => {
+  const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
+  const {item,gptRes,alarmId,voiceFileId,content} = route.params;
   //
   const [recording, setRecording] = useState<Audio.Recording | undefined>(undefined) // 녹음 상태 관리
   const [permissionResponse, requestPermission] = Audio.usePermissions() // 오디오 권한 요청 및 응답 관리
@@ -20,10 +26,12 @@ const RCDRecordScreen = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false) // 재생 상태 관리
   const [isDone, setIsDone] = useState<boolean>(false) // 녹음 완료 상태 관리
 
+
+  
   //test
-  useEffect(()=>{
-    console.log(!!recording,isPaused,isDone,isPlaying)
-  },[isPaused,isPlaying,isDone,recording ])
+  // useEffect(()=>{
+  //   console.log(!!recording,isPaused,isDone,isPlaying)
+  // },[isPaused,isPlaying,isDone,recording ])
 
   useEffect(()=>{
     //화면에 처음들어왔을때 새 녹음을 위하여 값들을 초기화
@@ -111,31 +119,22 @@ const RCDRecordScreen = () => {
   // 파일을 서버로 업로드하는 함수
   const uploadRecording = async () => {
     if (uri) {
-      const formData = new FormData()
-      formData.append('uri', uri)
-      formData.append('name', 'recording.wav')
-      formData.append('type', 'audio/wav')
-
-      console.log('formData', formData)
       try {
-        const response = await fetch('https://your-backend-server.com/upload', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        const file = new FormData()
+        file.append('file', {
+          uri: uri,
+          name: 'recording.wav', 
+          type: 'audio/wav'
+        } as any)
 
-        if (response.ok) {
-          console.log('File uploaded successfully')
-        } else {
-          console.error('File upload failed')
-        }
+        const response = await postVoiceAnalysis(file,voiceFileId)
+        console.log('음성 파일 분석 결과:', response)
+        navigation.navigate('RCDFeedBack')
       } catch (error) {
-        console.error('Error uploading file:', error)
+        console.error('음성 파일 업로드 오류:', error)
       }
     } else {
-      console.error('No recording available to upload')
+      console.error('업로드할 녹음 파일이 없습니다')
     }
   }
 
@@ -160,25 +159,30 @@ const RCDRecordScreen = () => {
 
   return (
     <BG type="solid">
-      {/* head section */}
-      <View className='px-px mt-[53] mb-[28]'>
-      <Txt type='body4' content='준비한 문장을 시간 내에 또박또박 발음해주세요' color='gray_200'/>
-      </View>
-      <View className='px-px mb-[113]'>
-
-      <Txt type='title2' content={`오늘 밖에 비가 온대.\n꼭 우산을 챙겨서 나가렴.\n오늘도 힘내!`} color='white'/>
-      </View>
-
+      {/* frame */}
+      <View className='flex-1 justify-between'>
+        {/* up section */}
+        <View className='px-px pt-[53]'>
+          {/* head section */}
+          <Txt type='body4' content='준비한 문장을 시간 내에 또박또박 발음해주세요' color='gray_200'/>
+          {/* content section */}
+          <ScrollView className='mt-[28]'>
+            <Txt type='title2' content={content} color='white'/>
+          </ScrollView>
+        </View>
+        {/* down section */}
+        <View>
         {/* wave section */}
         <RCDWave
           volumeList={volumeList}
           isPlaying={isPlaying}
-          recording={!!recording}
-        />
-        {/* timer section */}
-        <RCDTimer recording={recording} isPaused={isPaused} setIsDone={setIsDone} stop={stopRecording}/>
-        {/* button section */}
-        <View className="w-full px-px">
+            recording={!!recording}
+           />
+          {/* timer section */}
+          <View className='mt-[28]'/>
+          <RCDTimer recording={recording} isPaused={isPaused} setIsDone={setIsDone} stop={stopRecording}/>
+          {/* button section */}
+          <View className="w-full px-px mt-[40] mb-[70]">
           <RCDBtnBar
             record={startRecording}
             pause={togglePauseRecording}
@@ -190,6 +194,9 @@ const RCDRecordScreen = () => {
             isDone={isDone}
             reflesh={refleshRCDStates}
           />
+        </View>
+        </View>
+
         </View>
     </BG>
   )

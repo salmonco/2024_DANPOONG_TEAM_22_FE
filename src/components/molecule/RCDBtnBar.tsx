@@ -53,7 +53,7 @@ const RCDBtnBar = ({
         isDone={isDone}
       />
       {isDone && (
-        <TransparentButton content="완료" color="gray_100" onPress={()=>{navigation.navigate('RCDFeedBack')}} />
+        <TransparentButton content="완료" color="gray_100" onPress={upload} />
       )}
     </View>
   )

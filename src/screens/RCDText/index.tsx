@@ -3,60 +3,61 @@ import BG from '@components/atom/BG'
 import StarPNG from '@components/atom/StarPNG'
 import Txt from '@components/atom/Txt'
 import Button from '@components/atom/button/Button'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native'
 import ShadowView from '@components/atom/ShadowView'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
-const RCDTextScreen = () => {
+import { ScrollView } from 'react-native-gesture-handler'
+import { postSaveScript } from '@apis/RCDApis/postSaveScript'
+const RCDTextScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDText'>}) => {
+  const {item,gptRes,alarmId} = route.params
   const [text, setText] = useState('')
+  const textInputRef = useRef<TextInput>(null);
+  const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
+
+  useEffect(()=>{setText(gptRes?.result.content||'')},[])
+
   const onChangeText = (text:string) => {
     setText(text)
   }
-  const textInputRef = useRef<TextInput>(null);
-  const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
+
+const scriptSubmitHandler = async () => {
+  try {
+    const content: string = text;
+    const res = await postSaveScript(alarmId, content);
+    const voiceFileId = res.result.voiceFileId
+    navigation.navigate('RCDRecord', { item, gptRes, alarmId,voiceFileId,content });
+  } catch (e) {
+    console.log('스크립트 저장 오류:', e);
+    }
+  };  
 
   return (
     <BG type="solid">
       {/* frame */}
-      <View
-        className="w-full h-full px-px items-center"
-        style={{ paddingTop: `${52 / 412 * 100}%` }}
-      >
+      <ScrollView className="w-full h-full px-px pt-[52]" contentContainerStyle={{alignItems: 'center'}}>
         {/* image section*/}
-        <View
-          style={{
-            marginBottom: `${(29 / 412) * 100}%`,
-            height: `${(24 / 807) * 100}%`,
-            width: `${(24 / 352) * 100}%`,
-          }}
-        >
+       
           <StarPNG />
-        </View>
+        <View className='mb-[29]'/>
         {/* header section*/}
         <View
-          className="w-full h-auto items-center"
-          style={{ marginBottom: `${(51/ 412) * 100}%` }}
-        >
+          className="w-[250] h-auto items-center mb-[50]">
           <Txt
-            content={`비가 오는 날 외출하는\n청년을 위한 한 마디`}
+            content={item.title}
             color="white"
             type="title2"
             align="center"
           />
         </View>
         {/* text input section*/}
-          <View
-            style={{
-                width: '100%',
-                flex:1,
-                marginBottom: `${51 / 412 * 100}%`,
-              }}>
+          <View className='flex-1 w-full h-[340] mb-[51]'>
         <ShadowView>
         <TextInput
           ref={textInputRef}
           onChangeText={onChangeText}
           value={text}
-          className="w-full h-auto p-[10] text-white"
+          className="w-full h-auto p-[33] text-white font-r text-[20] leading-[30]"
           placeholder="15초 동안 녹음할 말을 작성해주세요"
           placeholderTextColor='#a0a0a0'
           autoCapitalize="none"
@@ -78,17 +79,14 @@ const RCDTextScreen = () => {
         </ShadowView>
         </View>
         {/* button section*/}
-        <View className='w-full'
-        style={{marginBottom:`${78/807*100}%`}}>
+        <View className='w-full mb-[78]'>
         <Button
           text="녹음하기"
-          onPress={() => {
-            navigation.navigate('RCDRecord' )
-          }}
+          onPress={scriptSubmitHandler}
           disabled={text.length===0}
         />
         </View>
-      </View>
+      </ScrollView>
     </BG>
   )
 }
