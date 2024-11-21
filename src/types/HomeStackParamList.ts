@@ -5,10 +5,7 @@ export type HomeStackParamList = {
     RCDList: {type: 'DAILY' | 'COMFORT'};
     RCDNotice: {item:RCD};
     RCDSelectText:{item:RCD};
-    RCDText: {item:RCD,gptRes:PostAskGPTResponse};
+    RCDText: {item:RCD,gptRes:PostAskGPTResponse|null,alarmId:number};
+    RCDRecord: {item:RCD,gptRes:PostAskGPTResponse|null,alarmId:number,voiceFileId:number,content:string};
     RCDFeedBack: undefined;
-    RCDRecord: undefined;
-    Splash: undefined;
-    Auth:undefined;
-    AppTabNav:undefined;
   };

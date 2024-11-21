@@ -12,6 +12,7 @@ import AppTabNav from './src/nav/tabNav/App'
 import AuthStackNav from '@stackNav/Auth'
 import YouthStackNav from '@stackNav/Youth'
 //
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 //font를 가져오는 함수
 const fetchFonts = () => {
@@ -44,18 +45,20 @@ function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        {/* <Stack.Screen name="Splash" component={Splash}/> */}
-        <Stack.Screen name="AuthStackNav" component={AuthStackNav} />
-        {/* <Stack.Screen name="YouthStackNav" component={YouthStackNav} /> */}
-        {/* <Stack.Screen name="AppTabNav" component={AppTabNav} /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          {/* <Stack.Screen name="Splash" component={Splash}/> */}
+          {/* <Stack.Screen name="AuthStackNav" component={AuthStackNav} /> */}
+          {/* <Stack.Screen name="YouthStackNav" component={YouthStackNav} /> */}
+          <Stack.Screen name="AppTabNav" component={AppTabNav} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   )
 }
 

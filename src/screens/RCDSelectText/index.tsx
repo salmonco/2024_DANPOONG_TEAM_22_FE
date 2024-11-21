@@ -11,18 +11,22 @@ import { useEffect, useState } from "react";
 import { postAskGPT,PostAskGPTResponse } from "@apis/RCDApis/postAskGPT";
 import { RCD } from "@apis/RCDApis/getRCDList";
 
-const SelectButton = ({head,sub,alarmId,item}:{head:string,sub:string,alarmId:number,item:RCD}) => {
+const SelectButton = ({head,sub,gpt,alarmId,item}:{head:string,sub:string,gpt:boolean,alarmId:number,item:RCD}) => {
     const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
     const [isLoading,setIsLoading] = useState(false)
     const gptApiHandler=async()=>{
         setIsLoading(true);
         try{
-            await postAskGPT(alarmId)
-            .then((res:PostAskGPTResponse) => { 
-                console.log(res); 
-                navigation.navigate('RCDText',{item:item,gptRes:res})
+            if(gpt){
+                console.log('alarmId:',alarmId)
+                
+                const res = await postAskGPT(alarmId)
+                console.log(res)
+                navigation.navigate('RCDText',{item:item,gptRes:res,alarmId})
 
-            });
+            }
+            else navigation.navigate('RCDText',{item:item,gptRes:null,alarmId});
+
         }catch(e){
             console.log('err:',e)
         }
@@ -48,7 +52,7 @@ const RCDSelectText = ({route}:{route:RouteProp<HomeStackParamList,'RCDSelectTex
     const [subTitle,setSubTitle]=useState<string>()
     const [alarmId,setAlarmId] = useState<number>();
     useEffect(()=>{
-        getTopText(1).then((res)=>{
+        getTopText(item.categoryId).then((res)=>{
             setSubTitle(res.title);
             setAlarmId(res.alarmId);
         })
@@ -63,8 +67,8 @@ const RCDSelectText = ({route}:{route:RouteProp<HomeStackParamList,'RCDSelectTex
                     <Txt type='body3' content={subTitle} color='gray_300' align='center' />
                     </View>
                 </View>
-                <SelectButton head='준비된 문장 읽기' sub='제시되는 문장을 수정하고 녹음하기' alarmId={alarmId} item={item}/>
-                <SelectButton head='직접 작성하기' sub='하고싶은 말을 직접 작성하고 녹음하기' alarmId={alarmId} item={item}/>
+                <SelectButton head='준비된 문장 읽기' sub='제시되는 문장을 수정하고 녹음하기' gpt={true} alarmId={alarmId} item={item}/>
+                <SelectButton head='직접 작성하기' sub='하고싶은 말을 직접 작성하고 녹음하기' gpt={false} alarmId={alarmId} item={item}/>
             </View>
         </BG>
     )

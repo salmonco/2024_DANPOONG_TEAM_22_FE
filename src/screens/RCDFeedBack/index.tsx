@@ -7,7 +7,7 @@ import Button from '@components/atom/button/Button'
 import { useState, useEffect, useRef } from 'react'
 
 const RCDFeedBackScreen = () => {
-  const [isLoading,setIsLoading]=useState<boolean>(true);
+  const [isLoading,setIsLoading]=useState<boolean>(false);
   const opValue = useRef(new Animated.Value(0)).current
   const subColor = useRef(new Animated.Value(0)).current
   useEffect(() => {

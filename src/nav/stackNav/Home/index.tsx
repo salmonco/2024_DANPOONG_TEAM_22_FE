@@ -9,23 +9,27 @@ import RCDSelectTextScreen from "../../../screens/RCDSelectText";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { HomeStackParamList } from '../../../types/HomeStackParamList'
 import {getFocusedRouteNameFromRoute, NavigationProp, useNavigation, useRoute} from '@react-navigation/native';
-import { useLayoutEffect } from "react";
 import { TabNavOptions } from '../../../libs/constants/TabNavOptions'
+//
+import { useLayoutEffect } from "react";
+
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
 
 const HomeStackNav = () => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   const route = useRoute()
-  useLayoutEffect(() => {
+
+  useLayoutEffect(() => {//visual flicker 방지
     const routeName = getFocusedRouteNameFromRoute(route);
     // console.log(route,routeName)
-    if (routeName === undefined || routeName === 'Main') { //Main이외의 화면에 대해 tabBar none을 설정한다.
+    if (routeName === undefined || routeName === 'Home') { //Main이외의 화면에 대해 tabBar none을 설정한다.
       navigation.setOptions(TabNavOptions);
     } else {
       navigation.setOptions({...TabNavOptions,tabBarStyle:{display:'none'}});
     }
   }, [navigation, route]);
+
     return (
         <Stack.Navigator
         screenOptions={{

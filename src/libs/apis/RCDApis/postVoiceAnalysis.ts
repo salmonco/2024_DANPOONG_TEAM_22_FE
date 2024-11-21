@@ -7,10 +7,16 @@ interface PostVoiceAnalysisResponse {
   result: string;
 }
 
-export const postVoiceAnalysis = async (voiceFileId: number): Promise<PostVoiceAnalysisResponse> => {
+export const postVoiceAnalysis = async (file: FormData, voiceFileId: number): Promise<PostVoiceAnalysisResponse> => {
   try {
     const response = await client.post<PostVoiceAnalysisResponse>(
-      `/api/v1/voicefiles/analysis/${voiceFileId}`
+      `/api/v1/voicefiles/${voiceFileId}`,
+      file,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
     );
     return response.data;
   } catch (error) {
