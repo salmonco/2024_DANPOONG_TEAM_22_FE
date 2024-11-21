@@ -6,9 +6,17 @@ import ShadowView from '@components/atom/ShadowView'
 import BackIcon from '@assets/svgs/Back.svg'
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { HomeStackParamList } from "../../types/HomeStackParamList";
-
+import { getTopText } from "@apis/RCDApis/getTopText";
+import { useEffect } from "react";
 const SelectButton = ({head,sub}:{head:string,sub:string}) => {
     const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
+
+    useEffect(()=>{
+        getTopText(1).then((res)=>{
+            console.log(res)
+        })
+    },[])
+
     return (
         <TouchableOpacity onPress={()=>{navigation.navigate('RCDText')}} className='w-full h-[133] mb-[20]'>
             <ShadowView>
