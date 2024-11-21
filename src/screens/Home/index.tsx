@@ -36,8 +36,8 @@ const HomeScreen = () => {
         </View>
         {/* button section*/}
         <View className="w-full h-[207] flex-row justify-between">
-            <SelectBtn type='일상'/>
-            <SelectBtn type='위로'/>
+            <SelectBtn type='DAILY'/>
+            <SelectBtn type='COMFORT'/>
         </View>
       </View>
     </BG>
@@ -45,17 +45,22 @@ const HomeScreen = () => {
 }
 export default HomeScreen;
 
-const SelectBtn = ({type}:{type:'일상'|'위로'})=>{
+const SelectBtn = ({type}:{type:'DAILY'|'COMFORT'})=>{
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   return(
     <TouchableOpacity 
     onPress={()=>{navigation.navigate('RCDList',{type})}}
     className='w-[168] px-[25] py-[18] bg-backgroundS border border-white/10 justify-between'
     style={{borderRadius:10}}>
+      {/* svg */}
       <View>
-      {type==='일상'?
-      <View className='w-[55] h-[55] justify-center items-center'><Main1/></View>:<Main2/>}
-        <Txt type='title3' content={`${type} 녹음`} color='white'/>
+      {type==='DAILY'?
+      <View className='w-[55] h-[55] justify-center items-center'><Main1/></View>
+      :
+      <Main2/>
+      }
+      {/* text */}
+        <Txt type='title3' content={`${type==='DAILY'?'일상':'위로'} 녹음`} color='white'/>
         </View>
         <View className='flex flex-row w-full justify-between items-center'>
         <Txt type='button' content='녹음하기' color='primary'/>

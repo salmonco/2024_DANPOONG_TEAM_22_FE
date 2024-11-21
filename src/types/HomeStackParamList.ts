@@ -1,13 +1,14 @@
+import { RCD } from "@apis/RCDApis/getRCDList";
+import { PostAskGPTResponse } from "@apis/RCDApis/postAskGPT";
 export type HomeStackParamList = {
     Home: undefined;
-    RCDList: {type: '일상' | '위로'};
+    RCDList: {type: 'DAILY' | 'COMFORT'};
+    RCDNotice: {item:RCD};
+    RCDSelectText:{item:RCD};
+    RCDText: {item:RCD,gptRes:PostAskGPTResponse};
     RCDFeedBack: undefined;
     RCDRecord: undefined;
-    RCD: undefined;
-    RCDText: undefined;
-    RCDNotice: undefined;
     Splash: undefined;
     Auth:undefined;
     AppTabNav:undefined;
-    RCDSelectText:undefined;
   };

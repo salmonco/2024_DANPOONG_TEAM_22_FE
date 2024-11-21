@@ -2,7 +2,7 @@ import { View,ScrollView } from 'react-native'
 import BG from '../../components/atom/BG'
 import Txt from '../../components/atom/Txt'
 import Button from '../../components/atom/button/Button'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native'
 import Notice1 from '../../../assets/svgs/Notice1.svg'
 import Notice2 from '../../../assets/svgs/Notice2.svg'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
@@ -26,9 +26,9 @@ const Section = ({
   )
 }
 
-const RCDNoticeScreen = () => {
+const RCDNoticeScreen = ({route}:{route:RouteProp<HomeStackParamList,'RCDNotice'>}) => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
-
+const {item}  = route.params
   return (
     <BG type="solid">
       <ScrollView className="flex-1 px-px">
@@ -58,7 +58,7 @@ const RCDNoticeScreen = () => {
             text="확인했어요"
             disabled={false}
             onPress={() => {
-              navigation.navigate('RCDSelectText')
+              navigation.navigate('RCDSelectText',{item})
             }}
           />
         </View>

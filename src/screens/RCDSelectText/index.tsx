@@ -4,21 +4,31 @@ import BG from '@components/atom/BG'
 import Txt from '@components/atom/Txt'
 import ShadowView from '@components/atom/ShadowView'
 import BackIcon from '@assets/svgs/Back.svg'
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation, NavigationProp, RouteProp } from "@react-navigation/native";
 import { HomeStackParamList } from "../../types/HomeStackParamList";
 import { getTopText } from "@apis/RCDApis/getTopText";
-import { useEffect } from "react";
-const SelectButton = ({head,sub}:{head:string,sub:string}) => {
+import { useEffect, useState } from "react";
+import { postAskGPT,PostAskGPTResponse } from "@apis/RCDApis/postAskGPT";
+import { RCD } from "@apis/RCDApis/getRCDList";
+
+const SelectButton = ({head,sub,alarmId,item}:{head:string,sub:string,alarmId:number,item:RCD}) => {
     const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
+    const [isLoading,setIsLoading] = useState(false)
+    const gptApiHandler=async()=>{
+        setIsLoading(true);
+        try{
+            await postAskGPT(alarmId)
+            .then((res:PostAskGPTResponse) => { 
+                console.log(res); 
+                navigation.navigate('RCDText',{item:item,gptRes:res})
 
-    useEffect(()=>{
-        getTopText(1).then((res)=>{
-            console.log(res)
-        })
-    },[])
-
+            });
+        }catch(e){
+            console.log('err:',e)
+        }
+    }
     return (
-        <TouchableOpacity onPress={()=>{navigation.navigate('RCDText')}} className='w-full h-[133] mb-[20]'>
+        <TouchableOpacity onPress={gptApiHandler} className='w-full h-[133] mb-[20]'>
             <ShadowView>
               <View className='pl-[33] pr-[20] py-[37] flex-row justify-between items-center'>
 
@@ -32,18 +42,29 @@ const SelectButton = ({head,sub}:{head:string,sub:string}) => {
         </TouchableOpacity>
     )
 }
-const RCDSelectText = () => {
+const RCDSelectText = ({route}:{route:RouteProp<HomeStackParamList,'RCDSelectText'>}) => {
+    const {item} = route.params
+    console.log(item)
+    const [subTitle,setSubTitle]=useState<string>()
+    const [alarmId,setAlarmId] = useState<number>();
+    useEffect(()=>{
+        getTopText(1).then((res)=>{
+            setSubTitle(res.title);
+            setAlarmId(res.alarmId);
+        })
+    },[])
     return (
         <BG type='solid'>
             <View className='flex-1 px-px pt-[52] items-center'>
                 <StarPNG />
-                <View className='mt-[29]  mb-[52]'>
-                <Txt type='title2' content={`집을 나서는 청년에게,\n배웅하는 말 한 마디`} color='white' align='center'/>
-                <View className='mt-[19]'/>
-                <Txt type='body3' content='마 우산챙기라' color='gray_300' align='center' />
+                <View className='mt-[29]  mb-[52]  items-center'>
+                    <Txt type='title2' content={item.title} color='white' align='center'/>
+                    <View className='mt-[19] w-[250]'>
+                    <Txt type='body3' content={subTitle} color='gray_300' align='center' />
+                    </View>
                 </View>
-                <SelectButton head='준비된 문장 읽기' sub='제시되는 문장을 수정하고 녹음하기' />
-                <SelectButton head='직접 작성하기' sub='하고싶은 말을 직접 작성하고 녹음하기' />
+                <SelectButton head='준비된 문장 읽기' sub='제시되는 문장을 수정하고 녹음하기' alarmId={alarmId} item={item}/>
+                <SelectButton head='직접 작성하기' sub='하고싶은 말을 직접 작성하고 녹음하기' alarmId={alarmId} item={item}/>
             </View>
         </BG>
     )
