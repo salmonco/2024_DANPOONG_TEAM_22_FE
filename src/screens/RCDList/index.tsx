@@ -2,14 +2,12 @@ import { View } from 'react-native'
 import BG from '../../components/atom/BG'
 import Txt from '../../components/atom/Txt'
 import Carousel from '../../components/molecule/Carousel'
-import Button from '../../components/atom/button/Button'
 import { ImageBackground } from 'react-native'
-import { useNavigation, RouteProp, NavigationProp } from '@react-navigation/native'
+import { RouteProp } from '@react-navigation/native'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
 import { getRCDList, RCD } from '@apis/RCDApis/getRCDList'
 import { useState, useEffect } from 'react'
 const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>}) => {
-  const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   const {type} = route.params
   // test data - 나중에 api 요청 받아서 데이터 넣어주기
   const entries = [
@@ -55,7 +53,7 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
         />
       {/* content section */}
         {/* header */}
-        <View className="w-full h-auto pt-ptt px-px" style={{ marginBottom: `4.15%` }}>
+        <View className="w-full mt-[63] px-px mb-[33]">
           <Txt
             type="title2"
             content={type==='일상' ? `청년에게 일상을 응원하는\n녹음을 들려주세요` : `청년에게 위로하는\n목소리를 들려주세요`}
@@ -65,13 +63,6 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
         </View>
         {/* list */}
         <Carousel entries={entries} />
-
-        <View className="w-full h-[302]">
-        </View>
-        {/* button */}
-        <View className="mb-pb px-px">
-       
-        </View>
     </BG>
   )
 }
