@@ -63,8 +63,8 @@ const RCDSelectText = ({route}:{route:RouteProp<HomeStackParamList,'RCDSelectTex
                 <StarPNG />
                 <View className='mt-[29]  mb-[52]  items-center'>
                     <Txt type='title2' content={item.title} color='white' align='center'/>
-                    <View className='mt-[19] w-[250]'>
-                    <Txt type='body3' content={subTitle} color='gray_300' align='center' />
+                    <View className='mt-[19]'>
+                        <Txt type='body3' content={subTitle} color='gray_300' align='center' />
                     </View>
                 </View>
                 <SelectButton head='준비된 문장 읽기' sub='제시되는 문장을 수정하고 녹음하기' gpt={true} alarmId={alarmId} item={item}/>

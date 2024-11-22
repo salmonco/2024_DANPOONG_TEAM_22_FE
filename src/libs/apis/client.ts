@@ -1,5 +1,16 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { AuthStackParamList } from '@stackNav/Auth'
+
+// navigation 인스턴스를 저장할 변수
+let navigationRef: any = null
+
+// navigation 참조를 설정하는 함수
+export const setNavigator = (nav: any) => {
+  navigationRef = nav
+}
 
 const client = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -27,17 +38,28 @@ client.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response) {
+      console.log('error:',error)
       switch (error.response.status) {
         case 401:
           // 인증 에러 처리
           try {
-            // 토큰 갱신 로직 추가 예정
-            // const newToken = await refreshToken()
-            // await SecureStore.setItemAsync('accessToken', newToken)
-            return
+            const refreshToken = await SecureStore.getItemAsync('refreshToken')
+            const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/refresh`, {
+              refreshToken
+            })
+            const { accessToken } = response.data
+            await SecureStore.setItemAsync('accessToken', accessToken)
+            // 새로운 토큰으로 원래 요청 재시도
+            const originalRequest = error.config
+            originalRequest.headers.Authorization = `Bearer ${accessToken}`
+            return axios(originalRequest)
           } catch (refreshError) {
             // 토큰 갱신 실패 시 로그아웃 처리 등
             await SecureStore.deleteItemAsync('accessToken')
+            // navigation 참조를 사용하여 리다이렉트
+            if (navigationRef) {
+              navigationRef.navigate('AuthStackNav')
+            }
             throw new Error('[401] 인증이 만료되었습니다. 다시 로그인해주세요.')
           }
         case 404:

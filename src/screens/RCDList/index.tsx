@@ -17,16 +17,22 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
   ]
   const [rcdList, setRcdList] = useState<RCD[]>([])
   useEffect(() => {
-    console.log(rcdList)
+    console.log('list:',rcdList)
   }, [rcdList])
   useEffect(() => {
-    let categoryType: 'DAILY' | 'COMFORT' = type
-    try {
-      getRCDList(categoryType).then(setRcdList)
-    } catch (error) {
-      console.error('RCD 목록을 가져오는데 실패했습니다:', error)
+    const fetchRCDList = async () => {
+      const categoryType: 'DAILY' | 'COMFORT' = type
+      try {
+        const data = await getRCDList(categoryType)
+        setRcdList(data)
+      } catch (error) {
+        console.error('RCD 목록을 가져오는데 실패했습니다:', error)
+        setRcdList([]) // 에러 발생 시 빈 배열로 초기화
+      }
     }
-  }, [])
+    
+    fetchRCDList()
+  }, [type])
   return (
     <BG type="gradation">
       {/* BG Image */}

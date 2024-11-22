@@ -7,6 +7,9 @@ import RCDBtnBar from '@components/molecule/RCDBtnBar'
 import RCDTimer from '@components/atom/RCDTimer'
 import { AudioOption } from '../../libs/constants/AudioOption'
 import Txt from '@components/atom/Txt'
+import Button from '@components/atom/button/Button'
+import Notice1 from '../../../assets/svgs/Notice1.svg'
+import Notice2 from '../../../assets/svgs/Notice2.svg'
 // import RNFS from 'react-native-fs';
 
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native'
@@ -15,6 +18,8 @@ import { postVoiceAnalysis } from '@apis/RCDApis/postVoiceAnalysis'
 const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDRecord'>}) => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   const {item,gptRes,alarmId,voiceFileId,content} = route.params;
+  const [isError,setIsError] = useState<boolean>(false)
+  const [errType,setErrType] = useState<'bad'|'noisy'>('bad')
   //
   const [recording, setRecording] = useState<Audio.Recording | undefined>(undefined) // 녹음 상태 관리
   const [permissionResponse, requestPermission] = Audio.usePermissions() // 오디오 권한 요청 및 응답 관리
@@ -159,8 +164,9 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
 
   return (
     <BG type="solid">
-      {/* frame */}
-      <View className='flex-1 justify-between'>
+      {isError?(  
+      <View className='flex-1 justify-between'>{/* frame */}
+
         {/* up section */}
         <View className='px-px pt-[53]'>
           {/* head section */}
@@ -198,7 +204,30 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
         </View>
 
         </View>
+    ):(<View className='flex-1 items-center justify-between'>
+      {/* text section */}
+    <View className='absolute top-[194] items-center'>
+      {errType === 'bad'?<Notice1/>:<Notice2/>}
+      <View className='mt-[43]'/>
+      <Txt type='title2' content={errType === 'bad'?'부적절한 표현이 감지되어\n녹음을 전송할 수 없어요':'주변 소음이 크게 들려서\n녹음을 전송할 수 없었어요'} color='white' align='center'/>
+      <View className='mt-[25]'/>
+      <Txt type='body4' content={errType === 'bad'?'적절한 언어로 다시 녹음해 주시겠어요?':'조용한 장소에서 다시 녹음해 주시겠어요?'} color='gray_300' align='center'/>
+    </View>
+    {/* button section */}
+    <View className='px-px w-full absolute bottom-[50]'>
+      <Button text='다시 녹음하기' 
+      onPress={()=>{
+        if(errType === 'bad'){
+          navigation.navigate('Home')
+        }else{
+          navigation.goBack()
+        }
+      }} 
+      disabled={false}/>
+    </View>
+    </View>)}
     </BG>
+ 
   )
 }
 export default RCDRecordScreen;
