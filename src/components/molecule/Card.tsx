@@ -7,10 +7,10 @@ import StarPNG from '@components/atom/StarPNG'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
 import { RCD } from '@apis/RCDApis/getRCDList';
-const Card = ({item}:{item:RCD}) => {
+const Card = ({item,gap}:{item:RCD,gap:number}) => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   return (
-  <View className={`w-[352] h-full ml-[14] mr-[14]`}>
+  <View className={`w-[352] h-full`} style={{marginHorizontal:gap/2}}>
     <ShadowView>
       {/* frame */}
       <View className="w-full h-full justify-evenly items-center px-px">
