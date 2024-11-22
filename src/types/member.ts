@@ -12,8 +12,6 @@ type MemberRequestData = {
 
 type MemberResponseData = { memberId: number }
 
-type MemberResultResponseData = { result: MemberResponseData }
-
 type MemberInfoResponseData = {
   name: string
   gender: Gender
@@ -29,26 +27,15 @@ type MemberInfoResponseData = {
   }
 }
 
-type MemberInfoResultResponseData = {
-  result: MemberInfoResponseData
-}
-
 type HelperNumResponseData = {
   youthMemberNum: number
 }
 
-type HelperNumResultResponseData = {
-  result: HelperNumResponseData
-}
-
 export type {
   Gender,
-  Role,
+  HelperNumResponseData,
+  MemberInfoResponseData,
   MemberRequestData,
   MemberResponseData,
-  MemberResultResponseData,
-  MemberInfoResponseData,
-  MemberInfoResultResponseData,
-  HelperNumResponseData,
-  HelperNumResultResponseData,
+  Role,
 }
