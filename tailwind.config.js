@@ -40,6 +40,7 @@ module.exports = {
         gray500: '#333333',
         yellowPrimary: '#f9f96c',
         error: '#f13a1e0d',
+        white10: '#fafafa1a',
       },
       borderColor: {
         gray100: '#efefef',
@@ -50,6 +51,7 @@ module.exports = {
         yellowPrimary: '#f9f96c',
         tabIcon: '#585a6c',
         red: '#f13a1e',
+        white10: '#fafafa1a',
       },
       borderRadius: {
         btn: '16px',
