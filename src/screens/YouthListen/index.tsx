@@ -6,7 +6,7 @@ import Title3 from '@components/atom/title/Title3';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { YouthStackParamList } from '@stackNav/Youth';
 import { VoiceFileResponseData } from '@type/voiceFile';
-import { ResizeMode, Video } from 'expo-av';
+import { AVPlaybackStatus, ResizeMode, Video } from 'expo-av';
 import LottieView from 'lottie-react-native';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -89,6 +89,12 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
         Alert.alert('오류', '음성 파일을 불러오는 중 오류가 발생했어요');
       }
     })();
+
+    return () => {
+      if (status.isPlaying) {
+        video.current?.pauseAsync();
+      }
+    };
   }, []);
 
   const handleMessageSend = async () => {
@@ -102,23 +108,41 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
     }
   };
 
+  const handlePlaybackStatusUpdate = (status: AVPlaybackStatus) => {
+    setStatus(() => status);
+  };
+
+  const handlePlayButtonClick = () => {
+    if (!video.current) return;
+
+    if (status.isPlaying) {
+      video.current.pauseAsync();
+    } else {
+      video.current.playAsync();
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-solid">
-      {voiceFile.fileUrl && (
-        <Video
-          ref={video}
-          source={
-            voiceFile.fileUrl
-              ? {
-                  uri: voiceFile.fileUrl,
-                }
-              : require('../../../assets/audios/sample.mp4')
-          }
-          useNativeControls
-          resizeMode={ResizeMode.CONTAIN}
-          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-        />
-      )}
+      <Video
+        ref={video}
+        onLoad={() => video.current?.playAsync()}
+        onError={(error) => {
+          console.error('Video Error:', error);
+          Alert.alert('오류', '오디오를 불러오는 중 오류가 발생했어요');
+        }}
+        isLooping
+        source={
+          voiceFile.fileUrl
+            ? {
+                uri: voiceFile.fileUrl,
+              }
+            : require('../../../assets/audios/sample.mp4')
+        }
+        useNativeControls
+        resizeMode={ResizeMode.CONTAIN}
+        onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
+      />
       {!isKeyboardVisible && (
         <View
           className="absolute left-0 bottom-0 w-full h-full"
@@ -163,14 +187,7 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
             <Title3 text={script ?? ''} className="text-gray200 text-center" />
           </View>
 
-          <Pressable
-            onPress={() =>
-              status.isPlaying
-                ? video.current?.pauseAsync()
-                : video.current?.playAsync()
-            }
-            className="mt-[52]"
-          >
+          <Pressable onPress={handlePlayButtonClick} className="mt-[52]">
             {status.isPlaying ? <StopIcon /> : <PlayIcon />}
           </Pressable>
 
