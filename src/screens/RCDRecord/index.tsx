@@ -136,6 +136,8 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
         console.log('음성 파일 분석 결과:', response)
         navigation.navigate('RCDFeedBack')
       } catch (error) {
+        setIsError(true)
+        setErrType('noisy')
         console.error('음성 파일 업로드 오류:', error)
       }
     } else {
@@ -164,9 +166,8 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
 
   return (
     <BG type="solid">
-      {isError?(  
+      {!isError?(  
       <View className='flex-1 justify-between'>{/* frame */}
-
         {/* up section */}
         <View className='px-px pt-[53]'>
           {/* head section */}
@@ -204,7 +205,8 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
         </View>
 
         </View>
-    ):(<View className='flex-1 items-center justify-between'>
+    ):(
+    <View className='flex-1 items-center justify-between'>
       {/* text section */}
     <View className='absolute top-[194] items-center'>
       {errType === 'bad'?<Notice1/>:<Notice2/>}
@@ -225,7 +227,8 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
       }} 
       disabled={false}/>
     </View>
-    </View>)}
+    </View>
+  )}
     </BG>
  
   )

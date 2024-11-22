@@ -26,11 +26,11 @@ const RCDTextScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDText'>
 
 const scriptSubmitHandler = async () => {
   try {
-    throw new Error('스크립트 저장 오류')
-    // const content: string = text;
-    // const res = await postSaveScript(alarmId, content);
-    // const voiceFileId = res.result.voiceFileId
-    // navigation.navigate('RCDRecord', { item, gptRes, alarmId,voiceFileId,content });
+    // throw new Error('스크립트 저장 오류')
+    const content: string = text;
+    const res = await postSaveScript(alarmId, content);
+    const voiceFileId = res.result.voiceFileId
+    navigation.navigate('RCDRecord', { item, gptRes, alarmId,voiceFileId,content });
   } catch (e) {
     setIsError(true)
     setIsToast(true)
@@ -65,7 +65,15 @@ const scriptSubmitHandler = async () => {
           ref={textInputRef}
           onChangeText={onChangeText}
           value={text}
-          className={`w-full h-auto p-[33] text-white font-r text-[20] leading-[30]`}
+          style={{
+            fontFamily: "WantedSans-Regular", 
+            fontSize: 20, 
+            lineHeight: 30, 
+            letterSpacing: 20 * -0.025,
+            color:'#fafafa' 
+          }}
+          className={`w-full h-auto p-[33]`}
+
           placeholder="15초 동안 녹음할 말을 작성해주세요"
           placeholderTextColor='#a0a0a0'
           autoCapitalize="none"
