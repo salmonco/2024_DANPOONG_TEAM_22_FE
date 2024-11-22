@@ -1,15 +1,16 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { RootStackParamList } from '@type/RootStackParamList'
-import * as SecureStore from 'expo-secure-store'
-import AppTabNav from './src/nav/tabNav/App'
-import AuthStackNav from '@stackNav/Auth'
-import YouthStackNav from '@stackNav/Youth'
-import useGetMember from '@hooks/member/useGetMember'
-import { useEffect, useState } from 'react'
-import * as Font from 'expo-font'
-import { Alert } from 'react-native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@type/RootStackParamList';
+import * as SecureStore from 'expo-secure-store';
+import AppTabNav from './src/nav/tabNav/App';
+import AuthStackNav from '@stackNav/Auth';
+import YouthStackNav from '@stackNav/Youth';
+import { useEffect, useState } from 'react';
+import * as Font from 'expo-font';
+import { Alert } from 'react-native';
+import { getMember } from '@apis/member';
+import { Role } from '@type/member';
 
-const Stack = createNativeStackNavigator<RootStackParamList>()
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 // font를 가져오는 함수
 const fetchFonts = () => {
@@ -20,31 +21,45 @@ const fetchFonts = () => {
     'WantedSans-Medium': require('./assets/fonts/WantedSans-Medium.otf'),
     'Voltaire-Regular': require('./assets/fonts/Voltaire-Regular.ttf'),
     'LeeSeoyun-Regular': require('./assets/fonts/LeeSeoyun-Regular.ttf'),
-  })
-}
+  });
+};
 
 const AppInner = () => {
-  const isLoggedIn = !!SecureStore.getItem('accessToken')
-  const [fontsLoaded, setFontsLoaded] = useState(false)
-  const { data: memberData, isError: isMemberError } = useGetMember()
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [role, setRole] = useState<Role | null>(null);
 
   useEffect(() => {
+    (async () => {
+      try {
+        const { result } = await getMember();
+        setRole(result.role);
+      } catch (error) {
+        console.error(error);
+        Alert.alert(
+          '오류',
+          `회원 정보를 불러오는 중 오류가 발생했어요\n${error}`
+        );
+      }
+    })();
+
+    const checkLoginStatus = async () => {
+      const token = await SecureStore.getItemAsync('accessToken');
+      setIsLoggedIn(!!token);
+    };
+
     const loadFonts = async () => {
-      await fetchFonts()
-      setFontsLoaded(true)
-    }
-    loadFonts()
-  }, [])
+      await fetchFonts();
+      setFontsLoaded(true);
+    };
 
-  useEffect(() => {
-    if (isMemberError) {
-      Alert.alert('오류', '회원 정보를 불러오는 중 오류가 발생했어요')
-    }
-  }, [isMemberError])
+    checkLoginStatus();
+    loadFonts();
+  }, []);
 
   if (!fontsLoaded) {
     // 폰트가 로드되기 전에는 아무것도 렌더링하지 않음
-    return null
+    return null;
   }
 
   return (
@@ -55,13 +70,16 @@ const AppInner = () => {
     >
       {isLoggedIn ? (
         <Stack.Group>
-          <Stack.Screen name="AppTabNav" component={AppTabNav} />
-          <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
+          {role === 'HELPER' ? (
+            <Stack.Screen name="AppTabNav" component={AppTabNav} />
+          ) : (
+            <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
+          )}
         </Stack.Group>
       ) : (
         <Stack.Group>
           <Stack.Screen name="AuthStackNav" component={AuthStackNav} />
-          {memberData?.result.role === 'HELPER' ? (
+          {role === 'HELPER' ? (
             <Stack.Screen name="AppTabNav" component={AppTabNav} />
           ) : (
             <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
@@ -69,7 +87,7 @@ const AppInner = () => {
         </Stack.Group>
       )}
     </Stack.Navigator>
-  )
-}
+  );
+};
 
-export default AppInner
+export default AppInner;
