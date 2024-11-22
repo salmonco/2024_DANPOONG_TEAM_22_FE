@@ -169,12 +169,14 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
       {!isError?(  
       <View className='flex-1 justify-between'>{/* frame */}
         {/* up section */}
-        <View className='px-px pt-[53]'>
-          {/* head section */}
-          <Txt type='body4' content='준비한 문장을 시간 내에 또박또박 발음해주세요' color='gray_200'/>
-          {/* content section */}
-          <ScrollView className='mt-[28]'>
-            <Txt type='title2' content={content} color='white'/>
+        <View className='px-px pt-[53] h-[250]'>
+          <ScrollView className='h-full'>
+            {/* head section */}
+            <Txt type='body4' content='준비한 문장을 시간 내에 또박또박 발음해주세요' color='gray_200'/>
+            {/* content section */}
+            <View className='mt-[28]'>
+              <Txt type='title2' content={content} color='white'/>
+            </View>
           </ScrollView>
         </View>
         {/* down section */}
