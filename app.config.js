@@ -6,7 +6,7 @@ export default ({ config }) => ({
   // owner: 'bongjs',
   version: '1.0.0',
   orientation: 'portrait',
-  icon: './assets/icon.png',
+  icon: './assets/images/logo/app_logo_yellow.png',
   extra: {
     storybookEnabled: process.env.STORYBOOK_ENABLED,
     eas: {
@@ -15,9 +15,9 @@ export default ({ config }) => ({
     },
   },
   splash: {
-    image: './assets/splash.png',
+    image: './assets/images/logo/typo_logo_white.png',
     resizeMode: 'contain',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#252738',
   },
   updates: {
     fallbackToCacheTimeout: 0,
