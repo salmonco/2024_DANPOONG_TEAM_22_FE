@@ -8,8 +8,8 @@ import VolunteerOnboardingScreen from '@screens/VolunteerOnboarding'
 export type AuthStackParamList = {
   LoginScreen: undefined
   NicknameWriteScreen: undefined
-  RoleSelectScreen: { nickname: string }
-  MemberInfoWriteScreen: { nickname: string; role: string }
+  RoleSelectScreen: { nickname: string; imageUri: string }
+  MemberInfoWriteScreen: { nickname: string; imageUri: string; role: string }
   VolunteerOnboardingScreen: undefined
 }
 

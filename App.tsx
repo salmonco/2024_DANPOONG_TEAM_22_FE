@@ -14,6 +14,7 @@ import YouthStackNav from '@stackNav/Youth'
 //
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import * as SecureStore from 'expo-secure-store'
 
 //font를 가져오는 함수
 const fetchFonts = () => {
@@ -38,6 +39,7 @@ const queryClient = new QueryClient({
 })
 
 function App() {
+  const isLoggedIn = !!SecureStore.getItem('accessToken')
   const [fontsLoaded, setFontsLoaded] = useState(false)
 
   useEffect(() => {
@@ -62,10 +64,14 @@ function App() {
               headerShown: false,
             }}
           >
-            {/* <Stack.Screen name="Splash" component={Splash}/> */}
-            {/* <Stack.Screen name="AuthStackNav" component={AuthStackNav} /> */}
-            <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
-            {/* <Stack.Screen name="AppTabNav" component={AppTabNav} /> */}
+            {isLoggedIn ? (
+              <Stack.Group>
+                <Stack.Screen name="AppTabNav" component={AppTabNav} />
+                <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
+              </Stack.Group>
+            ) : (
+              <Stack.Screen name="AuthStackNav" component={AuthStackNav} />
+            )}
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>

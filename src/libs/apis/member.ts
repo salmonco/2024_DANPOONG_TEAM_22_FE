@@ -1,4 +1,5 @@
 import client from '@apis/client'
+import { MemberRequestData, MemberResultResponseData } from '@type/auth'
 import { HelperNumResultResponseData } from '@type/member'
 
 const getHelperNum = async () => {
@@ -8,4 +9,21 @@ const getHelperNum = async () => {
   return res.data
 }
 
-export { getHelperNum }
+const postMember = async ({
+  name,
+  gender,
+  profileImage,
+  role,
+  birth,
+}: Readonly<MemberRequestData>) => {
+  const res = await client.post<MemberResultResponseData>(`/api/v1/member`, {
+    name,
+    gender,
+    profileImage,
+    role,
+    birth,
+  })
+  return res.data
+}
+
+export { getHelperNum, postMember }
