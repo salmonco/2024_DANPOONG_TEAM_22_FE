@@ -1,34 +1,34 @@
-import { Image, Pressable, TextInput, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import MainPageBack from '@components/MainPageBack'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { AuthStackParamList } from '@stackNav/Auth'
-import Title2 from '@components/atom/title/Title2'
-import { useState } from 'react'
-import Button from '@components/atom/button/Button'
+import BG from '@components/atom/BG';
+import Button from '@components/atom/button/Button';
+import Title2 from '@components/atom/title/Title2';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '@stackNav/Auth';
 import {
   launchImageLibraryAsync,
   MediaTypeOptions,
   requestMediaLibraryPermissionsAsync,
-} from 'expo-image-picker'
-import PencilIcon from '../../../assets/images/login/pencil.svg'
+} from 'expo-image-picker';
+import { useState } from 'react';
+import { Image, Pressable, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import PencilIcon from '../../../assets/images/login/pencil.svg';
 
 type AuthProps = NativeStackScreenProps<
   AuthStackParamList,
   'NicknameWriteScreen'
->
+>;
 
 const NicknameWriteScreen = ({ navigation }: Readonly<AuthProps>) => {
-  const [imageUri, setImageUri] = useState(null)
-  const [nickname, setNickname] = useState('')
+  const [imageUri, setImageUri] = useState(null);
+  const [nickname, setNickname] = useState('');
 
   const selectImage = async () => {
     // 권한 요청
-    const permissionResult = await requestMediaLibraryPermissionsAsync()
+    const permissionResult = await requestMediaLibraryPermissionsAsync();
 
     if (!permissionResult.granted) {
-      alert('사진 권한이 거부되었어요')
-      return
+      alert('사진 권한이 거부되었어요');
+      return;
     }
 
     // 이미지 선택
@@ -37,20 +37,20 @@ const NicknameWriteScreen = ({ navigation }: Readonly<AuthProps>) => {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
-    })
+    });
 
-    if (result.canceled) return
+    if (result.canceled) return;
 
-    setImageUri(result.assets[0].uri)
-  }
+    setImageUri(result.assets[0].uri);
+  };
 
   const handleNext = () => {
-    navigation.navigate('RoleSelectScreen', { nickname, imageUri })
-  }
+    navigation.navigate('RoleSelectScreen', { nickname, imageUri });
+  };
 
   return (
     <SafeAreaView className="flex-1 justify-center items-center">
-      <MainPageBack>
+      <BG type="main">
         <>
           <View className="items-center pt-[80]">
             <Title2 text="내일모래가 당신을" className="text-white" />
@@ -96,9 +96,9 @@ const NicknameWriteScreen = ({ navigation }: Readonly<AuthProps>) => {
             <Button text="다음" onPress={handleNext} disabled={!nickname} />
           </View>
         </>
-      </MainPageBack>
+      </BG>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default NicknameWriteScreen
+export default NicknameWriteScreen;

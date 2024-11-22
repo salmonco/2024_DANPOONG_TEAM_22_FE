@@ -1,34 +1,38 @@
-import { Alert, Image, Pressable, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import MainPageBack from '@components/MainPageBack'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { AuthStackParamList } from '@stackNav/Auth'
-import Title2 from '@components/atom/title/Title2'
-import { useState } from 'react'
-import Button from '@components/atom/button/Button'
-import VolunteerIcon from '../../../assets/images/login/volunteer.svg'
-import YouthIcon from '../../../assets/images/login/youth.svg'
-import Body3 from '@components/atom/body/Body3'
-import Title3 from '@components/atom/title/Title3'
-import { Role } from '@type/member'
+import BG from '@components/atom/BG';
+import Body3 from '@components/atom/body/Body3';
+import Button from '@components/atom/button/Button';
+import Title2 from '@components/atom/title/Title2';
+import Title3 from '@components/atom/title/Title3';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '@stackNav/Auth';
+import { Role } from '@type/member';
+import { useState } from 'react';
+import { Alert, Image, Pressable, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import VolunteerIcon from '../../../assets/images/login/volunteer.svg';
+import YouthIcon from '../../../assets/images/login/youth.svg';
 
-type AuthProps = NativeStackScreenProps<AuthStackParamList, 'RoleSelectScreen'>
+type AuthProps = NativeStackScreenProps<AuthStackParamList, 'RoleSelectScreen'>;
 
 const RoleSelectScreen = ({ route, navigation }: Readonly<AuthProps>) => {
-  const { nickname, imageUri } = route.params
-  const [role, setRole] = useState<Role | null>(null)
+  const { nickname, imageUri } = route.params;
+  const [role, setRole] = useState<Role | null>(null);
 
   const handleNext = () => {
     if (role === 'HELPER') {
-      navigation.navigate('MemberInfoWriteScreen', { nickname, imageUri, role })
+      navigation.navigate('MemberInfoWriteScreen', {
+        nickname,
+        imageUri,
+        role,
+      });
     } else {
-      Alert.alert('알림', '청년은 아직 준비 중이에요')
+      Alert.alert('알림', '청년은 아직 준비 중이에요');
     }
-  }
+  };
 
   return (
     <SafeAreaView className="flex-1 justify-center items-center">
-      <MainPageBack>
+      <BG type="main">
         <>
           <View className="items-center pt-[80]">
             <Body3 text="이곳은 광활한 사막..." className="text-gray300" />
@@ -83,9 +87,9 @@ const RoleSelectScreen = ({ route, navigation }: Readonly<AuthProps>) => {
             <Button text="다음" onPress={handleNext} disabled={!role} />
           </View>
         </>
-      </MainPageBack>
+      </BG>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default RoleSelectScreen
+export default RoleSelectScreen;

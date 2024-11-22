@@ -1,30 +1,29 @@
-import { Alert, Image, Pressable, TextInput, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import MainPageBack from '@components/MainPageBack'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { AuthStackParamList } from '@stackNav/Auth'
-import Title2 from '@components/atom/title/Title2'
-import { useState } from 'react'
-import Button from '@components/atom/button/Button'
-import Title3 from '@components/atom/title/Title3'
-import { postMember } from '@apis/member'
-import * as SecureStore from 'expo-secure-store'
-import { Gender, MemberRequestData, Role } from '@type/member'
+import BG from '@components/atom/BG';
+import Button from '@components/atom/button/Button';
+import Title2 from '@components/atom/title/Title2';
+import Title3 from '@components/atom/title/Title3';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '@stackNav/Auth';
+import { Gender, MemberRequestData, Role } from '@type/member';
+import * as SecureStore from 'expo-secure-store';
+import { useState } from 'react';
+import { Alert, Image, Pressable, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type AuthProps = NativeStackScreenProps<
   AuthStackParamList,
   'MemberInfoWriteScreen'
->
+>;
 
 const MemberInfoWriteScreen = ({ route, navigation }: Readonly<AuthProps>) => {
-  const { nickname, imageUri, role } = route.params
-  const [birthday, setBirthday] = useState('')
-  const [gender, setGender] = useState<Gender | null>(null)
+  const { nickname, imageUri, role } = route.params;
+  const [birthday, setBirthday] = useState('');
+  const [gender, setGender] = useState<Gender | null>(null);
 
   const handleNext = async () => {
-    const year = birthday.slice(0, 4)
-    const month = birthday.slice(4, 6)
-    const day = birthday.slice(6, 8)
+    const year = birthday.slice(0, 4);
+    const month = birthday.slice(4, 6);
+    const day = birthday.slice(6, 8);
 
     const data: MemberRequestData = {
       gender,
@@ -32,22 +31,22 @@ const MemberInfoWriteScreen = ({ route, navigation }: Readonly<AuthProps>) => {
       profileImage: imageUri ?? '',
       role: role as Role,
       birth: new Date(`${year}-${month}-${day}`).toISOString(),
-    }
+    };
     try {
       // const { result } = await postMember(data)
       // console.log(result.memberId)
 
-      await SecureStore.setItemAsync('nickname', nickname)
-      navigation.navigate('VolunteerOnboardingScreen')
+      await SecureStore.setItemAsync('nickname', nickname);
+      navigation.navigate('VolunteerOnboardingScreen');
     } catch (error) {
-      console.log(error)
-      Alert.alert('오류', '회원가입 중 오류가 발생했어요')
+      console.log(error);
+      Alert.alert('오류', '회원가입 중 오류가 발생했어요');
     }
-  }
+  };
 
   return (
     <SafeAreaView className="flex-1 justify-center items-center">
-      <MainPageBack>
+      <BG type="main">
         <>
           <View className="items-center pt-[80]">
             <Title2
@@ -108,9 +107,9 @@ const MemberInfoWriteScreen = ({ route, navigation }: Readonly<AuthProps>) => {
             />
           </View>
         </>
-      </MainPageBack>
+      </BG>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default MemberInfoWriteScreen
+export default MemberInfoWriteScreen;
