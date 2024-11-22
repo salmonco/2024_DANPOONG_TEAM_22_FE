@@ -39,6 +39,7 @@ module.exports = {
         gray400: '#717171',
         gray500: '#333333',
         yellowPrimary: '#f9f96c',
+        white10: '#fafafa1a',
       },
       borderColor: {
         gray100: '#efefef',
@@ -47,6 +48,7 @@ module.exports = {
         yellow200: '#fdfdc4',
         yellowPrimary: '#f9f96c',
         tabIcon: '#585a6c',
+        white10: '#fafafa1a',
       },
       borderRadius: {
         btn: '16px',
