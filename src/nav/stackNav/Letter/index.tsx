@@ -1,14 +1,14 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { LetterStackParamList } from "../../../types/LetterStackParamList";
-import LetterScreen from "../../../screens/Letter";
-const Stack = createNativeStackNavigator<LetterStackParamList>();
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { LetterStackParamList } from '../../../types/LetterStackParamList'
+import LetterHomeScreen from '@screens/LetterHome'
+const Stack = createNativeStackNavigator<LetterStackParamList>()
 
 const LetterStackNav = () => {
-    return (
-        <Stack.Navigator>
-            <Stack.Screen name="Letter" component={LetterScreen}/>
-        </Stack.Navigator>
-    )
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="LetterHomeScreen" component={LetterHomeScreen} />
+    </Stack.Navigator>
+  )
 }
 
-export default LetterStackNav;
+export default LetterStackNav

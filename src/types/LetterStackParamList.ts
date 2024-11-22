@@ -1,4 +1,4 @@
 export type LetterStackParamList = {
-    Letter: undefined;
+  LetterHomeScreen: undefined
+  LetterListScreen: undefined
 }
-//예시 타입 추가 가능

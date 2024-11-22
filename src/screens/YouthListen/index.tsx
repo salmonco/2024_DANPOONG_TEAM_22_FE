@@ -23,19 +23,19 @@ import SmileIcon from '../../../assets/images/youth/smile.svg'
 import SmileWhiteIcon from '../../../assets/images/youth/smile_white.svg'
 import StopIcon from '../../../assets/images/youth/stop.svg'
 
+export const emotions = [
+  { icon: <StarIcon />, label: '고마워요' },
+  { icon: <ThumbIcon />, label: '응원해요' },
+  { icon: <FightingIcon />, label: '화이팅' },
+  { icon: <LoveIcon />, label: '사랑해요' },
+]
+
 const YouthListenScreen = () => {
   const [playing, setPlaying] = useState(false)
   const [message, setMessage] = useState('')
   const [isClickedEmotion, setIsClickedEmotion] = useState(false)
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
   const imageUri = null
-
-  const emotions = [
-    { icon: <StarIcon />, label: '고마워요' },
-    { icon: <ThumbIcon />, label: '응원해요' },
-    { icon: <FightingIcon />, label: '화이팅' },
-    { icon: <LoveIcon />, label: '사랑해요' },
-  ]
 
   const animation = useRef<LottieView>(null)
 
