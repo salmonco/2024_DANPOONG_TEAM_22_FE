@@ -13,6 +13,7 @@
     "@react-navigation/bottom-tabs": "6.5.12",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
+    "@tanstack/react-query": "^5.61.0",
     "axios": "^1.7.7",
     "cross-env": "^7.0.3",
     "expo": "52",

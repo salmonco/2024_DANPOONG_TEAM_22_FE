@@ -1,8 +1,9 @@
 import Body3 from '@components/atom/body/Body3'
 import Title2 from '@components/atom/title/Title2'
 import Title3 from '@components/atom/title/Title3'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
+  Alert,
   Image,
   ImageBackground,
   Pressable,
@@ -12,16 +13,34 @@ import {
 import CancelIcon from '../../../assets/images/youth/cancel.svg'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { YouthStackParamList } from '@stackNav/Youth'
+import useGetHelperNum from '@hooks/member/useGetHelperNum'
+import useGetVoiceFiles from '@hooks/voiceFile/useGetVoiceFiles'
 
 type YouthProps = NativeStackScreenProps<YouthStackParamList, 'YouthHomeScreen'>
 
 const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
   const [clicked, setClicked] = useState(false)
+  const { data: helperNumData, isError: isHelperNumError } = useGetHelperNum()
+  const { data: voiceFilesData, isError: isVoiceFilesError } = useGetVoiceFiles(
+    { alarmId: 1 }
+  )
 
   const handleButtonClick = (label: string) => {
     console.log(label)
     navigation.navigate('YouthListenScreen')
   }
+
+  useEffect(() => {
+    if (isHelperNumError) {
+      Alert.alert('오류', '조력자 수를 불러오는 중 오류가 발생했어요')
+    }
+  }, [isHelperNumError])
+
+  useEffect(() => {
+    if (isVoiceFilesError) {
+      Alert.alert('오류', '목소리 파일을 불러오는 중 오류가 발생했어요')
+    }
+  }, [isVoiceFilesError])
 
   return (
     <SafeAreaView className="flex-1">
@@ -36,7 +55,10 @@ const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
           />
           <View className="mt-[9] px-[30]">
             <View className="flex-row items-center">
-              <Title2 text="1000명의 목소리" className="text-yellowPrimary" />
+              <Title2
+                text={`${helperNumData?.result.youthMemberNum}명의 목소리`}
+                className="text-yellowPrimary"
+              />
               <Title2 text="가" className="text-white" />
             </View>
             <Title2 text="당신의 일상을 비추고 있어요" className="text-white" />
