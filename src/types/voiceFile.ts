@@ -8,12 +8,4 @@ type VoiceFileResponseData = {
   providedFileId: number
 }
 
-type VoiceFileResultResponseData = {
-  result: VoiceFileResponseData
-}
-
-export type {
-  VoiceFilesRequestData,
-  VoiceFileResponseData,
-  VoiceFileResultResponseData,
-}
+export type { VoiceFilesRequestData, VoiceFileResponseData }

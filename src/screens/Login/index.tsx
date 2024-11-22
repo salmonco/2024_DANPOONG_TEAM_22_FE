@@ -1,47 +1,47 @@
-import Body4 from '@components/atom/body/Body4'
-import { Image, Pressable, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import MainPageBack from '@components/MainPageBack'
-import Body3 from '@components/atom/body/Body3'
-import KakaoIcon from '../../../assets/images/login/kakao.svg'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { AuthStackParamList } from '@stackNav/Auth'
-import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login'
-import { postLogin } from '@apis/auth'
-import * as SecureStore from 'expo-secure-store'
+import { postLogin } from '@apis/auth';
+import BG from '@components/atom/BG';
+import Body3 from '@components/atom/body/Body3';
+import Body4 from '@components/atom/body/Body4';
+import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '@stackNav/Auth';
+import * as SecureStore from 'expo-secure-store';
+import { Image, Pressable, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import KakaoIcon from '../../../assets/images/login/kakao.svg';
 
-type AuthProps = NativeStackScreenProps<AuthStackParamList, 'LoginScreen'>
+type AuthProps = NativeStackScreenProps<AuthStackParamList, 'LoginScreen'>;
 
 const LoginScreen = ({ navigation }: Readonly<AuthProps>) => {
   const handleKakaoLogin = async () => {
     try {
-      const token: KakaoOAuthToken = await login()
+      const token: KakaoOAuthToken = await login();
 
       const { result } = await postLogin({
         accessToken: token.accessToken,
         loginType: 'KAKAO',
-      })
+      });
 
-      const { accessToken, refreshToken, memberId, serviceMember } = result
-      console.log('serviceMember', serviceMember)
+      const { accessToken, refreshToken, memberId, serviceMember } = result;
+      console.log('serviceMember', serviceMember);
 
-      await SecureStore.setItemAsync('accessToken', accessToken)
-      await SecureStore.setItemAsync('refreshToken', refreshToken)
-      await SecureStore.setItemAsync('memberId', String(memberId))
+      await SecureStore.setItemAsync('accessToken', accessToken);
+      await SecureStore.setItemAsync('refreshToken', refreshToken);
+      await SecureStore.setItemAsync('memberId', String(memberId));
 
-      navigation.navigate('NicknameWriteScreen')
+      navigation.navigate('NicknameWriteScreen');
     } catch (error) {
-      console.error('Kakao login error:', error)
+      console.error('Kakao login error:', error);
     }
-  }
+  };
 
   const handleUseWithoutLogin = () => {
-    console.log('Use without login')
-  }
+    console.log('Use without login');
+  };
 
   return (
     <SafeAreaView className="flex-1 justify-center items-center">
-      <MainPageBack>
+      <BG type="main">
         <View className="flex-1">
           <View className="items-center pt-[165]">
             <Body4 text="내일도 모레도," className="text-gray300" />
@@ -72,9 +72,9 @@ const LoginScreen = ({ navigation }: Readonly<AuthProps>) => {
             </Pressable>
           </View>
         </View>
-      </MainPageBack>
+      </BG>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default LoginScreen
+export default LoginScreen;

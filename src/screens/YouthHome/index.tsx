@@ -1,7 +1,13 @@
-import Body3 from '@components/atom/body/Body3'
-import Title2 from '@components/atom/title/Title2'
-import Title3 from '@components/atom/title/Title3'
-import { useEffect, useState } from 'react'
+import { getAlarmCategory } from '@apis/alarm';
+import Body3 from '@components/atom/body/Body3';
+import Title2 from '@components/atom/title/Title2';
+import Title3 from '@components/atom/title/Title3';
+import useGetAlarmComfort from '@hooks/alarm/useGetAlarmComfort';
+import useGetHelperNum from '@hooks/member/useGetHelperNum';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { YouthStackParamList } from '@stackNav/Youth';
+import * as SecureStore from 'expo-secure-store';
+import { useEffect, useState } from 'react';
 import {
   Alert,
   Image,
@@ -9,38 +15,60 @@ import {
   Pressable,
   SafeAreaView,
   View,
-} from 'react-native'
-import CancelIcon from '../../../assets/images/youth/cancel.svg'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { YouthStackParamList } from '@stackNav/Youth'
-import useGetHelperNum from '@hooks/member/useGetHelperNum'
-import useGetVoiceFiles from '@hooks/voiceFile/useGetVoiceFiles'
+} from 'react-native';
+import CancelIcon from '../../../assets/images/youth/cancel.svg';
 
-type YouthProps = NativeStackScreenProps<YouthStackParamList, 'YouthHomeScreen'>
+type YouthProps = NativeStackScreenProps<
+  YouthStackParamList,
+  'YouthHomeScreen'
+>;
 
 const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
-  const [clicked, setClicked] = useState(false)
-  const { data: helperNumData, isError: isHelperNumError } = useGetHelperNum()
-  const { data: voiceFilesData, isError: isVoiceFilesError } = useGetVoiceFiles(
-    { alarmId: 1 }
-  )
+  const [clicked, setClicked] = useState(false);
+  const { data: helperNumData, isError: isHelperNumError } = useGetHelperNum();
+  const nickname = SecureStore.getItem('nickname');
+  const {
+    data: alarmComfortData,
+    isError: isAlarmComfortError,
+    error: alarmComfortError,
+  } = useGetAlarmComfort();
 
   const handleButtonClick = (label: string) => {
-    console.log(label)
-    navigation.navigate('YouthListenScreen')
-  }
+    if (!alarmComfortData) return;
+
+    const alarms = alarmComfortData.result.find(
+      (alarm) => alarm.name === label
+    );
+
+    const alarmCategoryId = alarms.children[0].id;
+
+    (async () => {
+      try {
+        const { result } = await getAlarmCategory({ alarmCategoryId });
+        const { alarmId, title } = result;
+        navigation.navigate('YouthListenScreen', {
+          alarmId,
+          script: title,
+        });
+      } catch (error) {
+        console.error(error);
+        Alert.alert('오류', '위로 알람을 불러오는 중 오류가 발생했어요');
+      }
+    })();
+  };
 
   useEffect(() => {
     if (isHelperNumError) {
-      Alert.alert('오류', '조력자 수를 불러오는 중 오류가 발생했어요')
+      Alert.alert('오류', '조력자 수를 불러오는 중 오류가 발생했어요');
     }
-  }, [isHelperNumError])
+  }, [isHelperNumError]);
 
   useEffect(() => {
-    if (isVoiceFilesError) {
-      Alert.alert('오류', '목소리 파일을 불러오는 중 오류가 발생했어요')
+    if (isAlarmComfortError) {
+      console.error(alarmComfortError);
+      Alert.alert('오류', '위로 알람을 불러오는 중 오류가 발생했어요');
     }
-  }, [isVoiceFilesError])
+  }, [isAlarmComfortError]);
 
   return (
     <SafeAreaView className="flex-1">
@@ -50,7 +78,7 @@ const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
       >
         <View className="self-start">
           <Title3
-            text="고독한 울프님, 반가워요!"
+            text={`${nickname ?? ''}님, 반가워요!`}
             className="text-gray300 pt-[117] px-[30]"
           />
           <View className="mt-[9] px-[30]">
@@ -130,7 +158,7 @@ const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
         </View>
       </ImageBackground>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default YouthHomeScreen
+export default YouthHomeScreen;

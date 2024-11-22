@@ -1,33 +1,58 @@
-import { Image, Pressable, TextInput, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import MainPageBack from '@components/MainPageBack'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { AuthStackParamList } from '@stackNav/Auth'
-import Title2 from '@components/atom/title/Title2'
-import { useState } from 'react'
-import Button from '@components/atom/button/Button'
-import Title3 from '@components/atom/title/Title3'
+import BG from '@components/atom/BG';
+import Button from '@components/atom/button/Button';
+import Title2 from '@components/atom/title/Title2';
+import Title3 from '@components/atom/title/Title3';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '@stackNav/Auth';
+import { Gender, MemberRequestData, Role } from '@type/member';
+import * as SecureStore from 'expo-secure-store';
+import { useState } from 'react';
+import { Alert, Image, Pressable, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type AuthProps = NativeStackScreenProps<
   AuthStackParamList,
   'MemberInfoWriteScreen'
->
+>;
 
-const MemberInfoWriteScreen = ({ navigation }: Readonly<AuthProps>) => {
-  const [birthday, setBirthday] = useState('')
-  const [gender, setGender] = useState('')
+const MemberInfoWriteScreen = ({ route, navigation }: Readonly<AuthProps>) => {
+  const { nickname, imageUri, role } = route.params;
+  const [birthday, setBirthday] = useState('');
+  const [gender, setGender] = useState<Gender | null>(null);
 
-  const handleNext = () => {
-    console.log('go next')
-    navigation.navigate('VolunteerOnboardingScreen')
-  }
+  const handleNext = async () => {
+    const year = birthday.slice(0, 4);
+    const month = birthday.slice(4, 6);
+    const day = birthday.slice(6, 8);
+
+    const data: MemberRequestData = {
+      gender,
+      name: nickname,
+      profileImage: imageUri ?? '',
+      role: role as Role,
+      birth: new Date(`${year}-${month}-${day}`).toISOString(),
+    };
+    try {
+      // const { result } = await postMember(data)
+      // console.log(result.memberId)
+
+      await SecureStore.setItemAsync('nickname', nickname);
+      navigation.navigate('VolunteerOnboardingScreen');
+    } catch (error) {
+      console.log(error);
+      Alert.alert('오류', '회원가입 중 오류가 발생했어요');
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 justify-center items-center">
-      <MainPageBack>
+      <BG type="main">
         <>
           <View className="items-center pt-[80]">
-            <Title2 text="바람돌이 님," className="text-white mt-[26]" />
+            <Title2
+              text={`${nickname ?? ''} 님,`}
+              className="text-white mt-[26]"
+            />
             <Title2 text="당신에 대해 알려주세요" className="text-white" />
 
             <View className="mt-[30] px-[46] w-full">
@@ -47,23 +72,23 @@ const MemberInfoWriteScreen = ({ navigation }: Readonly<AuthProps>) => {
               <View className="mt-[28] flex-row">
                 <Pressable
                   className={`flex-1 h-[121] items-center justify-center border mr-[22] ${
-                    gender === '남성'
+                    gender === 'MALE'
                       ? 'bg-white/20 border-yellowPrimary'
                       : 'bg-white/10 border-white/10'
                   }`}
                   style={{ borderRadius: 10 }}
-                  onPress={() => setGender('남성')}
+                  onPress={() => setGender('MALE')}
                 >
                   <Title3 text="남성" className="text-white text-center" />
                 </Pressable>
                 <Pressable
                   className={`flex-1 h-[121] items-center justify-center border ${
-                    gender === '여성'
+                    gender === 'FEMALE'
                       ? 'bg-white/20 border-yellowPrimary'
                       : 'bg-white/10 border-white/10'
                   }`}
                   style={{ borderRadius: 10 }}
-                  onPress={() => setGender('여성')}
+                  onPress={() => setGender('FEMALE')}
                 >
                   <Title3 text="여성" className="text-white text-center" />
                 </Pressable>
@@ -82,9 +107,9 @@ const MemberInfoWriteScreen = ({ navigation }: Readonly<AuthProps>) => {
             />
           </View>
         </>
-      </MainPageBack>
+      </BG>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default MemberInfoWriteScreen
+export default MemberInfoWriteScreen;

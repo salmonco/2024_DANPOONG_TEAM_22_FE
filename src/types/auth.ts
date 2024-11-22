@@ -10,8 +10,4 @@ type LoginResponseData = {
   serviceMember: boolean
 }
 
-type LoginResultResponseData = {
-  result: LoginResponseData
-}
-
-export type { LoginRequestData, LoginResponseData, LoginResultResponseData }
+export type { LoginRequestData, LoginResponseData }

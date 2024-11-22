@@ -1,13 +1,13 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import YouthHomeScreen from '@screens/YouthHome'
-import YouthListenScreen from '@screens/YouthListen'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import YouthHomeScreen from '@screens/YouthHome';
+import YouthListenScreen from '@screens/YouthListen';
 
 export type YouthStackParamList = {
-  YouthHomeScreen: undefined
-  YouthListenScreen: undefined
-}
+  YouthHomeScreen: undefined;
+  YouthListenScreen: { alarmId: number; script: string };
+};
 
-const YouthStack = createNativeStackNavigator<YouthStackParamList>()
+const YouthStack = createNativeStackNavigator<YouthStackParamList>();
 
 const YouthStackNav = () => {
   return (
@@ -23,7 +23,7 @@ const YouthStackNav = () => {
         options={{ title: '녹음 듣기' }}
       />
     </YouthStack.Navigator>
-  )
-}
+  );
+};
 
-export default YouthStackNav
+export default YouthStackNav;
