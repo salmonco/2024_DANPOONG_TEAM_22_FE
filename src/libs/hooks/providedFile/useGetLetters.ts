@@ -9,6 +9,7 @@ const useGetLetters = ({
   return useQuery({
     queryKey: ['getLetters', parentCategoryId, pageable],
     queryFn: () => getLetters({ parentCategoryId, pageable }),
+    enabled: !!parentCategoryId && !!pageable,
   });
 };
 
