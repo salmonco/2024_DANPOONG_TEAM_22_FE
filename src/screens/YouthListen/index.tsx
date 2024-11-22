@@ -28,6 +28,7 @@ import SendIcon from '../../../assets/images/youth/send.svg';
 import SmileIcon from '../../../assets/images/youth/smile.svg';
 import SmileWhiteIcon from '../../../assets/images/youth/smile_white.svg';
 import StopIcon from '../../../assets/images/youth/stop.svg';
+import { postComment } from '@apis/providedFile';
 
 type YouthProps = NativeStackScreenProps<
   YouthStackParamList,
@@ -89,6 +90,17 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
       }
     })();
   }, []);
+
+  const handleMessageSend = async () => {
+    if (!voiceFile.providedFileId) return;
+
+    try {
+      await postComment({ providedFileId: voiceFile.providedFileId, message });
+    } catch (error) {
+      console.error(error);
+      Alert.alert('오류', '편지를 보내는 중 오류가 발생했어요');
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-solid">
@@ -205,11 +217,12 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
                 style={{ fontSize: 16, borderRadius: 100 }}
               />
               {!!message && (
-                <View
+                <Pressable
                   className={`absolute ${isKeyboardVisible ? 'right-[32]' : 'right-[88]'}`}
+                  onPress={handleMessageSend}
                 >
                   <SendIcon />
-                </View>
+                </Pressable>
               )}
               {!isKeyboardVisible && (
                 <Pressable
