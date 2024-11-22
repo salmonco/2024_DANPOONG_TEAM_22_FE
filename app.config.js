@@ -3,14 +3,15 @@ export default ({ config }) => ({
   name: '내일모래',
   slug: 'NM',
   owner: 'obb8923',
+  // owner: 'bongjs',
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
   extra: {
     storybookEnabled: process.env.STORYBOOK_ENABLED,
     eas: {
-      // projectId: '5fb90edd-f98c-44dd-a11e-3dd38dd2b57a',
-      projectId: '78435b24-b21d-4edc-8b96-fa1e666218e7',
+      projectId: '78435b24-b21d-4edc-8b96-fa1e666218e7', // obb8923
+      // projectId: '5fb90edd-f98c-44dd-a11e-3dd38dd2b57a', // bongjs
     },
   },
   splash: {
