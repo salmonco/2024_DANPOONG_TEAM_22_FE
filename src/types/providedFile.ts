@@ -6,9 +6,10 @@ type CommentRequestData = {
 type SummaryResponseData = {
   totalListeners: number;
   reactionsNum: {
-    additionalProp1: number;
-    additionalProp2: number;
-    additionalProp3: number;
+    THANK_YOU: number;
+    HELPFUL: number;
+    MOTIVATED: number;
+    LOVE: number;
   };
 };
 

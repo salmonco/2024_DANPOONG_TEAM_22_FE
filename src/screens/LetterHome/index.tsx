@@ -1,25 +1,42 @@
-import BG from '@components/atom/BG'
-import Body2 from '@components/atom/body/Body2'
-import Body3 from '@components/atom/body/Body3'
-import Body4 from '@components/atom/body/Body4'
-import Caption1 from '@components/atom/caption/Caption1'
-import ShadowView from '@components/atom/ShadowView'
-import Title1 from '@components/atom/title/Title1'
-import Title4 from '@components/atom/title/Title4'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { emotions } from '@screens/YouthListen'
-import { LetterStackParamList } from '@type/LetterStackParamList'
-import { Image, Pressable, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import ChevronRightWhiteIcon from '../../../assets/images/youth/chevron_right_white.svg'
+import BG from '@components/atom/BG';
+import Body2 from '@components/atom/body/Body2';
+import Body3 from '@components/atom/body/Body3';
+import Body4 from '@components/atom/body/Body4';
+import Caption1 from '@components/atom/caption/Caption1';
+import ShadowView from '@components/atom/ShadowView';
+import Title1 from '@components/atom/title/Title1';
+import Title4 from '@components/atom/title/Title4';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { emotions } from '@screens/YouthListen';
+import { LetterStackParamList } from '@type/LetterStackParamList';
+import { Alert, Image, Pressable, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ChevronRightWhiteIcon from '../../../assets/images/youth/chevron_right_white.svg';
+import * as SecureStore from 'expo-secure-store';
+import useGetSummary from '@hooks/providedFile/useGetSummary';
+import { useEffect } from 'react';
 
 type LetterProps = NativeStackScreenProps<
   LetterStackParamList,
   'LetterHomeScreen'
->
+>;
 
 const LetterHomeScreen = ({ navigation }: Readonly<LetterProps>) => {
+  const nickname = SecureStore.getItem('nickname');
+  const {
+    data: summaryData,
+    isError: isSummaryError,
+    error: summaryError,
+  } = useGetSummary();
+
+  useEffect(() => {
+    if (isSummaryError) {
+      console.error(summaryError);
+      Alert.alert('오류', '편지 요약 정보를 불러오는 중 오류가 발생했어요');
+    }
+  }, [isSummaryError]);
+
   return (
     <SafeAreaView className="flex-1">
       <BG type="main">
@@ -34,11 +51,14 @@ const LetterHomeScreen = ({ navigation }: Readonly<LetterProps>) => {
 
             <View className="mt-[24] px-[37]">
               <Body3
-                text="청년들이 바람돌이 님의 목소리를"
+                text={`청년들이 ${nickname ?? ''} 님의 목소리를`}
                 className="text-white"
               />
               <View className="flex-row mt-[9] items-center">
-                <Title1 text="56" className="text-yellowPrimary" />
+                <Title1
+                  text={String(summaryData?.result.totalListeners)}
+                  className="text-yellowPrimary"
+                />
                 <Body2 text="&nbsp;번 청취했어요" className="text-white" />
               </View>
             </View>
@@ -77,7 +97,10 @@ const LetterHomeScreen = ({ navigation }: Readonly<LetterProps>) => {
                             className="text-gray300 mt-[4] text-center"
                           />
                           <Body2
-                            text="33"
+                            text={String(
+                              summaryData?.result.reactionsNum[emotion.value]
+                            )}
+                            // text="33"
                             className="text-gray100 text-center"
                           />
                         </View>
@@ -91,7 +114,7 @@ const LetterHomeScreen = ({ navigation }: Readonly<LetterProps>) => {
         </ScrollView>
       </BG>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default LetterHomeScreen
+export default LetterHomeScreen;

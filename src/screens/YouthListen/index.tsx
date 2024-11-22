@@ -36,10 +36,10 @@ type YouthProps = NativeStackScreenProps<
 >;
 
 export const emotions = [
-  { icon: <StarIcon />, label: '고마워요' },
-  { icon: <ThumbIcon />, label: '응원해요' },
-  { icon: <FightingIcon />, label: '화이팅' },
-  { icon: <LoveIcon />, label: '사랑해요' },
+  { icon: <StarIcon />, label: '고마워요', value: 'THANK_YOU' },
+  { icon: <ThumbIcon />, label: '응원해요', value: 'HELPFUL' },
+  { icon: <FightingIcon />, label: '화이팅', value: 'MOTIVATED' },
+  { icon: <LoveIcon />, label: '사랑해요', value: 'LOVE' },
 ];
 
 const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
