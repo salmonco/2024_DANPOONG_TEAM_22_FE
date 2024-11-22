@@ -9,10 +9,22 @@ import Main3 from '../../../assets/svgs/main3.svg'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { StatusBar } from "react-native";
 import { COLORS } from '../../libs/constants/Colors';
+import { getYouthNum } from '../../libs/apis/RCDApis/getYouthNum';
+import { useEffect, useState } from 'react'
 const HomeScreen = () => {
   const tabBarHeight = useBottomTabBarHeight();
   StatusBar.setBarStyle('light-content');
   StatusBar.setBackgroundColor(COLORS.bgMainPageBack100);
+
+  const [youthNum, setYouthNum] = useState<number>(999)
+
+
+  useEffect(()=>{
+    getYouthNum().then(num=>{
+      console.log('num:',num)
+      setYouthNum(num)
+    })
+  },[])
 
   return (
     <BG type="main">
@@ -27,7 +39,7 @@ const HomeScreen = () => {
         <View className="w-full mb-[46]">
           <Txt type="title3" content="바람돌이님, 반가워요!" color="gray_300" />
           <View className="flex flex-row">
-            <Txt type="title2" content="1000명의 청년들" color="primary" />
+            <Txt type="title2" content={`${youthNum}명의 청년들`} color="primary" />
             <Txt type="title2" content="이" color="white" />
           </View>
           <Txt

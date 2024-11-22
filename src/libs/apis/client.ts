@@ -38,16 +38,15 @@ client.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response) {
-      console.log('error:',error)
       switch (error.response.status) {
         case 401:
           // 인증 에러 처리
           try {
             const refreshToken = await SecureStore.getItemAsync('refreshToken')
-            const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/refresh`, {
+            const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/token/refresh`, {
               refreshToken
             })
-            const { accessToken } = response.data
+            const accessToken = response.data.result.accessToken
             await SecureStore.setItemAsync('accessToken', accessToken)
             // 새로운 토큰으로 원래 요청 재시도
             const originalRequest = error.config
