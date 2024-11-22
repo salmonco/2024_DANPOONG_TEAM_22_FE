@@ -9,6 +9,7 @@ import Button from '@components/atom/button/Button'
 import Title3 from '@components/atom/title/Title3'
 import { Gender, MemberRequestData, Role } from '@type/auth'
 import { postMember } from '@apis/member'
+import * as SecureStore from 'expo-secure-store'
 
 type AuthProps = NativeStackScreenProps<
   AuthStackParamList,
@@ -35,6 +36,8 @@ const MemberInfoWriteScreen = ({ route, navigation }: Readonly<AuthProps>) => {
     try {
       // const { result } = await postMember(data)
       // console.log(result.memberId)
+
+      await SecureStore.setItemAsync('nickname', nickname)
       navigation.navigate('VolunteerOnboardingScreen')
     } catch (error) {
       console.log(error)
