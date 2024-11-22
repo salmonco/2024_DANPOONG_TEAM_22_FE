@@ -57,4 +57,4 @@ export default ({ config }) => ({
     ],
     ['expo-secure-store'],
   ],
-})
+});

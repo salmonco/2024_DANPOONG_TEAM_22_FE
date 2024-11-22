@@ -1,8 +1,8 @@
-import { NavigationContainer } from '@react-navigation/native'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import Constants from 'expo-constants'
-import AppInner from 'AppInner'
+import { NavigationContainer } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Constants from 'expo-constants';
+import AppInner from 'AppInner';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -10,7 +10,7 @@ const queryClient = new QueryClient({
       staleTime: 1000 * 30,
     },
   },
-})
+});
 
 function App() {
   return (
@@ -21,13 +21,13 @@ function App() {
         </NavigationContainer>
       </GestureHandlerRootView>
     </QueryClientProvider>
-  )
+  );
 }
 
-let AppEntryPoint = App
+let AppEntryPoint = App;
 
 if (Constants.expoConfig?.extra?.storybookEnabled === 'true') {
-  AppEntryPoint = require('./.storybook').default
+  AppEntryPoint = require('./.storybook').default;
 }
 
-export default AppEntryPoint
+export default AppEntryPoint;

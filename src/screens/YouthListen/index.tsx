@@ -1,68 +1,112 @@
-import AppBar from '@components/atom/AppBar'
-import Body2 from '@components/atom/body/Body2'
-import Body3 from '@components/atom/body/Body3'
-import Title3 from '@components/atom/title/Title3'
-import LottieView from 'lottie-react-native'
-import { useEffect, useRef, useState } from 'react'
+import { getVoiceFiles } from '@apis/voiceFile';
+import AppBar from '@components/atom/AppBar';
+import Body2 from '@components/atom/body/Body2';
+import Body3 from '@components/atom/body/Body3';
+import Title3 from '@components/atom/title/Title3';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { YouthStackParamList } from '@stackNav/Youth';
+import { VoiceFileResponseData } from '@type/voiceFile';
+import { ResizeMode, Video } from 'expo-av';
+import LottieView from 'lottie-react-native';
+import { useEffect, useRef, useState } from 'react';
 import {
+  Alert,
   Image,
   Keyboard,
   Pressable,
   ScrollView,
   TextInput,
   View,
-} from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import FightingIcon from '../../../assets/images/youth/emotion_fighting.svg'
-import LoveIcon from '../../../assets/images/youth/emotion_love.svg'
-import StarIcon from '../../../assets/images/youth/emotion_star.svg'
-import ThumbIcon from '../../../assets/images/youth/emotion_thumb.svg'
-import PlayIcon from '../../../assets/images/youth/play.svg'
-import SendIcon from '../../../assets/images/youth/send.svg'
-import SmileIcon from '../../../assets/images/youth/smile.svg'
-import SmileWhiteIcon from '../../../assets/images/youth/smile_white.svg'
-import StopIcon from '../../../assets/images/youth/stop.svg'
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import FightingIcon from '../../../assets/images/youth/emotion_fighting.svg';
+import LoveIcon from '../../../assets/images/youth/emotion_love.svg';
+import StarIcon from '../../../assets/images/youth/emotion_star.svg';
+import ThumbIcon from '../../../assets/images/youth/emotion_thumb.svg';
+import PlayIcon from '../../../assets/images/youth/play.svg';
+import SendIcon from '../../../assets/images/youth/send.svg';
+import SmileIcon from '../../../assets/images/youth/smile.svg';
+import SmileWhiteIcon from '../../../assets/images/youth/smile_white.svg';
+import StopIcon from '../../../assets/images/youth/stop.svg';
+
+type YouthProps = NativeStackScreenProps<
+  YouthStackParamList,
+  'YouthListenScreen'
+>;
 
 export const emotions = [
   { icon: <StarIcon />, label: '고마워요' },
   { icon: <ThumbIcon />, label: '응원해요' },
   { icon: <FightingIcon />, label: '화이팅' },
   { icon: <LoveIcon />, label: '사랑해요' },
-]
+];
 
-const YouthListenScreen = () => {
-  const [playing, setPlaying] = useState(false)
-  const [message, setMessage] = useState('')
-  const [isClickedEmotion, setIsClickedEmotion] = useState(false)
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
-  const imageUri = null
-
-  const animation = useRef<LottieView>(null)
+const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
+  const { alarmId, script } = route.params;
+  const [message, setMessage] = useState('');
+  const [isClickedEmotion, setIsClickedEmotion] = useState(false);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const imageUri = null;
+  const animation = useRef<LottieView>(null);
+  const [status, setStatus] = useState({} as any);
+  const video = useRef(null);
+  const [voiceFile, setVoiceFile] = useState<VoiceFileResponseData>(
+    {} as VoiceFileResponseData
+  );
 
   useEffect(() => {
-    if (playing) {
-      animation.current?.play()
+    if (status.isPlaying) {
+      animation.current?.play();
     } else {
-      animation.current?.pause()
+      animation.current?.pause();
     }
-  }, [playing])
+  }, [status.isPlaying]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', () =>
       setIsKeyboardVisible(true)
-    )
+    );
     const hideSubscription = Keyboard.addListener('keyboardDidHide', () =>
       setIsKeyboardVisible(false)
-    )
+    );
 
     return () => {
-      showSubscription.remove()
-      hideSubscription.remove()
-    }
-  }, [])
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (!alarmId) return;
+      try {
+        const res = await getVoiceFiles({ alarmId });
+        console.log(res);
+        setVoiceFile(res.result);
+      } catch (error) {
+        console.error(error);
+        Alert.alert('오류', '음성 파일을 불러오는 중 오류가 발생했어요');
+      }
+    })();
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-solid">
+      {voiceFile.fileUrl && (
+        <Video
+          ref={video}
+          source={
+            voiceFile.fileUrl
+              ? {
+                  uri: voiceFile.fileUrl,
+                }
+              : require('../../../assets/audios/sample.mp4')
+          }
+          useNativeControls
+          resizeMode={ResizeMode.CONTAIN}
+          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+        />
+      )}
       {!isKeyboardVisible && (
         <View
           className="absolute left-0 bottom-0 w-full h-full"
@@ -79,7 +123,7 @@ const YouthListenScreen = () => {
       )}
       <View className="flex-1">
         <AppBar
-          exitCallbackFn={() => console.log('exit')}
+          exitCallbackFn={() => navigation.goBack()}
           className="absolute top-[6] w-full"
         />
         <View className="pt-[149] flex-1 items-center">
@@ -104,19 +148,18 @@ const YouthListenScreen = () => {
             className="text-yellowPrimary mt-[13] mb-[25] text-center"
           />
           <View>
-            <Title3
-              text="오늘 밖에 비가 온대. 
-꼭 우산을 챙겨서 나가렴.
-오늘도 힘내!"
-              className="text-gray200 text-center"
-            />
+            <Title3 text={script ?? ''} className="text-gray200 text-center" />
           </View>
 
           <Pressable
-            onPress={() => setPlaying((prev) => !prev)}
+            onPress={() =>
+              status.isPlaying
+                ? video.current?.pauseAsync()
+                : video.current?.playAsync()
+            }
             className="mt-[52]"
           >
-            {playing ? <StopIcon /> : <PlayIcon />}
+            {status.isPlaying ? <StopIcon /> : <PlayIcon />}
           </Pressable>
 
           <View
@@ -181,7 +224,7 @@ const YouthListenScreen = () => {
         </View>
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default YouthListenScreen
+export default YouthListenScreen;
