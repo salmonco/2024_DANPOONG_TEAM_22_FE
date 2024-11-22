@@ -12,7 +12,8 @@ import AppTabNav from './src/nav/tabNav/App'
 import AuthStackNav from '@stackNav/Auth'
 import YouthStackNav from '@stackNav/Youth'
 //
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 //font를 가져오는 함수
 const fetchFonts = () => {
@@ -27,6 +28,14 @@ const fetchFonts = () => {
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 30,
+    },
+  },
+})
 
 function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false)
@@ -45,20 +54,22 @@ function App() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          {/* <Stack.Screen name="Splash" component={Splash}/> */}
-          {/* <Stack.Screen name="AuthStackNav" component={AuthStackNav} /> */}
-          {/* <Stack.Screen name="YouthStackNav" component={YouthStackNav} /> */}
-          <Stack.Screen name="AppTabNav" component={AppTabNav} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+    <QueryClientProvider client={queryClient}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            {/* <Stack.Screen name="Splash" component={Splash}/> */}
+            {/* <Stack.Screen name="AuthStackNav" component={AuthStackNav} /> */}
+            <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
+            {/* <Stack.Screen name="AppTabNav" component={AppTabNav} /> */}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </GestureHandlerRootView>
+    </QueryClientProvider>
   )
 }
 
