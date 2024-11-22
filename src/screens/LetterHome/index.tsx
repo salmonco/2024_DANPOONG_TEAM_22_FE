@@ -11,8 +11,15 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import ChevronRightWhiteIcon from '../../../assets/images/youth/chevron_right_white.svg'
 import { emotions } from '@screens/YouthListen'
 import Caption1 from '@components/atom/caption/Caption1'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { LetterStackParamList } from '@type/LetterStackParamList'
 
-const LetterHomeScreen = () => {
+type LetterProps = NativeStackScreenProps<
+  LetterStackParamList,
+  'LetterHomeScreen'
+>
+
+const LetterHomeScreen = ({ navigation }: Readonly<LetterProps>) => {
   return (
     <SafeAreaView className="flex-1">
       <BG type="main">
@@ -36,7 +43,10 @@ const LetterHomeScreen = () => {
               </View>
             </View>
 
-            <Pressable className="mt-[22] h-[95] px-[30]">
+            <Pressable
+              className="mt-[22] h-[95] px-[30]"
+              onPress={() => navigation.navigate('LetterListScreen')}
+            >
               <ShadowView>
                 <View className="py-[18] px-[24] flex-row justify-between items-center">
                   <View>
