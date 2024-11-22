@@ -7,9 +7,9 @@ import Title2 from '@components/atom/title/Title2'
 import { useState } from 'react'
 import Button from '@components/atom/button/Button'
 import Title3 from '@components/atom/title/Title3'
-import { Gender, MemberRequestData, Role } from '@type/auth'
 import { postMember } from '@apis/member'
 import * as SecureStore from 'expo-secure-store'
+import { Gender, MemberRequestData, Role } from '@type/member'
 
 type AuthProps = NativeStackScreenProps<
   AuthStackParamList,

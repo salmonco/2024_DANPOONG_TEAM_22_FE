@@ -1,6 +1,10 @@
 import client from '@apis/client'
-import { MemberRequestData, MemberResultResponseData } from '@type/auth'
-import { HelperNumResultResponseData } from '@type/member'
+import {
+  HelperNumResultResponseData,
+  MemberInfoResultResponseData,
+  MemberRequestData,
+  MemberResultResponseData,
+} from '@type/member'
 
 const getHelperNum = async () => {
   const res = await client.get<HelperNumResultResponseData>(
@@ -26,4 +30,9 @@ const postMember = async ({
   return res.data
 }
 
-export { getHelperNum, postMember }
+const getMember = async () => {
+  const res = await client.get<MemberInfoResultResponseData>(`/api/v1/member`)
+  return res.data
+}
+
+export { getHelperNum, postMember, getMember }

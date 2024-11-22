@@ -10,7 +10,7 @@ import VolunteerIcon from '../../../assets/images/login/volunteer.svg'
 import YouthIcon from '../../../assets/images/login/youth.svg'
 import Body3 from '@components/atom/body/Body3'
 import Title3 from '@components/atom/title/Title3'
-import { Role } from '@type/auth'
+import { Role } from '@type/member'
 
 type AuthProps = NativeStackScreenProps<AuthStackParamList, 'RoleSelectScreen'>
 
