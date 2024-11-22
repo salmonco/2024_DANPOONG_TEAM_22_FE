@@ -70,7 +70,11 @@ function App() {
                 <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
               </Stack.Group>
             ) : (
-              <Stack.Screen name="AuthStackNav" component={AuthStackNav} />
+              <Stack.Group>
+                <Stack.Screen name="AuthStackNav" component={AuthStackNav} />
+                <Stack.Screen name="AppTabNav" component={AppTabNav} />
+                <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
+              </Stack.Group>
             )}
           </Stack.Navigator>
         </NavigationContainer>

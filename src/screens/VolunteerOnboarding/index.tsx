@@ -3,8 +3,10 @@ import Body2 from '@components/atom/body/Body2'
 import Button from '@components/atom/button/Button'
 import LeeSeoYunText from '@components/atom/LeeSeoyunText'
 import VoltaireText from '@components/atom/VoltaireText'
+import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { AuthStackParamList } from '@stackNav/Auth'
+import { RootStackParamList } from '@type/RootStackParamList'
 import * as SecureStore from 'expo-secure-store'
 import React, { useState } from 'react'
 import { Animated, Dimensions, Image, View } from 'react-native'
@@ -19,6 +21,8 @@ type AuthProps = NativeStackScreenProps<
   AuthStackParamList,
   'VolunteerOnboardingScreen'
 >
+type RootProps = NativeStackScreenProps<RootStackParamList>
+type Props = CompositeScreenProps<AuthProps, RootProps>
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView)
 
@@ -93,11 +97,11 @@ const Page4 = ({ handleNext }: Readonly<{ handleNext: () => void }>) => {
   )
 }
 
-const VolunteerOnboardingScreen = ({ navigation }: Readonly<AuthProps>) => {
+const VolunteerOnboardingScreen = ({ navigation }: Readonly<Props>) => {
   const [currentPageIdx, setCurrentPageIdx] = useState(0)
 
   const handleNext = () => {
-    navigation.navigate('MemberInfoWriteScreen')
+    navigation.navigate('AppTabNav')
   }
 
   const PAGE_COUNT = 4
