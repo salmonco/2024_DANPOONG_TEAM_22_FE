@@ -10,6 +10,7 @@ const RCDFeedBackScreen = () => {
   const [isLoading,setIsLoading]=useState<boolean>(false);
   const opValue = useRef(new Animated.Value(0)).current
   const subColor = useRef(new Animated.Value(0)).current
+  
   useEffect(() => {
     if(!isLoading){
     Animated.timing(opValue, {
@@ -35,11 +36,8 @@ const RCDFeedBackScreen = () => {
     <View style={{ flex: 1 }}>
       {isLoading?(
   <>
-        {/* loading */}
-
+  {/* loading */}
   <BG type='solid'>
-
-
   {/* content section */}
   <View className='absolute pt-[233] w-full'>
   <Txt type="title1" content="듣고 있어요..." color="gray_100" align='center'/>
@@ -48,9 +46,8 @@ const RCDFeedBackScreen = () => {
     더 세심한 확인이 필요할 때는{'\n'}시간이 조금 더 소요될 수 있어요
   </Animated.Text>
   <View className='mb-[55]'/>
-  {/* <BarIndicator color='#f9f96c' count={5} size={40}/> */}
+    {/* <BarIndicator color='#f9f96c' count={5} size={40}/> */}
   <ActivityIndicator size="large" color="#f9f96c" />
-
   </View>
   </BG>
   </>

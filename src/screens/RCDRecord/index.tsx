@@ -7,14 +7,19 @@ import RCDBtnBar from '@components/molecule/RCDBtnBar'
 import RCDTimer from '@components/atom/RCDTimer'
 import { AudioOption } from '../../libs/constants/AudioOption'
 import Txt from '@components/atom/Txt'
+import Button from '@components/atom/button/Button'
+import Notice1 from '../../../assets/svgs/Notice1.svg'
+import Notice2 from '../../../assets/svgs/Notice2.svg'
 // import RNFS from 'react-native-fs';
-
+// import Timer from '@components/atom/timer'
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
 import { postVoiceAnalysis } from '@apis/RCDApis/postVoiceAnalysis'
 const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDRecord'>}) => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   const {item,gptRes,alarmId,voiceFileId,content} = route.params;
+  const [isError,setIsError] = useState<boolean>(false)
+  const [errType,setErrType] = useState<'bad'|'noisy'>('bad')
   //
   const [recording, setRecording] = useState<Audio.Recording | undefined>(undefined) // 녹음 상태 관리
   const [permissionResponse, requestPermission] = Audio.usePermissions() // 오디오 권한 요청 및 응답 관리
@@ -131,6 +136,8 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
         console.log('음성 파일 분석 결과:', response)
         navigation.navigate('RCDFeedBack')
       } catch (error) {
+        setIsError(true)
+        setErrType('noisy')
         console.error('음성 파일 업로드 오류:', error)
       }
     } else {
@@ -159,15 +166,17 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
 
   return (
     <BG type="solid">
-      {/* frame */}
-      <View className='flex-1 justify-between'>
+      {!isError?(  
+      <View className='flex-1 justify-between'>{/* frame */}
         {/* up section */}
-        <View className='px-px pt-[53]'>
-          {/* head section */}
-          <Txt type='body4' content='준비한 문장을 시간 내에 또박또박 발음해주세요' color='gray_200'/>
-          {/* content section */}
-          <ScrollView className='mt-[28]'>
-            <Txt type='title2' content={content} color='white'/>
+        <View className='px-px pt-[53] h-[250]'>
+          <ScrollView className='h-full'>
+            {/* head section */}
+            <Txt type='body4' content='준비한 문장을 시간 내에 또박또박 발음해주세요' color='gray_200'/>
+            {/* content section */}
+            <View className='mt-[28]'>
+              <Txt type='title2' content={content} color='white'/>
+            </View>
           </ScrollView>
         </View>
         {/* down section */}
@@ -179,7 +188,8 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
             recording={!!recording}
            />
           {/* timer section */}
-          <View className='mt-[28]'/>
+          <View className='mt-[28]'/> 
+          {/* <Timer/> */}
           <RCDTimer recording={recording} isPaused={isPaused} setIsDone={setIsDone} stop={stopRecording}/>
           {/* button section */}
           <View className="w-full px-px mt-[40] mb-[70]">
@@ -198,7 +208,32 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
         </View>
 
         </View>
+    ):(
+    <View className='flex-1 items-center justify-between'>
+      {/* text section */}
+    <View className='absolute top-[194] items-center'>
+      {errType === 'bad'?<Notice1/>:<Notice2/>}
+      <View className='mt-[43]'/>
+      <Txt type='title2' content={errType === 'bad'?'부적절한 표현이 감지되어\n녹음을 전송할 수 없어요':'주변 소음이 크게 들려서\n녹음을 전송할 수 없었어요'} color='white' align='center'/>
+      <View className='mt-[25]'/>
+      <Txt type='body4' content={errType === 'bad'?'적절한 언어로 다시 녹음해 주시겠어요?':'조용한 장소에서 다시 녹음해 주시겠어요?'} color='gray_300' align='center'/>
+    </View>
+    {/* button section */}
+    <View className='px-px w-full absolute bottom-[50]'>
+      <Button text='다시 녹음하기' 
+      onPress={()=>{
+        if(errType === 'bad'){
+          navigation.navigate('Home')
+        }else{
+          navigation.goBack()
+        }
+      }} 
+      disabled={false}/>
+    </View>
+    </View>
+  )}
     </BG>
+ 
   )
 }
 export default RCDRecordScreen;

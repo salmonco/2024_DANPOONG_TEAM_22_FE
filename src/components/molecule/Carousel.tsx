@@ -5,22 +5,25 @@ import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { RCD } from '@apis/RCDApis/getRCDList';
 const Carousel= ({entries}:{entries:RCD[]})=>{
     const pageWidth = Dimensions.get('window').width-60
-    const gap = 28
-    const offset = 0
+    //gap + offset = 30 이 되어야 함
+    const gap = 14
+    const offset = 16
     return (
     <GestureHandlerRootView style={{width:Dimensions.get('window').width,height:333}} >
         <FlatList
         style={{width:'100%',height:'100%'}}
         automaticallyAdjustContentInsets={false}
         contentContainerStyle={{
-            paddingHorizontal: offset + gap / 2,
+            justifyContent:'center',
+            alignItems:'center',
+            paddingHorizontal: offset + gap / 2
         }}
         data={entries}
         decelerationRate="fast"
         horizontal
         pagingEnabled
         renderItem={({item,index})=>{
-            return <Card key={index} item={item}/>
+            return <Card key={index} item={item} gap={gap}/>
         }}        
         snapToInterval={pageWidth + gap}
         snapToAlignment="start"

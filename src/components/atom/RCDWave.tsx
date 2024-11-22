@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
-import { View, Dimensions, StyleSheet, ViewStyle } from 'react-native'
-import useInterval from '@hooks/useInterval'
+import { useEffect, useState, useRef } from 'react'
+import { View, Dimensions, ViewStyle, Animated, Easing } from 'react-native'
 const { width } = Dimensions.get('window')
 
 type RCDWaveProps = {
   volumeList: number[]
   isPlaying: boolean
-  recording:boolean
+  recording: boolean
 }
+
 const RCDWave = ({
   volumeList,
   isPlaying,
@@ -15,49 +15,47 @@ const RCDWave = ({
 }: RCDWaveProps) => {
   const circleSize = 8
   const lineSize = 1
-  const [toLeft, setToLeft] = useState<number>(0)
+  // 웨이브 애니메이션을 위한 translateX 값
+  const translateXAnim = useRef(new Animated.Value(0)).current
+  // 웨이브 스타일 상태 관리
   const [waveStyle, setWaveStyle] = useState<ViewStyle>({
     justifyContent: 'flex-end',
     paddingRight: width / 2,
   })
-  const [tmp,setTmp]=useState<number|null>(null)
 
-  // useEffect(() => {
-  //   console.log('toLeft', toLeft,'| tmp:',tmp)
-  // }, [toLeft,tmp])
-  useEffect(()=>{
-    if(recording){setWaveStyle({
-      justifyContent: 'flex-end',
-      paddingRight: width / 2,
-    })}
-  },[recording])
-
-  // 음성 녹음 시작 시 100ms 마다 움직임
+  // 녹음 시작 시 웨이브 초기화
   useEffect(() => {
-    if (isPlaying && tmp === null) {
-      setTmp(100)
+    if (recording) {
+      // 웨이브를 오른쪽에서 시작하도록 설정
+      setWaveStyle({
+        justifyContent: 'flex-end',
+        paddingRight: width / 2,
+      })
+      // 애니메이션 값 초기화
+      translateXAnim.setValue(0)
     }
-  }, [isPlaying, tmp])
-  // 음성 녹음 시작 시 100ms 마다 움직임
-  useInterval(()=>{
-    if(tmp && toLeft> volumeList.length * -5)setToLeft(prev=>prev-5)
-  },tmp)
+  }, [recording])
 
-  // 움직임 효과가 시작되면, wave의 스타일을 바꿔서 오른쪽에서 부터 오는 것처럼 보이데 한다.
-useEffect(()=>{
-  if(toLeft!==0){
-  setWaveStyle({
-    justifyContent: 'flex-start',
-    paddingLeft: width / 2,
-    transform:[{translateX:toLeft}]
-  })
-}
-  if(toLeft<= volumeList.length * -5){setToLeft(0); setTmp(null)}
-},[toLeft])
-
- 
-    
-  
+  // 재생 시 웨이브 애니메이션
+  useEffect(() => {
+    if (isPlaying) {
+      // 두 애니메이션을 순차적으로 실행
+      Animated.sequence([
+        Animated.timing(translateXAnim, {
+          toValue: volumeList.length * 5,
+          duration: 0,
+          easing: Easing.linear,
+          useNativeDriver: true
+        }),
+        Animated.timing(translateXAnim, {
+          toValue: 0,
+          duration: volumeList.length * 100,
+          easing: Easing.linear,
+          useNativeDriver: true
+        })
+      ]).start();
+    }
+  }, [isPlaying, volumeList.length])
 
   const calculate_height = (item: number) => {
     if (item <= -110) {
@@ -68,19 +66,6 @@ useEffect(()=>{
       return ((item + 110) / 110) * 60 + 10
     }
   }
-
-  // const newStyle = () => {
-  //     return isPlaying ?
-  //     {
-  //         paddingLeft: width / 2,
-  //         justifyContent: 'flex-start' as 'flex-start',
-  //         transform:[{translateX:toLeft}]
-  //     } :
-  //     {
-  //         paddingRight: width / 2,
-  //         justifyContent: 'flex-end' as 'flex-end'
-  //     }
-  // }
 
   return (
     // 전체 틀
@@ -112,7 +97,10 @@ useEffect(()=>{
       />
       {/* Wave 영역 */}
       <View className="absolute w-full h-full">
-        <View className="flex-row items-center w-full h-full" style={waveStyle}>
+        <Animated.View 
+          className="flex-row items-center w-full h-full" 
+          style={[waveStyle, { transform: [{ translateX: translateXAnim }] }]}
+        >
           {volumeList.map((item, index) => (
             <View
               key={index}
@@ -124,7 +112,7 @@ useEffect(()=>{
               }}
             />
           ))}
-        </View>
+        </Animated.View>
       </View>
     </View>
   )

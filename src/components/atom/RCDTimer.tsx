@@ -17,33 +17,41 @@ const RCDTimer = ({
   setIsDone,
   stop,
 }: RCDTimerProps) => {
-  const [time, setTime] = useState(3000) // 15초를 밀리초로 변환
- 
-  useEffect(()=>{ // 녹음을 할때 마다 시간을 초기화
-    if(!!recording)setTime(3000)
-  },[recording])
+  const [targetTime, setTargetTime] = useState<Date | null>(null)
+  const [remainingTime, setRemainingTime] = useState(15000) // 15초를 밀리초로 변환
+
+  useEffect(() => {
+    if (!!recording) {
+      const target = new Date()
+      target.setSeconds(target.getSeconds() + 15)
+      setTargetTime(target)
+      setRemainingTime(15000)
+    }
+  }, [recording])
 
   useInterval(() => {
-    if (recording && !isPaused && time > 0) {
-      const newTime = time - 10
-      setTime(newTime)
-      if (newTime <= 0) {
+    if (recording && !isPaused && targetTime) {
+      const now = new Date()
+      const diff = targetTime.getTime() - now.getTime()
+      setRemainingTime(diff)
+      
+      if (diff <= 0) {
         setIsDone(true)
         stop()
       }
     }
-  }, 10) // 10ms마다 실행
+  }, 10)
 
   const formatTime = (milliseconds: number) => {
-    const totalSeconds = Math.floor(milliseconds / 1000)
+    const totalSeconds = Math.floor(Math.max(0, milliseconds) / 1000)
     const ss = String(totalSeconds).padStart(2, '0')
-    const ms = String(Math.floor(milliseconds / 10) % 100).padStart(2, '0')
+    const ms = String(Math.floor(Math.max(0, milliseconds) / 10) % 100).padStart(2, '0')
     return `${ss}:${ms}`
   }
 
   return (
     <View className="w-full h-20 justify-center items-center">
-      <Txt type="recording" content={formatTime(time)} color="white" />
+      <Txt type="recording" content={formatTime(remainingTime)} color="white" />
     </View>
   )
 }

@@ -39,15 +39,18 @@ module.exports = {
         gray400: '#717171',
         gray500: '#333333',
         yellowPrimary: '#f9f96c',
+        error: '#f13a1e0d',
         white10: '#fafafa1a',
       },
       borderColor: {
         gray100: '#efefef',
         gray200: '#d0d0d0',
+        gray300: '#a0a0a0',
         gray500: '#333333',
         yellow200: '#fdfdc4',
         yellowPrimary: '#f9f96c',
         tabIcon: '#585a6c',
+        red: '#f13a1e',
         white10: '#fafafa1a',
       },
       borderRadius: {
