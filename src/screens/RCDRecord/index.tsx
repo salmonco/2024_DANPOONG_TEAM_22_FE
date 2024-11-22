@@ -11,7 +11,7 @@ import Button from '@components/atom/button/Button'
 import Notice1 from '../../../assets/svgs/Notice1.svg'
 import Notice2 from '../../../assets/svgs/Notice2.svg'
 // import RNFS from 'react-native-fs';
-
+// import Timer from '@components/atom/timer'
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
 import { postVoiceAnalysis } from '@apis/RCDApis/postVoiceAnalysis'
@@ -186,7 +186,8 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
             recording={!!recording}
            />
           {/* timer section */}
-          <View className='mt-[28]'/>
+          <View className='mt-[28]'/> 
+          {/* <Timer/> */}
           <RCDTimer recording={recording} isPaused={isPaused} setIsDone={setIsDone} stop={stopRecording}/>
           {/* button section */}
           <View className="w-full px-px mt-[40] mb-[70]">
