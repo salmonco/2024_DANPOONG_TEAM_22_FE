@@ -22,7 +22,6 @@ export interface RCD {
 export const getRCDList = async (categoryType: 'DAILY' | 'COMFORT'): Promise<RCD[]> => {
   try {
     const response = await client.get<RCDResponse>(`/api/v1/alarm/list/${categoryType}`);
-    console.log('response:',response)
     return response.data.result;
   } catch (error) {
     console.error('RCD 목록 가져오기 오류:', error);
