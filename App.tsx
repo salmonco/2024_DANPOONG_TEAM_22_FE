@@ -3,6 +3,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Constants from 'expo-constants';
 import AppInner from 'AppInner';
+import messaging from '@react-native-firebase/messaging';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -10,6 +11,10 @@ const queryClient = new QueryClient({
       staleTime: 1000 * 30,
     },
   },
+});
+
+messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+  console.log('Message handled in the background!', remoteMessage);
 });
 
 function App() {
