@@ -16,7 +16,7 @@ const Toast = ({text,isToast,setIsToast}:{text:string,isToast:boolean,setIsToast
 
       const timer = setTimeout(() => {
         setIsToast()
-      }, 1000)
+      }, 1250)
 
       return () => clearTimeout(timer)
     } else {
@@ -27,7 +27,7 @@ const Toast = ({text,isToast,setIsToast}:{text:string,isToast:boolean,setIsToast
   if(!isToast) return null
 
   return (
-    <View className='w-full items-center justify-center absolute top-24 '>
+    <View className='w-full items-center justify-center absolute top-8 '>
     <Animated.View 
       className='w-auto h-auto flex-row bg-tabIcon px-[27] py-[16] z-50' 
       style={{

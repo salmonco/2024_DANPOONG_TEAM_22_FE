@@ -35,7 +35,10 @@ const getStyle = (type: string, color?: string, align?: string): TextStyle => {
         "body3": { fontFamily: "WantedSans-Regular", fontSize: 18, lineHeight: 27, letterSpacing: 18 * -0.025 },
         "body4": { fontFamily: "WantedSans-Regular", fontSize: 16, lineHeight: 24, letterSpacing: 16 * -0.025 },
         "recording": { fontFamily: "WantedSans-Regular", fontSize: 32, lineHeight: 48, letterSpacing: 32 * -0.025 },
-        "default": { fontFamily: "WantedSans-Medium", fontSize: 20, lineHeight: 30, letterSpacing: 20 * -0.025 },
+        "button": { fontFamily: "WantedSans-Medium", fontSize: 20, lineHeight: 30, letterSpacing: 20 * -0.025 },
+        "caption1": { fontFamily: "WantedSans-Medium", fontSize: 14, lineHeight: 14*1.5, letterSpacing: 14 * -0.025 },
+        "caption2": { fontFamily: "WantedSans-Medium", fontSize: 12, lineHeight: 12*1.5, letterSpacing: 12 * -0.025 },
+        "caption3": { fontFamily: "WantedSans-Regular", fontSize: 10, lineHeight: 10*1.5, letterSpacing: 10 * -0.025 },
     };
 
     return { ...baseStyle, ...(fontStyles[type as keyof typeof fontStyles] || fontStyles["default"]) };

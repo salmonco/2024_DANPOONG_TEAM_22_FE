@@ -6,12 +6,14 @@ type RCDWaveProps = {
   volumeList: number[]
   isPlaying: boolean
   recording: boolean
+  isDone: boolean
 }
 
 const RCDWave = ({
   volumeList,
   isPlaying,
-  recording
+  recording,
+  isDone
 }: RCDWaveProps) => {
   const circleSize = 8
   const lineSize = 1

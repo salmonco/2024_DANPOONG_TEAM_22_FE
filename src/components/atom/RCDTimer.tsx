@@ -9,6 +9,7 @@ type RCDTimerProps = {
   isPaused: boolean
   setIsDone: (isDone: boolean) => void
   stop: () => void
+  isDone: boolean
 }
 
 const RCDTimer = ({
@@ -16,6 +17,7 @@ const RCDTimer = ({
   isPaused,
   setIsDone,
   stop,
+  isDone
 }: RCDTimerProps) => {
   const [targetTime, setTargetTime] = useState<Date | null>(null)
   const [remainingTime, setRemainingTime] = useState(15000) // 15초를 밀리초로 변환
@@ -29,8 +31,16 @@ const RCDTimer = ({
     }
   }, [recording])
 
+  useEffect(() => {
+    if (isDone) {
+      setRemainingTime(0)
+    }
+  }, [isDone])
+
+
+
   useInterval(() => {
-    if (recording && !isPaused && targetTime) {
+    if (recording && !isPaused && targetTime && !isDone) {
       const now = new Date()
       const diff = targetTime.getTime() - now.getTime()
       setRemainingTime(diff)
@@ -51,7 +61,11 @@ const RCDTimer = ({
 
   return (
     <View className="w-full h-20 justify-center items-center">
-      <Txt type="recording" content={formatTime(remainingTime)} color="white" />
+      <Txt 
+        type="recording" 
+        content={formatTime(remainingTime)} 
+        color={remainingTime < 5000 && remainingTime > 0 ? "recording" : "white"} 
+      />
     </View>
   )
 }

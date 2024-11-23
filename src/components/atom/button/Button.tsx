@@ -1,6 +1,5 @@
-import Body3 from '@components/atom/body/Body3'
 import { Pressable } from 'react-native'
-
+import ButtonText from '../etc/ButtonText'
 type ButtonProps = {
   text: string
   onPress: () => void
@@ -17,7 +16,7 @@ const Button = ({ text, onPress, disabled }: Readonly<ButtonProps>) => {
       onPress={onPress}
       disabled={disabled}
     >
-      <Body3
+      <ButtonText
         text={text}
         className={`${disabled ? 'text-white bg-gray300' : 'text-black'}`}
       />
