@@ -177,15 +177,18 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
 
   return (
     <BG type="solid">
-       <AppBar
-          title={type==='DAILY' ? `일상 녹음` : `위로 녹음`}
-          goBackCallbackFn={() => {navigation.goBack()}}
-          className="absolute top-[46] w-full"
-        />
+     
       {!isError?(  
-      <View className='flex-1 justify-between '>{/* frame */}
+        <>
+          <AppBar
+          title=''
+          goBackCallbackFn={() => {navigation.goBack()}}
+          className="absolute top-[0] w-full"
+        />
+      <View className='flex-1 justify-between mt-[65]'>{/* frame */}
+      
         {/* up section */}
-        <View className='px-px pt-[53] h-[250]'>
+        <View className='px-px pt-[0] h-[250]'>
           <ScrollView className='h-full'>
             <View className='mt-[53]'/>
             {/* head section */}
@@ -232,8 +235,16 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
         </View>
 
         </View>
+        </>
     ):(
-    <View className='flex-1 items-center justify-between'>
+      <>
+        <AppBar
+          title=''
+          exitCallbackFn={() => {navigation.goBack()}}
+          className="absolute top-[0] w-full"
+        />
+    <View className='flex-1 items-center justify-between mt-[65]'>
+      
       {/* text section */}
     <View className='absolute top-[194] items-center'>
       {errType === 'bad'?<Notice1/>:<Notice2/>}
@@ -265,6 +276,7 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
       disabled={false}/>
     </View>
     </View>
+    </>
   )}
     </BG>
  

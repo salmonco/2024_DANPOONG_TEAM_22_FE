@@ -28,8 +28,8 @@ export default ({ config }) => ({
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: './assets/images/logo/app/app_logo_yellow.png',
-      backgroundColor: '#252738',
+      foregroundImage: './assets/pngs/NMLogo.png',
+      backgroundColor: '#FFFFFF',
     },
     package: 'com.nail.morae',
     googleServicesFile: './google-services.json',

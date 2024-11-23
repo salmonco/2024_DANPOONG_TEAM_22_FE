@@ -15,7 +15,7 @@ const BG = ({
     <Container style={{ width: '100%', height: '100%' }}>
       {type === 'solid' ? (
         <View
-        style={{ backgroundColor: '#252738', width: '100%', height: '100%',paddingTop:Platform.OS==='android'?64:0 }}
+        style={{ backgroundColor: '#252738', width: '100%', height: '100%'}}
       >
           {children}
         </View>
@@ -24,7 +24,7 @@ const BG = ({
           colors={colors}
           start={{ x: 0, y: 0.15 }}
           end={{ x: 0, y: 1 }}
-          style={{ width: '100%', height: '100%' ,paddingTop:Platform.OS==='android'?64:0}}
+          style={{ width: '100%', height: '100%'}}
         >
           {children}
         </LinearGradient>

@@ -88,14 +88,14 @@ const RCDFeedBackScreen = () => {
         <AppBar
           title=''
           exitCallbackFn={() => {navigation.navigate('Home')}}
-          className="absolute top-[46] w-full"
+          className="absolute top-[0] w-full"
         />
         
         {/* content section */}
-        <View className='absolute pt-[333] w-full'>
+        <View className='absolute pt-[292] w-full'>
         <Txt type="title1" content="녹음 완료" color="gray_100" align='center'/>
         <View className='mb-[23]'/>
-        <Animated.Text className='text-center' style={{ color: interpolatedColor }}>
+        <Animated.Text className='text-center' style={{ color: interpolatedColor, fontFamily: "WantedSans-Regular", fontSize: 18, lineHeight: 18*1.5, letterSpacing: 18 * -0.025 }}>
           바람돌이님의 목소리 덕분에{'\n'}나그네가 힘차게 여행할 수 있을거에요
         </Animated.Text>
         </View>

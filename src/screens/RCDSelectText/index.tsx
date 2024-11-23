@@ -37,9 +37,10 @@ const SelectButton = ({head,sub,gpt,alarmId,item,type}:{head:string,sub:string,g
             <ShadowView>
               <View className='pl-[33] pr-[20] py-[37] flex-row justify-between items-center'>
 
-                <View className='flex-1 justify-between'>
-                <Txt type='title4' content={head} color='primary' />
-                <Txt type='body4' content={sub} color='gray_200' />
+                <View>
+                    <Txt type='title4' content={head} color='primary' />
+                    <View className='mt-[5]'/>
+                    <Txt type='body4' content={sub} color='gray_200' />
                 </View>
                 <BackIcon />
                 </View>
@@ -62,11 +63,11 @@ const RCDSelectText = ({route}:{route:RouteProp<HomeStackParamList,'RCDSelectTex
     return (
         <BG type='solid'>
              <AppBar
-          title={type==='DAILY' ? `일상 녹음` : `위로 녹음`}
+          title='녹음 내용 작성'
           goBackCallbackFn={() => {navigation.goBack()}}
-          className="absolute top-[46] w-full"
+          className="absolute top-[0] w-full"
         />
-            <View className='flex-1 px-px pt-[132] items-center'>
+            <View className='flex-1 px-px mt-[100] pt-[52] items-center'>
                 <StarPNG />
                 <View className='mt-[29]  mb-[52]  items-center'>
                     <Txt type='title2' content={item.title} color='white' align='center'/>

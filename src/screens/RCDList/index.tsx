@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import BG from '../../components/atom/BG'
 import Txt from '../../components/atom/Txt'
 import Carousel from '../../components/molecule/Carousel'
@@ -8,11 +8,13 @@ import { HomeStackParamList } from '../../types/HomeStackParamList'
 import { getRCDList, RCD } from '@apis/RCDApis/getRCDList'
 import { useState, useEffect } from 'react'
 import AppBar from '@components/atom/AppBar'
+import { COLORS } from '@constants/Colors'
 const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>}) => {
   const {type} = route.params
   const [rcdList, setRcdList] = useState<RCD[]>([])
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
-
+  StatusBar.setBarStyle('light-content');
+  StatusBar.setBackgroundColor(COLORS.bgSolid);
   useEffect(() => {
     console.log('list:',rcdList)
   }, [rcdList])
@@ -36,14 +38,14 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
          <AppBar
           title={type==='DAILY' ? `일상 녹음` : `위로 녹음`}
           goBackCallbackFn={() => {navigation.goBack()}}
-          className="absolute top-[46] w-full"
+          className="absolute top-[0] w-full"
         />
       {/* BG Image */}
       <ImageBackground
         source={require('../../../assets/pngs/BGStarTop.png')}
         style={{
           position: 'absolute',
-          top: 132,
+          top: 100,
           right: 0,
           width: 161,
           height: 130,

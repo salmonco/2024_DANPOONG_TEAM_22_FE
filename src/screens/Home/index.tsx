@@ -21,12 +21,12 @@ const HomeScreen = () => {
 
   const [youthNum, setYouthNum] = useState<number>(999);
 
-  useEffect(() => {
-    getYouthNum().then((num) => {
-      console.log('num:', num);
-      setYouthNum(num);
-    });
-  }, []);
+  useEffect(()=>{
+    getYouthNum().then(num=>{
+      console.log('youthNum:',num)
+      setYouthNum(num)
+    })
+  },[])
 
   return (
     <BG type="main">
@@ -57,32 +57,25 @@ const HomeScreen = () => {
 };
 export default HomeScreen;
 
-const SelectBtn = ({ type }: { type: 'DAILY' | 'COMFORT' }) => {
-  const navigation = useNavigation<NavigationProp<HomeStackParamList>>();
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        navigation.navigate('RCDList', { type });
-      }}
-      className="w-[168] px-[25] py-[18] bg-solid border border-white/10 justify-between"
-      style={{ borderRadius: 10 }}
-    >
+const SelectBtn = ({type}:{type:'DAILY'|'COMFORT'})=>{
+  const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
+  return(
+    <TouchableOpacity 
+    onPress={()=>{navigation.navigate('RCDList',{type})}}
+    className='w-[168] h-[207] px-[25] py-[24] bg-solid border border-white/10 justify-between'
+    style={{borderRadius:10}}>
       {/* svg */}
-      <View>
-        {type === 'DAILY' ? (
-          <View className="w-[55] h-[55] justify-center items-center">
-            <Main1 />
-          </View>
-        ) : (
-          <Main2 />
-        )}
-        {/* text */}
-        <Txt type="title3" content={`${type === 'DAILY' ? '일상' : '위로'} 녹음`} color="white" />
+      <View >
+        <View className='pb-[19]'>
+      {type==='DAILY'?<Main1/>:<Main2/>}
       </View>
-      <View className="flex flex-row w-full justify-between items-center">
-        <Txt type="button" content="녹음하기" color="primary" />
-        <Main3 />
-      </View>
+      {/* text */}
+        <Txt type='title3' content={`${type==='DAILY'?'일상':'위로'} 녹음`} color='white'/>
+        </View>
+        <View className='flex flex-row w-full justify-between items-center'>
+        <Txt type='button' content='녹음하기' color='primary'/>
+        <Main3/>
+        </View>
     </TouchableOpacity>
   );
 };

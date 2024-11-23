@@ -28,10 +28,12 @@ const RCDTextScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDText'>
 const scriptSubmitHandler = async () => {
   try {
     // throw new Error('스크립트 저장 오류')
-    const content: string = text;
-    const res = await postSaveScript(alarmId, content);
-    const voiceFileId = res.result.voiceFileId
-    navigation.navigate('RCDRecord', { type, item, gptRes, alarmId,voiceFileId,content });
+     const content: string = text;
+     const res = await postSaveScript(alarmId, content);
+     const voiceFileId = res.result.voiceFileId
+     navigation.navigate('RCDRecord', { type, item, gptRes, alarmId,voiceFileId,content });
+    //navigation.navigate('RCDRecord', { type, item, gptRes, alarmId,voiceFileId:10,content:text });
+
   } catch (e) {
     setIsError(true)
     setIsToast(true)
@@ -42,13 +44,13 @@ const scriptSubmitHandler = async () => {
   return (
     <BG type="solid">
        <AppBar
-          title={type==='DAILY' ? `일상 녹음` : `위로 녹음`}
+          title=''
           goBackCallbackFn={() => {navigation.goBack()}}
-          className="absolute top-[46] w-full"
+          className="absolute top-[0] w-full"
         />
       <Toast text='부적절한 언어가 감지되어 녹음할 수 없어요' isToast={isToast} setIsToast={()=>setIsToast(false)}/>
       {/* frame */}
-      <ScrollView className="w-full h-full px-px pt-[122]" contentContainerStyle={{alignItems: 'center'}}>
+      <ScrollView className="w-full h-full px-px mt-[65] pt-[52]" contentContainerStyle={{alignItems: 'center'}}>
         {/* image section*/}
           <StarPNG />
         <View className='mb-[29]'/>
