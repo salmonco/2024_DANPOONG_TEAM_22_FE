@@ -9,15 +9,7 @@ import { VoiceFileResponseData } from '@type/voiceFile';
 import { AVPlaybackStatus, ResizeMode, Video } from 'expo-av';
 import LottieView from 'lottie-react-native';
 import { useEffect, useRef, useState } from 'react';
-import {
-  Alert,
-  Image,
-  Keyboard,
-  Pressable,
-  ScrollView,
-  TextInput,
-  View,
-} from 'react-native';
+import { Alert, Image, Keyboard, Pressable, ScrollView, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FightingIcon from '../../../assets/images/youth/emotion_fighting.svg';
 import LoveIcon from '../../../assets/images/youth/emotion_love.svg';
@@ -30,10 +22,7 @@ import SmileWhiteIcon from '../../../assets/images/youth/smile_white.svg';
 import StopIcon from '../../../assets/images/youth/stop.svg';
 import { postComment } from '@apis/providedFile';
 
-type YouthProps = NativeStackScreenProps<
-  YouthStackParamList,
-  'YouthListenScreen'
->;
+type YouthProps = NativeStackScreenProps<YouthStackParamList, 'YouthListenScreen'>;
 
 export const emotions = [
   { icon: <StarIcon />, label: '고마워요', value: 'THANK_YOU' },
@@ -51,9 +40,7 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
   const animation = useRef<LottieView>(null);
   const [status, setStatus] = useState({} as any);
   const video = useRef(null);
-  const [voiceFile, setVoiceFile] = useState<VoiceFileResponseData>(
-    {} as VoiceFileResponseData
-  );
+  const [voiceFile, setVoiceFile] = useState<VoiceFileResponseData>({} as VoiceFileResponseData);
 
   useEffect(() => {
     if (status.isPlaying) {
@@ -64,12 +51,8 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
   }, [status.isPlaying]);
 
   useEffect(() => {
-    const showSubscription = Keyboard.addListener('keyboardDidShow', () =>
-      setIsKeyboardVisible(true)
-    );
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () =>
-      setIsKeyboardVisible(false)
-    );
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => setIsKeyboardVisible(true));
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => setIsKeyboardVisible(false));
 
     return () => {
       showSubscription.remove();
@@ -137,17 +120,14 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
             ? {
                 uri: voiceFile.fileUrl,
               }
-            : require('../../../assets/audios/sample.mp4')
+            : require('../../../assets/audios/mom.mp4')
         }
         useNativeControls
         resizeMode={ResizeMode.CONTAIN}
         onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
       />
       {!isKeyboardVisible && (
-        <View
-          className="absolute left-0 bottom-0 w-full h-full"
-          style={{ transform: [{ scale: 1.1 }] }}
-        >
+        <View className="absolute left-0 bottom-0 w-full h-full" style={{ transform: [{ scale: 1.1 }] }}>
           <LottieView
             ref={animation}
             style={{
@@ -158,18 +138,11 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
         </View>
       )}
       <View className="flex-1">
-        <AppBar
-          exitCallbackFn={() => navigation.goBack()}
-          className="absolute top-[6] w-full"
-        />
+        <AppBar exitCallbackFn={() => navigation.goBack()} className="absolute top-[6] w-full" />
         <View className="pt-[149] flex-1 items-center">
           <View className="relative w-[78] h-[78] justify-center items-center">
             <Image
-              source={
-                imageUri
-                  ? { uri: imageUri }
-                  : require('../../../assets/images/logo/app/app_logo_yellow.png')
-              }
+              source={imageUri ? { uri: imageUri } : require('../../../assets/images/logo/app/app_logo_yellow.png')}
               className="w-[70] h-[70]"
               style={{ borderRadius: 35 }}
             />
@@ -179,10 +152,7 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
             />
           </View>
 
-          <Body2
-            text="봉사자 닉네임"
-            className="text-yellowPrimary mt-[13] mb-[25] text-center"
-          />
+          <Body2 text="봉사자 닉네임" className="text-yellowPrimary mt-[13] mb-[25] text-center" />
           <View>
             <Title3 text={script ?? ''} className="text-gray200 text-center" />
           </View>
@@ -191,10 +161,7 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
             {status.isPlaying ? <StopIcon /> : <PlayIcon />}
           </Pressable>
 
-          <View
-            className="absolute bottom-0 w-full"
-            style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}
-          >
+          <View className="absolute bottom-0 w-full" style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
             {isClickedEmotion && (
               <ScrollView
                 horizontal
@@ -212,10 +179,7 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
                     style={{ borderRadius: 50 }}
                   >
                     {emotion.icon}
-                    <Body3
-                      text={emotion.label}
-                      className="text-white ml-[10]"
-                    />
+                    <Body3 text={emotion.label} className="text-white ml-[10]" />
                   </Pressable>
                 ))}
               </ScrollView>
@@ -227,9 +191,7 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
                 placeholder="감사의 말을 전해보세요"
                 placeholderTextColor={'#A0A0A0'}
                 className={`mr-[15] text-gray100 py-[8] px-[27] font-r bg-tabIcon border ${
-                  isKeyboardVisible
-                    ? 'border-gray200 w-full'
-                    : 'border-tabIcon w-[307]'
+                  isKeyboardVisible ? 'border-gray200 w-full' : 'border-tabIcon w-[307]'
                 }`}
                 style={{ fontSize: 16, borderRadius: 100 }}
               />
@@ -242,10 +204,7 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
                 </Pressable>
               )}
               {!isKeyboardVisible && (
-                <Pressable
-                  className=""
-                  onPress={() => setIsClickedEmotion((prev) => !prev)}
-                >
+                <Pressable className="" onPress={() => setIsClickedEmotion((prev) => !prev)}>
                   {isClickedEmotion ? <SmileWhiteIcon /> : <SmileIcon />}
                 </Pressable>
               )}
