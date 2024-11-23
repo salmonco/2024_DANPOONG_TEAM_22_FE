@@ -9,6 +9,8 @@ import * as Font from 'expo-font';
 import { Alert } from 'react-native';
 import { getMember } from '@apis/member';
 import { Role } from '@type/member';
+import useFCM from '@hooks/fcm/useFCM';
+import messaging from '@react-native-firebase/messaging';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -24,10 +26,16 @@ const fetchFonts = () => {
   });
 };
 
+messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+  console.log('Message handled in the background!', remoteMessage);
+});
+
 const AppInner = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [role, setRole] = useState<Role | null>(null);
+
+  useFCM();
 
   useEffect(() => {
     (async () => {
@@ -70,20 +78,19 @@ const AppInner = () => {
     >
       {isLoggedIn ? (
         <Stack.Group>
-          {role === 'HELPER' ? (
+          {/* <Stack.Screen name="AppTabNav" component={AppTabNav} /> */}
+          {role === 'HELPER' && (
             <Stack.Screen name="AppTabNav" component={AppTabNav} />
-          ) : (
-            <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
           )}
+          <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
         </Stack.Group>
       ) : (
         <Stack.Group>
           <Stack.Screen name="AuthStackNav" component={AuthStackNav} />
-          {role === 'HELPER' ? (
+          {role === 'HELPER' && (
             <Stack.Screen name="AppTabNav" component={AppTabNav} />
-          ) : (
-            <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
           )}
+          <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
         </Stack.Group>
       )}
     </Stack.Navigator>

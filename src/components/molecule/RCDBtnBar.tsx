@@ -1,9 +1,7 @@
 import { View, TouchableOpacity } from 'react-native'
 import RCDBtn from '@components/atom/RCDBtn'
 import Txt from '@components/atom/Txt'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { RCDBtnBarProps } from '../../types/RCDBtnBarType'
-import { HomeStackParamList } from '../../types/HomeStackParamList'
 
 const TransparentButton = ({
   content,
@@ -27,30 +25,32 @@ const TransparentButton = ({
 
 const RCDBtnBar = ({
   record,
-  pause,
+  // pause,
   play,
   upload,
   isPlaying,
-  isPaused,
+  // isPaused,
   isDone,
   recording,
-  reflesh
+  reflesh,
+  stop
 }: RCDBtnBarProps) => {
-  const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   const justifyType = isDone?'between':'center';
   return (
     <View className={`w-full h-20 flex flex-row justify-${justifyType} items-center`}>
       {isDone && (
-        <TransparentButton content="다시" color="gray_300" onPress={()=>{reflesh(); record();}} />
+        <TransparentButton content="다시" color="gray_300" 
+        onPress={async ()=>{await reflesh(); await record();}} />
       )}
       <RCDBtn
         record={record}
-        pause={pause}
+        // pause={pause}
         play={play}
         isPlaying={isPlaying}
-        isPaused={isPaused}
+        // isPaused={isPaused}
         recording={recording}
         isDone={isDone}
+        stop={stop}
       />
       {isDone && (
         <TransparentButton content="완료" color="gray_100" onPress={upload} />
