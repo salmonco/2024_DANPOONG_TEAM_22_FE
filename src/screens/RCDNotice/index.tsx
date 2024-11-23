@@ -6,6 +6,8 @@ import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/nati
 import Notice1 from '../../../assets/svgs/Notice1.svg'
 import Notice2 from '../../../assets/svgs/Notice2.svg'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
+import AppBar from '@components/atom/AppBar'
+
 const Section = ({
   seq,
   title,
@@ -28,13 +30,18 @@ const Section = ({
 
 const RCDNoticeScreen = ({route}:{route:RouteProp<HomeStackParamList,'RCDNotice'>}) => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
-const {item}  = route.params
+const {item,type}  = route.params
   return (
     <BG type="solid">
+      <AppBar
+          title='주의 사항'
+          goBackCallbackFn={() => {navigation.goBack()}}
+          className="absolute top-[46] w-full"
+        />
       <ScrollView className="flex-1 px-px">
         <View className="flex-1">
           {/* header */}
-          <View className='mt-[63]'/>
+          <View className='mt-[132]'/>
           <Txt
             type="title2"
             content={`녹음 전에,\n꼭 확인해주세요!`}
@@ -58,7 +65,7 @@ const {item}  = route.params
             text="확인했어요"
             disabled={false}
             onPress={() => {
-              navigation.navigate('RCDSelectText',{item})
+              navigation.navigate('RCDSelectText',{type,item})
             }}
           />
         </View>

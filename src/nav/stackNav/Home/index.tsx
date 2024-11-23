@@ -33,14 +33,12 @@ const HomeStackNav = () => {
     return (
         <Stack.Navigator
         screenOptions={{
-          // headerShown: false,
-          headerTintColor: '#000',
+          headerShown: false,
         }}
       >
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{headerShown: false}}
         />
         <Stack.Screen
           name="RCDList"
