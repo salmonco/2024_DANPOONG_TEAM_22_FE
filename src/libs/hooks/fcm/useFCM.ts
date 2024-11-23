@@ -1,18 +1,9 @@
 import messaging from '@react-native-firebase/messaging';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-// import { RootStackParamList } from '@type/RootStackParamList';
-import { YouthStackParamList } from '@stackNav/Youth';
+import { navigationRef } from 'App';
 import { useEffect } from 'react';
 import { Alert } from 'react-native';
 
-// type RootProps = NativeStackNavigationProp<RootStackParamList>;
-type YouthProps = NativeStackNavigationProp<YouthStackParamList>;
-
 const useFCM = () => {
-  // const navigation = useNavigation<RootProps>();
-  const navigation = useNavigation<YouthProps>();
-
   const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
     return (
@@ -25,14 +16,13 @@ const useFCM = () => {
     alarmId,
     script,
   }: Readonly<{ alarmId: number; script: string }>) => {
-    // navigation.navigate('YouthStackNav', {
-    //   screen: 'YouthListenScreen',
-    //   params: {
-    //     alarmId,
-    //     script,
-    //   },
-    // });
-    navigation.navigate('YouthListenScreen', { alarmId, script });
+    navigationRef.navigate('YouthStackNav', {
+      screen: 'YouthListenScreen',
+      params: {
+        alarmId,
+        script,
+      },
+    });
   };
 
   useEffect(() => {
