@@ -1,9 +1,13 @@
 import { getLetters } from '@apis/providedFile';
+import { getAlarmCategory } from '@apis/alarm';
+import { getTopText } from '@apis/RCDApis/getTopText';
 import AppBar from '@components/atom/AppBar';
 import BG from '@components/atom/BG';
 import Body4 from '@components/atom/body/Body4';
 import EmptyText from '@components/atom/EmptyText';
 import Title4 from '@components/atom/title/Title4';
+import { LETTERS_DATA } from '@constants/letter';
+import useGetAlarmCategory from '@hooks/alarm/useGetAlarmCategory';
 import useGetAlarmComfort from '@hooks/alarm/useGetAlarmComfort';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Card from '@screens/LetterList/components/Card';
@@ -20,28 +24,44 @@ type LetterProps = NativeStackScreenProps<LetterStackParamList, 'LetterListScree
 const LetterListScreen = ({ navigation }: Readonly<LetterProps>) => {
   const nickname = SecureStore.getItem('nickname');
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
-  const { data: alarmComfortData, isError: isAlarmComfortError, error: alarmComfortError } = useGetAlarmComfort();
+  // const { data: alarmComfortData, isError: isAlarmComfortError, error: alarmComfortError } = useGetAlarmComfort();
   const [lettersData, setLettersData] = useState<LetterResponseData[]>([]);
   const [filteredLettersData, setFilteredLettersData] = useState<LetterResponseData[]>([]);
   const [parentCategories, setParentCategories] = useState<{ id: number; name: string }[]>([]);
-  console.log('alarmComfortData', alarmComfortData);
+  // const { data: alarmCategoryData, isError: isAlarmCategoryError, error: alarmCategoryError } = useGetAlarmCategory();
+  // console.log('alarmComfortData', alarmComfortData);
 
-  useEffect(() => {
-    if (isAlarmComfortError) {
-      console.error(alarmComfortError);
-      Alert.alert('오류', '위로 알람을 불러오는 중 오류가 발생했어요');
-    }
-  }, [isAlarmComfortError]);
+  // useEffect(() => {
+  //   if (isAlarmComfortError) {
+  //     console.error(alarmComfortError);
+  //     Alert.alert('오류', '위로 알람을 불러오는 중 오류가 발생했어요');
+  //   }
+  // }, [isAlarmComfortError]);
+
+  // useEffect(() => {
+  //   if (isAlarmCategoryError) {
+  //     console.error(alarmCategoryError);
+  //     Alert.alert('오류', '위로 알람을 불러오는 중 오류가 발생했어요');
+  //   }
+  // }, [isAlarmCategoryError]);
 
   useEffect(() => {
     (async () => {
       try {
+        const alarmCategoryRes = await getAlarmCategory();
+        const categories = alarmCategoryRes.result.map((item) => ({ id: item.id, name: item.name }));
+        console.log('categories', categories);
+        setParentCategories(categories);
+
         const res = await getLetters({
+          parentCategoryId: 1,
           pageable: { page: 1, size: 10, sort: 'createdAt,desc' },
         });
         console.log(res);
         setLettersData(res.result.content);
         setFilteredLettersData(res.result.content);
+        // setLettersData(LETTERS_DATA);
+        // setFilteredLettersData(LETTERS_DATA);
       } catch (error) {
         console.error(error);
         Alert.alert('오류', '편지 정보를 불러오는 중 오류가 발생했어요');
@@ -49,17 +69,20 @@ const LetterListScreen = ({ navigation }: Readonly<LetterProps>) => {
     })();
   }, []);
 
-  useEffect(() => {
-    if (!alarmComfortData) return;
+  // useEffect(() => {
+  //   if (!alarmCategoryData) return;
 
-    const categories = alarmComfortData.result.map((item) => ({ id: item.id, name: item.name }));
-    setParentCategories(categories);
-  }, [alarmComfortData]);
+  //   const categories = alarmCategoryData.result.map((item) => ({ id: item.id, name: item.name }));
+  //   setParentCategories(categories);
+  // }, [alarmCategoryData]);
 
   useEffect(() => {
-    setFilteredLettersData(
-      lettersData.filter((letter) => letter.alarmType === parentCategories[selectedFilterIdx].name)
+    console.log('lettersData', lettersData);
+    const filteredLetters = lettersData.filter(
+      (letter) => letter.alarmType === parentCategories[selectedFilterIdx].name
     );
+    console.log('filteredLetters', filteredLetters);
+    setFilteredLettersData(filteredLetters);
   }, [selectedFilterIdx]);
 
   return (
@@ -106,15 +129,31 @@ const LetterListScreen = ({ navigation }: Readonly<LetterProps>) => {
             </Text>
             <Title4 text={nickname ?? ''} className="text-yellowPrimary ml-[7]" />
           </View>
-          {!lettersData || lettersData.length === 0 ? (
+          {/* 목 데이터 넣은 버전 */}
+          {/* <ScrollView>
+            <View className="pt-[22] px-[30] pb-[110]">
+              {(!filteredLettersData || filteredLettersData.length === 0 ? LETTERS_DATA : filteredLettersData).map(
+                (letter, idx) => (
+                  <View key={idx}>
+                    <Card letter={letter} idx={idx} />
+                    <View className="mb-[30]" />
+                  </View>
+                )
+              )}
+            </View>
+          </ScrollView> */}
+          {!filteredLettersData || filteredLettersData.length === 0 ? (
             <View className="flex-1 items-center justify-center">
               <EmptyText text="아직 편지가 없어요" />
             </View>
           ) : (
             <ScrollView>
               <View className="pt-[22] px-[30] pb-[110]">
-                {lettersData.map((letter, idx) => (
-                  <Card letter={letter} idx={idx} />
+                {filteredLettersData.map((letter, idx) => (
+                  <View key={idx}>
+                    <Card letter={letter} idx={idx} />
+                    <View className="mb-[30]" />
+                  </View>
                 ))}
               </View>
             </ScrollView>
