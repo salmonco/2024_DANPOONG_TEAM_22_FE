@@ -18,10 +18,9 @@ const HomeScreen = () => {
 
   const [youthNum, setYouthNum] = useState<number>(999)
 
-
   useEffect(()=>{
     getYouthNum().then(num=>{
-      console.log('num:',num)
+      console.log('youthNum:',num)
       setYouthNum(num)
     })
   },[])
@@ -34,12 +33,12 @@ const HomeScreen = () => {
         style={{ position: 'absolute', bottom: 0, width: '100%', height: 762}}
       />      
       {/* 전체 frame */}
-      <View className="flex-1 px-[30] pt-[117]">
+      <View className="flex-1 px-[30] pt-[127]">
       {/* header */}
         <View className="w-full mb-[46]">
           <Txt type="title3" content="바람돌이님, 반가워요!" color="gray_300" />
-          <View className="flex flex-row">
-            <Txt type="title2" content={`${youthNum}명의 청년들`} color="primary" />
+          <View className="flex flex-row pt-[9]">
+            <Txt type="title2" content={`${youthNum}명의 청년`} color="primary" />
             <Txt type="title2" content="이" color="white" />
           </View>
           <Txt
@@ -64,15 +63,13 @@ const SelectBtn = ({type}:{type:'DAILY'|'COMFORT'})=>{
   return(
     <TouchableOpacity 
     onPress={()=>{navigation.navigate('RCDList',{type})}}
-    className='w-[168] px-[25] py-[18] bg-solid border border-white/10 justify-between'
+    className='w-[168] h-[207] px-[25] py-[24] bg-solid border border-white/10 justify-between'
     style={{borderRadius:10}}>
       {/* svg */}
-      <View>
-      {type==='DAILY'?
-      <View className='w-[55] h-[55] justify-center items-center'><Main1/></View>
-      :
-      <Main2/>
-      }
+      <View >
+        <View className='pb-[19]'>
+      {type==='DAILY'?<Main1/>:<Main2/>}
+      </View>
       {/* text */}
         <Txt type='title3' content={`${type==='DAILY'?'일상':'위로'} 녹음`} color='white'/>
         </View>

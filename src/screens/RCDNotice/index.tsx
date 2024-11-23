@@ -36,12 +36,12 @@ const {item,type}  = route.params
       <AppBar
           title='주의 사항'
           goBackCallbackFn={() => {navigation.goBack()}}
-          className="absolute top-[46] w-full"
+          className="absolute top-[0] w-full"
         />
-      <ScrollView className="flex-1 px-px">
+      <ScrollView className="flex-1 px-px mt-[64]">
         <View className="flex-1">
           {/* header */}
-          <View className='mt-[132]'/>
+          <View className='mt-[63]'/>
           <Txt
             type="title2"
             content={`녹음 전에,\n꼭 확인해주세요!`}
