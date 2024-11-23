@@ -50,9 +50,7 @@ export default ({ config }) => ({
       'expo-build-properties',
       {
         android: {
-          extraMavenRepos: [
-            'https://devrepo.kakao.com/nexus/content/groups/public/',
-          ],
+          extraMavenRepos: ['https://devrepo.kakao.com/nexus/content/groups/public/'],
         },
       },
     ],

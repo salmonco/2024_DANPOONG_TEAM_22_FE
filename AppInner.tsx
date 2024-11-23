@@ -31,34 +31,35 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
 });
 
 const AppInner = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [role, setRole] = useState<Role | null>(null);
 
   useFCM();
 
   useEffect(() => {
-    const loadFonts = async () => {
-      await fetchFonts();
-      setFontsLoaded(true);
-    };
-
-    loadFonts();
-
     (async () => {
       try {
-        const token = await SecureStore.getItemAsync('accessToken');
-        setIsLoggedIn(!!token);
-
-        if (!token) return;
         const { result } = await getMember();
-        console.log(result);
         setRole(result.role);
       } catch (error) {
         console.error(error);
         Alert.alert('오류', `회원 정보를 불러오는 중 오류가 발생했어요\n${error}`);
       }
     })();
+
+    const checkLoginStatus = async () => {
+      const token = await SecureStore.getItemAsync('accessToken1');
+      setIsLoggedIn(!!token);
+    };
+
+    const loadFonts = async () => {
+      await fetchFonts();
+      setFontsLoaded(true);
+    };
+
+    checkLoginStatus();
+    loadFonts();
   }, []);
 
   if (!fontsLoaded) {
@@ -74,11 +75,8 @@ const AppInner = () => {
     >
       {isLoggedIn ? (
         <Stack.Group>
-          {role !== 'HELPER' ? (
-            <Stack.Screen name="AppTabNav" component={AppTabNav} />
-          ) : (
-            <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
-          )}
+          {role === 'HELPER' && <Stack.Screen name="AppTabNav" component={AppTabNav} />}
+          <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
         </Stack.Group>
       ) : (
         <Stack.Group>

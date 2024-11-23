@@ -15,11 +15,9 @@ import { useEffect, useState } from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as SecureStore from 'expo-secure-store';
 
-type LetterProps = NativeStackScreenProps<
-  LetterStackParamList,
-  'LetterListScreen'
->;
+type LetterProps = NativeStackScreenProps<LetterStackParamList, 'LetterListScreen'>;
 
 const filterMenu = [
   { label: '전체', idx: 1 },
@@ -33,14 +31,10 @@ const filterMenu = [
 ];
 
 const LetterListScreen = ({ navigation }: Readonly<LetterProps>) => {
+  const nickname = SecureStore.getItem('nickname');
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(1);
-  const {
-    data: alarmComfortData,
-    isError: isAlarmComfortError,
-    error: alarmComfortError,
-  } = useGetAlarmComfort();
-  const [lettersData, setLettersData] =
-    useState<ResultResponseData<LettersResponseData>>(null);
+  const { data: alarmComfortData, isError: isAlarmComfortError, error: alarmComfortError } = useGetAlarmComfort();
+  const [lettersData, setLettersData] = useState<ResultResponseData<LettersResponseData>>(null);
   // const {
   //   data: lettersData,
   //   isError: isLettersError,
@@ -93,17 +87,13 @@ const LetterListScreen = ({ navigation }: Readonly<LetterProps>) => {
           />
 
           <View>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              className="mt-[74]"
-            >
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-[74]">
               <View className="flex-row items-center px-[30] py-[10] h-[36] mt-[20]">
                 {filterMenu.map((menu) => (
                   <Pressable
                     key={menu.idx}
                     className={`h-[36] px-[22] items-center justify-center border ${menu.idx === selectedFilterIdx ? 'border-tabIcon bg-white/10' : 'border-white10'} mr-[8]`}
-                    style={{ borderRadius: 50 }}
+                    style={{ borderRadius: 20 }}
                     onPress={() => setSelectedFilterIdx(menu.idx)}
                   >
                     <Body4
@@ -127,7 +117,7 @@ const LetterListScreen = ({ navigation }: Readonly<LetterProps>) => {
             >
               TO.
             </Text>
-            <Title4 text="바람돌이" className="text-yellowPrimary ml-[7]" />
+            <Title4 text={nickname ?? ''} className="text-yellowPrimary ml-[7]" />
           </View>
           {!lettersData || lettersData?.result.content.length === 0 ? (
             <View className="flex-1 items-center justify-center">
@@ -136,9 +126,7 @@ const LetterListScreen = ({ navigation }: Readonly<LetterProps>) => {
           ) : (
             <ScrollView>
               <View className="pt-[22] px-[30] pb-[110]">
-                {lettersData?.result.content.map((letter, idx) => (
-                  <Card letter={letter} idx={idx} />
-                ))}
+                {lettersData?.result.content.map((letter, idx) => <Card letter={letter} idx={idx} />)}
               </View>
             </ScrollView>
           )}
