@@ -10,8 +10,6 @@ import Txt from '@components/atom/Txt'
 import Button from '@components/atom/button/Button'
 import Notice1 from '../../../assets/svgs/Notice1.svg'
 import Notice2 from '../../../assets/svgs/Notice2.svg'
-// import RNFS from 'react-native-fs';
-// import Timer from '@components/atom/timer'
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
 import { postVoiceAnalysis } from '@apis/RCDApis/postVoiceAnalysis'
@@ -19,7 +17,7 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   const {item,gptRes,alarmId,voiceFileId,content} = route.params;
   const [isError,setIsError] = useState<boolean>(false)
-  const [errType,setErrType] = useState<'bad'|'noisy'>('bad')
+  const [errType,setErrType] = useState<'bad'|'noisy'|'server'>('bad')
   //
   const [recording, setRecording] = useState<Audio.Recording | undefined>(undefined) // 녹음 상태 관리
   const [permissionResponse, requestPermission] = Audio.usePermissions() // 오디오 권한 요청 및 응답 관리
@@ -42,6 +40,7 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
     //화면에 처음들어왔을때 새 녹음을 위하여 값들을 초기화
     refleshRCDStates
   },[])
+
   //녹음을 시작하기 위해 값들을 초기화
   const refleshRCDStates = ()=>{ 
     setIsDone(false)
@@ -51,6 +50,7 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
     setRecording(undefined)
     setUri(null)
   }
+
   // 녹음을 시작하는 비동기 함수
   const startRecording = async () => {
     try {
@@ -105,6 +105,7 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
     // 녹음 파일의 URI를 가져옴
     const uri = recording?.getURI() ?? null
     setUri(uri)
+    setIsDone(true)
   }
 
   // 녹음 파일을 재생
@@ -135,9 +136,17 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
         const response = await postVoiceAnalysis(file,voiceFileId)
         console.log('음성 파일 분석 결과:', response)
         navigation.navigate('RCDFeedBack')
-      } catch (error) {
-        setIsError(true)
-        setErrType('noisy')
+      } catch (error: any) {
+        if(error.response?.data.code === 'ANALYSIS0001') {
+          setIsError(true)
+          setErrType('bad')
+        } else if (error.response?.data.code === 'ANALYSIS0002'){
+          setIsError(true)
+          setErrType('noisy')
+        }else{
+          setIsError(true)
+          setErrType('server')
+        }
         console.error('음성 파일 업로드 오류:', error)
       }
     } else {
@@ -185,24 +194,31 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
         <RCDWave
           volumeList={volumeList}
           isPlaying={isPlaying}
-            recording={!!recording}
+          recording={!!recording}
+          isDone={isDone}
            />
           {/* timer section */}
           <View className='mt-[28]'/> 
           {/* <Timer/> */}
-          <RCDTimer recording={recording} isPaused={isPaused} setIsDone={setIsDone} stop={stopRecording}/>
+          <RCDTimer 
+          recording={recording} 
+          isPaused={isPaused} 
+          isDone={isDone}
+          setIsDone={setIsDone} 
+          stop={stopRecording}/>
           {/* button section */}
           <View className="w-full px-px mt-[40] mb-[70]">
           <RCDBtnBar
             record={startRecording}
-            pause={togglePauseRecording}
+            // pause={togglePauseRecording}
             play={playSound}
             upload={uploadRecording}
             isPlaying={isPlaying}
-            isPaused={isPaused}
+            // isPaused={isPaused}
             recording={recording}
             isDone={isDone}
             reflesh={refleshRCDStates}
+            stop={stopRecording}
           />
         </View>
         </View>
@@ -214,9 +230,19 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
     <View className='absolute top-[194] items-center'>
       {errType === 'bad'?<Notice1/>:<Notice2/>}
       <View className='mt-[43]'/>
-      <Txt type='title2' content={errType === 'bad'?'부적절한 표현이 감지되어\n녹음을 전송할 수 없어요':'주변 소음이 크게 들려서\n녹음을 전송할 수 없었어요'} color='white' align='center'/>
+      <Txt type='title2' 
+      content={errType === 'bad'?'부적절한 표현이 감지되어\n녹음을 전송할 수 없어요':
+        errType === 'noisy'?'주변 소음이 크게 들려서\n녹음을 전송할 수 없었어요':
+        '서버에 문제가 생겨\n녹음을 전송할 수 없었어요'} 
+      color='white' 
+      align='center'/>
       <View className='mt-[25]'/>
-      <Txt type='body4' content={errType === 'bad'?'적절한 언어로 다시 녹음해 주시겠어요?':'조용한 장소에서 다시 녹음해 주시겠어요?'} color='gray_300' align='center'/>
+      <Txt type='body4'
+      content={errType === 'bad'?'적절한 언어로 다시 녹음해 주시겠어요?':
+        errType === 'noisy'?'조용한 장소에서 다시 녹음해 주시겠어요?':
+        '다시 시도해 주시겠어요?'} 
+      color='gray_300' 
+      align='center'/>
     </View>
     {/* button section */}
     <View className='px-px w-full absolute bottom-[50]'>

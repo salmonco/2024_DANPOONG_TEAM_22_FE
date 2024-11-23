@@ -40,11 +40,10 @@ const scriptSubmitHandler = async () => {
 
   return (
     <BG type="solid">
-      <Toast text='스크립트 저장 오류' isToast={isToast} setIsToast={()=>setIsToast(false)}/>
+      <Toast text='부적절한 언어가 감지되어 녹음할 수 없어요' isToast={isToast} setIsToast={()=>setIsToast(false)}/>
       {/* frame */}
       <ScrollView className="w-full h-full px-px pt-[52]" contentContainerStyle={{alignItems: 'center'}}>
         {/* image section*/}
-       
           <StarPNG />
         <View className='mb-[29]'/>
         {/* header section*/}

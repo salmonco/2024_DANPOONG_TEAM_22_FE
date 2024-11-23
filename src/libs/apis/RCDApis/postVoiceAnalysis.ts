@@ -6,6 +6,11 @@ interface PostVoiceAnalysisResponse {
   message: string;
   result: string;
 }
+export interface VoiceAnalysisErrorResponse {
+  timestamp: string;
+  code: string;
+  message: string;
+}
 
 export const postVoiceAnalysis = async (file: FormData, voiceFileId: number): Promise<PostVoiceAnalysisResponse> => {
   try {
