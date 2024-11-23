@@ -26,7 +26,7 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
         const data = await getRCDList(categoryType)
         setRcdList(data)
       } catch (error) {
-        console.error('RCD 목록을 가져오는데 실패했습니다:', error)
+        console.log('RCD 목록을 가져오는데 실패했습니다:', error)
         setRcdList([]) // 에러 발생 시 빈 배열로 초기화
       }
     }
@@ -36,7 +36,7 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
   return (
     <BG type="gradation">
          <AppBar
-          title={type==='DAILY' ? `일상 녹음` : `위로 녹음`}
+          title={type==='DAILY' ? `일상 알림` : `위로 알림`}
           goBackCallbackFn={() => {navigation.goBack()}}
           className="absolute top-[0] w-full"
         />

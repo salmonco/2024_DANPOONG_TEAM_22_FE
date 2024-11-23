@@ -27,7 +27,7 @@ const getStyle = (type: string, color?: string, align?: string): TextStyle => {
     // 달라지는 스타일
     const fontStyles = {
         "title1": { fontFamily: "WantedSans-SemiBold", fontSize: 30, lineHeight: 30*1.5, letterSpacing: 30 * -0.025 },
-        "title2": { fontFamily: "WantedSans-SemiBold", fontSize: 26, lineHeight: 26*1.5, letterSpacing: 26 * -0.025 },
+        "title2": { fontFamily: "WantedSans-SemiBold", fontSize: 25, lineHeight: 25*1.5, letterSpacing: 25 * -0.025 },
         "title3": { fontFamily: "WantedSans-Medium", fontSize: 22, lineHeight: 22*1.5, letterSpacing: 22 * -0.025 },
         "title4": { fontFamily: "WantedSans-SemiBold", fontSize: 20, lineHeight: 20*1.5, letterSpacing: 20 * -0.025 },
         "body1": { fontFamily: "WantedSans-Regular", fontSize: 22, lineHeight: 22*1.5, letterSpacing: 22 * -0.025 },

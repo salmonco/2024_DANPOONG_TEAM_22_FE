@@ -40,7 +40,7 @@ const HomeScreen = () => {
         {/* header */}
         <View className="w-full mb-[46]">
           <Txt type="title3" content={`${nickname ?? ''}님, 반가워요!`} color="gray_300" />
-          <View className="flex flex-row">
+          <View className="flex flex-row mt-[9]">
             <Txt type="title2" content={`${youthNum}명의 청년들`} color="primary" />
             <Txt type="title2" content="이" color="white" />
           </View>

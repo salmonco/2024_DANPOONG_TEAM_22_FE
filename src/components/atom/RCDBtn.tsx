@@ -29,7 +29,6 @@ const RCDBtn = ({
     else if(type==='done' || !isPlaying) play() // 녹음 완료 이면 재생, 재생중이지 않으면
   }
   return (
-
       <TouchableOpacity
         style={{
           width: 69,

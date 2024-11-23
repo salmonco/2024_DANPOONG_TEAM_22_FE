@@ -28,7 +28,7 @@ export default ({ config }) => ({
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: './assets/pngs/NMLogo.png',
+      foregroundImage: './assets/pngs/NMLOGO.png',
       backgroundColor: '#FFFFFF',
     },
     package: 'com.nail.morae',

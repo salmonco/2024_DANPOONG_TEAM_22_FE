@@ -51,7 +51,7 @@ const RCDWave = ({
         }),
         Animated.timing(translateXAnim, {
           toValue: 0,
-          duration: volumeList.length * 100,
+          duration: volumeList.length * 100 + 800,
           easing: Easing.linear,
           useNativeDriver: true
         })
