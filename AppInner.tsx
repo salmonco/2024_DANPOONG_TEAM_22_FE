@@ -10,6 +10,7 @@ import { Alert } from 'react-native';
 import { getMember } from '@apis/member';
 import { Role } from '@type/member';
 import useFCM from '@hooks/fcm/useFCM';
+import messaging from '@react-native-firebase/messaging';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -24,6 +25,10 @@ const fetchFonts = () => {
     'LeeSeoyun-Regular': require('./assets/fonts/LeeSeoyun-Regular.ttf'),
   });
 };
+
+messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+  console.log('Message handled in the background!', remoteMessage);
+});
 
 const AppInner = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
