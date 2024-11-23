@@ -3,22 +3,20 @@ import BG from '../../components/atom/BG'
 import Txt from '../../components/atom/Txt'
 import Carousel from '../../components/molecule/Carousel'
 import { ImageBackground } from 'react-native'
-import { RouteProp } from '@react-navigation/native'
+import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
 import { getRCDList, RCD } from '@apis/RCDApis/getRCDList'
 import { useState, useEffect } from 'react'
+import AppBar from '@components/atom/AppBar'
 const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>}) => {
   const {type} = route.params
-  // test data - 나중에 api 요청 받아서 데이터 넣어주기
-  const entries = [
-    {"categoryId": 5, "count": 0, "title": `우울하고 불안한 청년에게,괜찮다는 다독임의 말`,  "used": false},
-    {"categoryId": 6, "count": 0, "title": `칭찬이 필요한 청년에게,\n잘 하고 있다는 격려의 말`, "used": false},
-    {"categoryId": 7, "count": 0, "title": `삶이 어려운 청년에게,\n경험을 담은 위로의 말`, "used": false}
-  ]
   const [rcdList, setRcdList] = useState<RCD[]>([])
+  const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
+
   useEffect(() => {
     console.log('list:',rcdList)
   }, [rcdList])
+
   useEffect(() => {
     const fetchRCDList = async () => {
       const categoryType: 'DAILY' | 'COMFORT' = type
@@ -35,12 +33,17 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
   }, [type])
   return (
     <BG type="gradation">
+         <AppBar
+          title={type==='DAILY' ? `일상 녹음` : `위로 녹음`}
+          goBackCallbackFn={() => {navigation.goBack()}}
+          className="absolute top-[46] w-full"
+        />
       {/* BG Image */}
       <ImageBackground
         source={require('../../../assets/pngs/BGStarTop.png')}
         style={{
           position: 'absolute',
-          top: 32,
+          top: 132,
           right: 0,
           width: 161,
           height: 130,
@@ -52,7 +55,7 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
         />
       {/* content section */}
         {/* header */}
-        <View className="w-full mt-[63] px-px mb-[33]">
+        <View className="w-full mt-[132] px-px mb-[33]">
           <Txt
             type="title2"
             content={type==='DAILY' ? `청년에게 일상을 응원하는\n녹음을 들려주세요` : `청년에게 위로하는\n목소리를 들려주세요`}
@@ -61,7 +64,7 @@ const RCDListScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDList'>
           
         </View>
         {/* list */}
-        <Carousel entries={rcdList} />
+        <Carousel entries={rcdList} type={type}/>
     </BG>
   )
 }

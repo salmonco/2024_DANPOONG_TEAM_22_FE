@@ -10,8 +10,9 @@ import { HomeStackParamList } from '../../types/HomeStackParamList'
 import { ScrollView } from 'react-native-gesture-handler'
 import { postSaveScript } from '@apis/RCDApis/postSaveScript'
 import Toast from '@components/atom/Toast'
+import AppBar from '@components/atom/AppBar'
 const RCDTextScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDText'>}) => {
-  const {item,gptRes,alarmId} = route.params
+  const {item,gptRes,alarmId,type} = route.params
   const [text, setText] = useState('')
   const textInputRef = useRef<TextInput>(null);
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
@@ -30,7 +31,7 @@ const scriptSubmitHandler = async () => {
     const content: string = text;
     const res = await postSaveScript(alarmId, content);
     const voiceFileId = res.result.voiceFileId
-    navigation.navigate('RCDRecord', { item, gptRes, alarmId,voiceFileId,content });
+    navigation.navigate('RCDRecord', { type, item, gptRes, alarmId,voiceFileId,content });
   } catch (e) {
     setIsError(true)
     setIsToast(true)
@@ -40,9 +41,14 @@ const scriptSubmitHandler = async () => {
 
   return (
     <BG type="solid">
+       <AppBar
+          title={type==='DAILY' ? `일상 녹음` : `위로 녹음`}
+          goBackCallbackFn={() => {navigation.goBack()}}
+          className="absolute top-[46] w-full"
+        />
       <Toast text='부적절한 언어가 감지되어 녹음할 수 없어요' isToast={isToast} setIsToast={()=>setIsToast(false)}/>
       {/* frame */}
-      <ScrollView className="w-full h-full px-px pt-[52]" contentContainerStyle={{alignItems: 'center'}}>
+      <ScrollView className="w-full h-full px-px pt-[122]" contentContainerStyle={{alignItems: 'center'}}>
         {/* image section*/}
           <StarPNG />
         <View className='mb-[29]'/>
