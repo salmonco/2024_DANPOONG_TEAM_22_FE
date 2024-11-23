@@ -16,31 +16,19 @@ const Card = ({ letter, idx }: Readonly<CardProps>) => {
   return (
     <Pressable className="h-[189]">
       <ShadowView>
-        <View className="px-[22] py-[18]">
-          <LeeSeoYunText
-            text={formatDate(letter.createdAt)}
-            className="text-gray300"
-          />
-          <Body4
-            text="자립한 뒤로 지치고 외로웠는데 바람돌이님의 위로 한 마디가 제 삶을 움직일 동력이 되어줬어요. 감사합니다."
-            className="text-white my-[15] text-justify"
-          />
+        <View className="px-[22] py-[14] justify-between flex-1">
+          <View>
+            <LeeSeoYunText text={formatDate(letter.createdAt)} className="text-gray300" />
+            <Body4 text={letter.thanksMessage} className="text-white my-[15] text-justify" />
+          </View>
           <View className="flex-row items-center self-end">
-            <LeeSeoYunText
-              text={letter.alarmType}
-              className="text-yellowPrimary"
-            />
-            {letter.alarmType !== '위로' && (
-              <LeeSeoYunText text="&nbsp;알림" className="text-white" />
-            )}
+            <LeeSeoYunText text="from." className="text-white mr-[8]" />
+            <LeeSeoYunText text={letter.alarmType} className="text-yellowPrimary" />
+            {letter.alarmType !== '위로' && <LeeSeoYunText text="&nbsp;알림" className="text-white" />}
             <LeeSeoYunText text="&nbsp;받은" className="text-white mr-[5]" />
-            <Body4 text={`청년${idx}`} className="text-white mr-[10]" />
+            <Body4 text={`청년${idx + 1}`} className="text-white mr-[10]" />
             <Image
-              source={
-                imageUri
-                  ? { uri: imageUri }
-                  : require('../../../../assets/images/logo/app/app_logo_yellow.png')
-              }
+              source={imageUri ? { uri: imageUri } : require('../../../../assets/images/logo/app/app_logo_yellow.png')}
               className="w-[27] h-[27]"
               style={{ borderRadius: 50 }}
             />

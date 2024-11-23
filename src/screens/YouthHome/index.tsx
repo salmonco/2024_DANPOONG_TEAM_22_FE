@@ -1,4 +1,4 @@
-import { getAlarmCategory } from '@apis/alarm';
+import { getAlarmCategoryByAlarmCategoryId } from '@apis/alarm';
 import Body3 from '@components/atom/body/Body3';
 import Title2 from '@components/atom/title/Title2';
 import Title3 from '@components/atom/title/Title3';
@@ -29,7 +29,7 @@ const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
 
     (async () => {
       try {
-        const { result } = await getAlarmCategory({ alarmCategoryId });
+        const { result } = await getAlarmCategoryByAlarmCategoryId({ alarmCategoryId });
         const { alarmId, title } = result;
         console.log('alarmComfortData', alarmComfortData);
         console.log('getAlarmCategory', result);
