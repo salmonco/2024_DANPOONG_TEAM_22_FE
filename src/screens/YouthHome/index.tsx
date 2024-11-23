@@ -8,44 +8,30 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { YouthStackParamList } from '@stackNav/Youth';
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
-import {
-  Alert,
-  Image,
-  ImageBackground,
-  Pressable,
-  SafeAreaView,
-  View,
-} from 'react-native';
+import { Alert, Image, ImageBackground, Pressable, SafeAreaView, View } from 'react-native';
 import CancelIcon from '../../../assets/images/youth/cancel.svg';
 
-type YouthProps = NativeStackScreenProps<
-  YouthStackParamList,
-  'YouthHomeScreen'
->;
+type YouthProps = NativeStackScreenProps<YouthStackParamList, 'YouthHomeScreen'>;
 
 const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
   const [clicked, setClicked] = useState(false);
   const { data: helperNumData, isError: isHelperNumError } = useGetHelperNum();
   const nickname = SecureStore.getItem('nickname');
-  const {
-    data: alarmComfortData,
-    isError: isAlarmComfortError,
-    error: alarmComfortError,
-  } = useGetAlarmComfort();
+  const { data: alarmComfortData, isError: isAlarmComfortError, error: alarmComfortError } = useGetAlarmComfort();
 
   const handleButtonClick = (label: string) => {
     if (!alarmComfortData) return;
 
-    const alarms = alarmComfortData.result.find(
-      (alarm) => alarm.name === label
-    );
-
+    const alarms = alarmComfortData.result.find((alarm) => alarm.name === label);
+    console.log(label, alarms);
     const alarmCategoryId = alarms.children[0].id;
 
     (async () => {
       try {
         const { result } = await getAlarmCategory({ alarmCategoryId });
         const { alarmId, title } = result;
+        console.log('alarmComfortData', alarmComfortData);
+        console.log('getAlarmCategory', result);
         navigation.navigate('YouthListenScreen', {
           alarmId,
           script: title,
@@ -70,34 +56,22 @@ const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
     }
   }, [isAlarmComfortError]);
 
+  // return <LoadingScreen />;
   return (
     <SafeAreaView className="flex-1">
-      <ImageBackground
-        source={require('../../../assets/images/youth/background1.png')}
-        className="flex-1 items-center"
-      >
+      <ImageBackground source={require('../../../assets/images/youth/background1.png')} className="flex-1 items-center">
         <View className="self-start">
-          <Title3
-            text={`${nickname ?? ''}님, 반가워요!`}
-            className="text-gray300 pt-[117] px-[30]"
-          />
+          <Title3 text={`${nickname ?? ''}님, 반가워요!`} className="text-gray300 pt-[117] px-[30]" />
           <View className="mt-[9] px-[30]">
             <View className="flex-row items-center">
-              <Title2
-                text={`${helperNumData?.result.youthMemberNum}명의 목소리`}
-                className="text-yellowPrimary"
-              />
+              <Title2 text={`${helperNumData?.result.youthMemberNum}명의 목소리`} className="text-yellowPrimary" />
               <Title2 text="가" className="text-white" />
             </View>
             <Title2 text="당신의 일상을 비추고 있어요" className="text-white" />
           </View>
         </View>
 
-        <View
-          className={`absolute items-center w-full h-full ${
-            clicked ? 'bg-black/50' : ''
-          }`}
-        >
+        <View className={`absolute items-center w-full h-full ${clicked ? 'bg-black/50' : ''}`}>
           <View className="absolute bottom-[88] items-center">
             {clicked ? (
               <View className="mb-[29] items-center">
@@ -125,14 +99,8 @@ const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
               </View>
             ) : (
               <View className="mb-[24]">
-                <Body3
-                  text="당신을 응원하는 목소리를"
-                  className="text-gray300 text-center"
-                />
-                <Body3
-                  text="들을 수 있어요"
-                  className="text-gray300 text-center"
-                />
+                <Body3 text="당신을 응원하는 목소리를" className="text-gray300 text-center" />
+                <Body3 text="들을 수 있어요" className="text-gray300 text-center" />
               </View>
             )}
             <Pressable
@@ -150,9 +118,7 @@ const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
                   className="w-[43] h-[43]"
                 />
               )}
-              {!clicked && (
-                <Title3 text="위로 받기" className="text-gray100 pr-[12]" />
-              )}
+              {!clicked && <Title3 text="위로 받기" className="text-gray100 pr-[12]" />}
             </Pressable>
           </View>
         </View>
