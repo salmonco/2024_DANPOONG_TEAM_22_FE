@@ -1,3 +1,4 @@
+import { postMember } from '@apis/member';
 import BG from '@components/atom/BG';
 import Button from '@components/atom/button/Button';
 import Title2 from '@components/atom/title/Title2';
@@ -33,8 +34,8 @@ const MemberInfoWriteScreen = ({ route, navigation }: Readonly<AuthProps>) => {
       birth: new Date(`${year}-${month}-${day}`).toISOString(),
     };
     try {
-      // const { result } = await postMember(data)
-      // console.log(result.memberId)
+      const { result } = await postMember(data);
+      console.log(result);
 
       await SecureStore.setItemAsync('nickname', nickname);
       navigation.navigate('VolunteerOnboardingScreen');

@@ -44,15 +44,12 @@ const AppInner = () => {
         setRole(result.role);
       } catch (error) {
         console.error(error);
-        Alert.alert(
-          '오류',
-          `회원 정보를 불러오는 중 오류가 발생했어요\n${error}`
-        );
+        Alert.alert('오류', `회원 정보를 불러오는 중 오류가 발생했어요\n${error}`);
       }
     })();
 
     const checkLoginStatus = async () => {
-      const token = await SecureStore.getItemAsync('accessToken');
+      const token = await SecureStore.getItemAsync('accessToken1');
       setIsLoggedIn(!!token);
     };
 
@@ -78,18 +75,13 @@ const AppInner = () => {
     >
       {isLoggedIn ? (
         <Stack.Group>
-          {/* <Stack.Screen name="AppTabNav" component={AppTabNav} /> */}
-          {role !== 'HELPER' && (
-            <Stack.Screen name="AppTabNav" component={AppTabNav} />
-          )}
+          {role === 'HELPER' && <Stack.Screen name="AppTabNav" component={AppTabNav} />}
           <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
         </Stack.Group>
       ) : (
         <Stack.Group>
           <Stack.Screen name="AuthStackNav" component={AuthStackNav} />
-          {role === 'HELPER' && (
-            <Stack.Screen name="AppTabNav" component={AppTabNav} />
-          )}
+          <Stack.Screen name="AppTabNav" component={AppTabNav} />
           <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
         </Stack.Group>
       )}
