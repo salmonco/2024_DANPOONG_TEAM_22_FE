@@ -10,6 +10,7 @@ import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import { Alert, Image, ImageBackground, Pressable, SafeAreaView, View } from 'react-native';
 import CancelIcon from '../../../assets/images/youth/cancel.svg';
+import ButtonText from '@components/atom/etc/ButtonText';
 
 type YouthProps = NativeStackScreenProps<YouthStackParamList, 'YouthHomeScreen'>;
 
@@ -61,7 +62,7 @@ const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
     <SafeAreaView className="flex-1">
       <ImageBackground source={require('../../../assets/images/youth/background1.png')} className="flex-1 items-center">
         <View className="self-start">
-          <Title3 text={`${nickname ?? ''}님, 반가워요!`} className="text-gray300 pt-[117] px-[30]" />
+          <Title3 text={`${nickname ?? '모래바람'}님, 반가워요!`} className="text-gray300 pt-[117] px-[30]" />
           <View className="mt-[9] px-[30]">
             <View className="flex-row items-center">
               <Title2 text={`${helperNumData?.result.youthMemberNum}명의 목소리`} className="text-yellowPrimary" />
@@ -118,7 +119,7 @@ const YouthHomeScreen = ({ navigation }: Readonly<YouthProps>) => {
                   className="w-[43] h-[43]"
                 />
               )}
-              {!clicked && <Title3 text="위로 받기" className="text-gray100 pr-[12]" />}
+              {!clicked && <ButtonText text="위로 받기" className="text-gray100 pr-[12]" />}
             </Pressable>
           </View>
         </View>

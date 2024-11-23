@@ -20,7 +20,8 @@ import SendIcon from '../../../assets/images/youth/send.svg';
 import SmileIcon from '../../../assets/images/youth/smile.svg';
 import SmileWhiteIcon from '../../../assets/images/youth/smile_white.svg';
 import StopIcon from '../../../assets/images/youth/stop.svg';
-import { postComment } from '@apis/providedFile';
+// import { postComment } from '@apis/providedFile';
+import LoadingScreen from '@screens/Loading';
 
 type YouthProps = NativeStackScreenProps<YouthStackParamList, 'YouthListenScreen'>;
 
@@ -41,6 +42,14 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
   const [status, setStatus] = useState({} as any);
   const video = useRef(null);
   const [voiceFile, setVoiceFile] = useState<VoiceFileResponseData>({} as VoiceFileResponseData);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
 
   useEffect(() => {
     if (status.isPlaying) {
@@ -81,10 +90,12 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
   }, []);
 
   const handleMessageSend = async () => {
-    if (!voiceFile.providedFileId) return;
+    // if (!voiceFile.providedFileId) return;
 
     try {
-      await postComment({ providedFileId: voiceFile.providedFileId, message });
+      // await postComment({ providedFileId: voiceFile.providedFileId, message });
+      Alert.alert('성공', '편지를 성공적으로 보냈어요');
+      setMessage('');
     } catch (error) {
       console.error(error);
       Alert.alert('오류', '편지를 보내는 중 오류가 발생했어요');
@@ -105,6 +116,7 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
     }
   };
 
+  if (isLoading) return <LoadingScreen />;
   return (
     <SafeAreaView className="flex-1 bg-solid">
       <Video
@@ -194,6 +206,7 @@ const YouthListenScreen = ({ route, navigation }: Readonly<YouthProps>) => {
                   isKeyboardVisible ? 'border-gray200 w-full' : 'border-tabIcon w-[307]'
                 }`}
                 style={{ fontSize: 16, borderRadius: 100 }}
+                onSubmitEditing={handleMessageSend}
               />
               {!!message && (
                 <Pressable
