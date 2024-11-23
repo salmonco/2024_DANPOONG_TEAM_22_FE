@@ -6,7 +6,7 @@ export default ({ config }) => ({
   // owner: 'bongjs',
   version: '1.0.0',
   orientation: 'portrait',
-  icon: './assets/images/logo/app_logo_yellow.png',
+  icon: './assets/images/logo/app/app_logo_yellow.png',
   extra: {
     storybookEnabled: process.env.STORYBOOK_ENABLED,
     eas: {
@@ -15,7 +15,7 @@ export default ({ config }) => ({
     },
   },
   splash: {
-    image: './assets/images/logo/typo_logo_white.png',
+    image: './assets/images/logo/typo/typo_logo_white.png',
     resizeMode: 'contain',
     backgroundColor: '#252738',
   },
@@ -32,6 +32,7 @@ export default ({ config }) => ({
       backgroundColor: '#FFFFFF',
     },
     package: 'com.nail.morae',
+    googleServicesFile: './google-services.json',
   },
   web: {
     favicon: './assets/favicon.png',
