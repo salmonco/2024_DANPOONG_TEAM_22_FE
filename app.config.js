@@ -28,8 +28,8 @@ export default ({ config }) => ({
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#FFFFFF',
+      foregroundImage: './assets/images/logo/app/app_logo_yellow.png',
+      backgroundColor: '#252738',
     },
     package: 'com.nail.morae',
     googleServicesFile: './google-services.json',
@@ -50,9 +50,7 @@ export default ({ config }) => ({
       'expo-build-properties',
       {
         android: {
-          extraMavenRepos: [
-            'https://devrepo.kakao.com/nexus/content/groups/public/',
-          ],
+          extraMavenRepos: ['https://devrepo.kakao.com/nexus/content/groups/public/'],
         },
       },
     ],

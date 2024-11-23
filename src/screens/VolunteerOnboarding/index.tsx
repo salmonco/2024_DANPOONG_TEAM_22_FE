@@ -1,34 +1,32 @@
-import BG from '@components/atom/BG'
-import Body2 from '@components/atom/body/Body2'
-import Button from '@components/atom/button/Button'
-import LeeSeoYunText from '@components/atom/LeeSeoyunText'
-import VoltaireText from '@components/atom/VoltaireText'
-import { CompositeScreenProps } from '@react-navigation/native'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { AuthStackParamList } from '@stackNav/Auth'
-import { RootStackParamList } from '@type/RootStackParamList'
-import * as SecureStore from 'expo-secure-store'
-import React, { useState } from 'react'
-import { Animated, Dimensions, Image, View } from 'react-native'
-import { SlidingDot } from 'react-native-animated-pagination-dots'
+import BG from '@components/atom/BG';
+import Body2 from '@components/atom/body/Body2';
+import Button from '@components/atom/button/Button';
+import LeeSeoYunText from '@components/atom/LeeSeoyunText';
+import VoltaireText from '@components/atom/VoltaireText';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '@stackNav/Auth';
+import { RootStackParamList } from '@type/RootStackParamList';
+import * as SecureStore from 'expo-secure-store';
+import React, { useState } from 'react';
+import { Animated, Dimensions, Image, View } from 'react-native';
+import { SlidingDot } from 'react-native-animated-pagination-dots';
 import PagerView, {
   PagerViewOnPageScrollEventData,
   PagerViewOnPageSelectedEvent,
-} from 'react-native-pager-view'
-import { SafeAreaView } from 'react-native-safe-area-context'
+} from 'react-native-pager-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type AuthProps = NativeStackScreenProps<
   AuthStackParamList,
   'VolunteerOnboardingScreen'
->
-type RootProps = NativeStackScreenProps<RootStackParamList>
-type Props = CompositeScreenProps<AuthProps, RootProps>
+>;
+type RootProps = NativeStackScreenProps<RootStackParamList>;
+type Props = CompositeScreenProps<AuthProps, RootProps>;
 
-const AnimatedPagerView = Animated.createAnimatedComponent(PagerView)
+const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
-const nickname = SecureStore.getItem('nickname')
-
-const Page1 = () => {
+const Page1 = ({ nickname }) => {
   return (
     <View className="flex-1 items-center justify-center">
       <Body2
@@ -44,8 +42,8 @@ const Page1 = () => {
       <VoltaireText text="”" size={48} className="text-yellow200 mt-[26]" />
       <Body2 text="라는 말이요" className="text-white text-center" />
     </View>
-  )
-}
+  );
+};
 
 const Page2 = () => {
   return (
@@ -59,10 +57,10 @@ const Page2 = () => {
         className="w-full h-[466] absolute bottom-0"
       />
     </View>
-  )
-}
+  );
+};
 
-const Page3 = () => {
+const Page3 = ({ nickname }) => {
   return (
     <View className="flex-1 items-center mt-[80]">
       <Body2
@@ -74,8 +72,8 @@ const Page3 = () => {
         className="w-full h-auto"
       />
     </View>
-  )
-}
+  );
+};
 
 const Page4 = ({ handleNext }: Readonly<{ handleNext: () => void }>) => {
   return (
@@ -94,29 +92,30 @@ const Page4 = ({ handleNext }: Readonly<{ handleNext: () => void }>) => {
         <Button text="다음" onPress={handleNext} />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const VolunteerOnboardingScreen = ({ navigation }: Readonly<Props>) => {
-  const [currentPageIdx, setCurrentPageIdx] = useState(0)
+  const [currentPageIdx, setCurrentPageIdx] = useState(0);
+  const nickname = SecureStore.getItem('nickname');
 
   const handleNext = () => {
-    navigation.navigate('AppTabNav')
-  }
+    navigation.navigate('AppTabNav');
+  };
 
-  const PAGE_COUNT = 4
-  const width = Dimensions.get('window').width
-  const ref = React.useRef<PagerView>(null)
-  const scrollOffsetAnimatedValue = React.useRef(new Animated.Value(0)).current
-  const positionAnimatedValue = React.useRef(new Animated.Value(0)).current
-  const inputRange = [0, PAGE_COUNT]
+  const PAGE_COUNT = 4;
+  const width = Dimensions.get('window').width;
+  const ref = React.useRef<PagerView>(null);
+  const scrollOffsetAnimatedValue = React.useRef(new Animated.Value(0)).current;
+  const positionAnimatedValue = React.useRef(new Animated.Value(0)).current;
+  const inputRange = [0, PAGE_COUNT];
   const scrollX = Animated.add(
     scrollOffsetAnimatedValue,
     positionAnimatedValue
   ).interpolate({
     inputRange,
     outputRange: [0, PAGE_COUNT * width],
-  })
+  });
 
   const INTRO_DATA = [
     {
@@ -143,7 +142,7 @@ const VolunteerOnboardingScreen = ({ navigation }: Readonly<Props>) => {
       description:
         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. ',
     },
-  ]
+  ];
 
   const onPageScroll = React.useMemo(
     () =>
@@ -162,11 +161,11 @@ const VolunteerOnboardingScreen = ({ navigation }: Readonly<Props>) => {
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
-  )
+  );
 
   const onPageSelected = (e: PagerViewOnPageSelectedEvent) => {
-    setCurrentPageIdx(e.nativeEvent.position)
-  }
+    setCurrentPageIdx(e.nativeEvent.position);
+  };
 
   return (
     <SafeAreaView className="flex-1">
@@ -195,13 +194,13 @@ const VolunteerOnboardingScreen = ({ navigation }: Readonly<Props>) => {
             onPageSelected={onPageSelected}
           >
             <View key="1" className="flex-1">
-              <Page1 />
+              <Page1 nickname={nickname} />
             </View>
             <View key="2" className="flex-1">
               <Page2 />
             </View>
             <View key="3" className="flex-1">
-              <Page3 />
+              <Page3 nickname={nickname} />
             </View>
             <View key="4" className="flex-1">
               <Page4 handleNext={handleNext} />
@@ -210,7 +209,7 @@ const VolunteerOnboardingScreen = ({ navigation }: Readonly<Props>) => {
         </>
       </BG>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default VolunteerOnboardingScreen
+export default VolunteerOnboardingScreen;
