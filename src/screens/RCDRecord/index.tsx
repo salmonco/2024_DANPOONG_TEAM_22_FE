@@ -13,9 +13,11 @@ import Notice2 from '../../../assets/svgs/Notice2.svg'
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
 import { postVoiceAnalysis } from '@apis/RCDApis/postVoiceAnalysis'
+import AppBar from '@components/atom/AppBar'
+
 const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDRecord'>}) => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
-  const {item,gptRes,alarmId,voiceFileId,content} = route.params;
+  const {item,gptRes,alarmId,voiceFileId,content,type} = route.params;
   const [isError,setIsError] = useState<boolean>(false)
   const [errType,setErrType] = useState<'bad'|'noisy'|'server'>('bad')
   //
@@ -175,11 +177,17 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
 
   return (
     <BG type="solid">
+       <AppBar
+          title={type==='DAILY' ? `일상 녹음` : `위로 녹음`}
+          goBackCallbackFn={() => {navigation.goBack()}}
+          className="absolute top-[46] w-full"
+        />
       {!isError?(  
-      <View className='flex-1 justify-between'>{/* frame */}
+      <View className='flex-1 justify-between '>{/* frame */}
         {/* up section */}
         <View className='px-px pt-[53] h-[250]'>
           <ScrollView className='h-full'>
+            <View className='mt-[53]'/>
             {/* head section */}
             <Txt type='body4' content='준비한 문장을 시간 내에 또박또박 발음해주세요' color='gray_200'/>
             {/* content section */}

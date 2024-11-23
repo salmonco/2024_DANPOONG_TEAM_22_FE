@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import Card from './Card';
 import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { RCD } from '@apis/RCDApis/getRCDList';
-const Carousel= ({entries}:{entries:RCD[]})=>{
+const Carousel= ({entries,type}:{entries:RCD[],type:'DAILY'|'COMFORT'})=>{
     const pageWidth = Dimensions.get('window').width-60
     //gap + offset = 30 이 되어야 함
     const gap = 14
@@ -23,7 +23,7 @@ const Carousel= ({entries}:{entries:RCD[]})=>{
         horizontal
         pagingEnabled
         renderItem={({item,index})=>{
-            return <Card key={index} item={item} gap={gap}/>
+            return <Card key={index} item={item} gap={gap} type={type}/>
         }}        
         snapToInterval={pageWidth + gap}
         snapToAlignment="start"

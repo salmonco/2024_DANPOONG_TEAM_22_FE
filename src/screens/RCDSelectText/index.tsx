@@ -10,8 +10,9 @@ import { getTopText } from "@apis/RCDApis/getTopText";
 import { useEffect, useState } from "react";
 import { postAskGPT,PostAskGPTResponse } from "@apis/RCDApis/postAskGPT";
 import { RCD } from "@apis/RCDApis/getRCDList";
+import AppBar from "@components/atom/AppBar";
 
-const SelectButton = ({head,sub,gpt,alarmId,item}:{head:string,sub:string,gpt:boolean,alarmId:number,item:RCD}) => {
+const SelectButton = ({head,sub,gpt,alarmId,item,type}:{head:string,sub:string,gpt:boolean,alarmId:number,item:RCD,type:'DAILY'|'COMFORT'}) => {
     const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
     const [isLoading,setIsLoading] = useState(false)
     const gptApiHandler=async()=>{
@@ -22,10 +23,10 @@ const SelectButton = ({head,sub,gpt,alarmId,item}:{head:string,sub:string,gpt:bo
                 
                 const res = await postAskGPT(alarmId)
                 console.log(res)
-                navigation.navigate('RCDText',{item:item,gptRes:res,alarmId})
+                navigation.navigate('RCDText',{item:item,gptRes:res,alarmId,type})
 
             }
-            else navigation.navigate('RCDText',{item:item,gptRes:null,alarmId});
+            else navigation.navigate('RCDText',{item:item,gptRes:null,alarmId,type});
 
         }catch(e){
             console.log('err:',e)
@@ -47,7 +48,8 @@ const SelectButton = ({head,sub,gpt,alarmId,item}:{head:string,sub:string,gpt:bo
     )
 }
 const RCDSelectText = ({route}:{route:RouteProp<HomeStackParamList,'RCDSelectText'>}) => {
-    const {item} = route.params
+    const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
+    const {item,type} = route.params
     console.log(item)
     const [subTitle,setSubTitle]=useState<string>()
     const [alarmId,setAlarmId] = useState<number>();
@@ -59,7 +61,12 @@ const RCDSelectText = ({route}:{route:RouteProp<HomeStackParamList,'RCDSelectTex
     },[])
     return (
         <BG type='solid'>
-            <View className='flex-1 px-px pt-[52] items-center'>
+             <AppBar
+          title={type==='DAILY' ? `일상 녹음` : `위로 녹음`}
+          goBackCallbackFn={() => {navigation.goBack()}}
+          className="absolute top-[46] w-full"
+        />
+            <View className='flex-1 px-px pt-[132] items-center'>
                 <StarPNG />
                 <View className='mt-[29]  mb-[52]  items-center'>
                     <Txt type='title2' content={item.title} color='white' align='center'/>
@@ -67,8 +74,8 @@ const RCDSelectText = ({route}:{route:RouteProp<HomeStackParamList,'RCDSelectTex
                         <Txt type='body3' content={subTitle} color='gray_300' align='center' />
                     </View>
                 </View>
-                <SelectButton head='준비된 문장 읽기' sub='제시되는 문장을 수정하고 녹음하기' gpt={true} alarmId={alarmId} item={item}/>
-                <SelectButton head='직접 작성하기' sub='하고싶은 말을 직접 작성하고 녹음하기' gpt={false} alarmId={alarmId} item={item}/>
+                <SelectButton head='준비된 문장 읽기' sub='제시되는 문장을 수정하고 녹음하기' gpt={true} alarmId={alarmId} item={item} type={type}/>
+                <SelectButton head='직접 작성하기' sub='하고싶은 말을 직접 작성하고 녹음하기' gpt={false} alarmId={alarmId} item={item} type={type}/>
             </View>
         </BG>
     )

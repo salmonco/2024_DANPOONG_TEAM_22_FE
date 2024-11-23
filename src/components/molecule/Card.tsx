@@ -7,7 +7,7 @@ import StarPNG from '@components/atom/StarPNG'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { HomeStackParamList } from '../../types/HomeStackParamList'
 import { RCD } from '@apis/RCDApis/getRCDList';
-const Card = ({item,gap}:{item:RCD,gap:number}) => {
+const Card = ({item,gap,type}:{item:RCD,gap:number,type:'DAILY'|'COMFORT'}) => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   return (
   <View className={`w-[352] h-full`} style={{marginHorizontal:gap/2}}>
@@ -32,7 +32,7 @@ const Card = ({item,gap}:{item:RCD,gap:number}) => {
         <Button
           text="녹음하기"
           onPress={() => {
-            navigation.navigate('RCDNotice',{item})
+            navigation.navigate('RCDNotice',{type,item})
           }}
           disabled={false}
         />
