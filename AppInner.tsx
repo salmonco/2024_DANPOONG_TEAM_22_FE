@@ -31,7 +31,7 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
 });
 
 const AppInner = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [role, setRole] = useState<Role | null>(null);
 
@@ -74,7 +74,7 @@ const AppInner = () => {
     >
       {isLoggedIn ? (
         <Stack.Group>
-          {role !== 'HELPER' ? (
+          {role === 'HELPER' ? (
             <Stack.Screen name="AppTabNav" component={AppTabNav} />
           ) : (
             <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
@@ -82,7 +82,7 @@ const AppInner = () => {
         </Stack.Group>
       ) : (
         <Stack.Group>
-          {/* <Stack.Screen name="AuthStackNav" component={AuthStackNav} /> */}
+          <Stack.Screen name="AuthStackNav" component={AuthStackNav} />
           <Stack.Screen name="AppTabNav" component={AppTabNav} />
           <Stack.Screen name="YouthStackNav" component={YouthStackNav} />
         </Stack.Group>

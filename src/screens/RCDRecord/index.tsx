@@ -51,6 +51,7 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
     setVolumeList([])
     setRecording(undefined)
     setUri(null)
+    setSound(undefined)
   }
 
   // 녹음을 시작하는 비동기 함수
@@ -117,8 +118,8 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
       const { sound } = await Audio.Sound.createAsync({uri,})
       setSound(sound)
       setIsPlaying(true)
-
-      await sound.playAsync()
+      await sound.playAsync() // 녹음 재생 함수 
+      await new Promise(resolve => setTimeout(resolve, volumeList.length*100)); // 녹음 재생 시간 만큼 딜레이
       setIsPlaying(false)
       console.log('playSound')
     }

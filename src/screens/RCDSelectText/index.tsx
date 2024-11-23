@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { postAskGPT,PostAskGPTResponse } from "@apis/RCDApis/postAskGPT";
 import { RCD } from "@apis/RCDApis/getRCDList";
 import AppBar from "@components/atom/AppBar";
+import { ActivityIndicator } from 'react-native'
 
 const SelectButton = ({head,sub,gpt,alarmId,item,type}:{head:string,sub:string,gpt:boolean,alarmId:number,item:RCD,type:'DAILY'|'COMFORT'}) => {
     const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
@@ -20,16 +21,15 @@ const SelectButton = ({head,sub,gpt,alarmId,item,type}:{head:string,sub:string,g
         try{
             if(gpt){
                 console.log('alarmId:',alarmId)
-                
                 const res = await postAskGPT(alarmId)
                 console.log(res)
-                navigation.navigate('RCDText',{item:item,gptRes:res,alarmId,type})
-
+                navigation.navigate('RCDText',{item:item,gptRes:res,alarmId,type});
             }
             else navigation.navigate('RCDText',{item:item,gptRes:null,alarmId,type});
-
         }catch(e){
             console.log('err:',e)
+        }finally{
+            setIsLoading(false);
         }
     }
     return (
@@ -42,7 +42,7 @@ const SelectButton = ({head,sub,gpt,alarmId,item,type}:{head:string,sub:string,g
                     <View className='mt-[5]'/>
                     <Txt type='body4' content={sub} color='gray_200' />
                 </View>
-                <BackIcon />
+                {isLoading && gpt ? <ActivityIndicator size="small" color="#fafafa" /> : <BackIcon />}
                 </View>
             </ShadowView>
         </TouchableOpacity>

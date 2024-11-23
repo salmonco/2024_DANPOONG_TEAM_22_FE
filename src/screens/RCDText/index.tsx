@@ -18,7 +18,8 @@ const RCDTextScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDText'>
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   const [isFocused, setIsFocused] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [isToast, setIsToast] = useState(false)
+  const [isToast, setIsToast] = useState(false);
+  const [isLoading,setIsLoading] = useState(false);
   useEffect(()=>{setText(gptRes?.result.content||'')},[])
 
   const onChangeText = (text:string) => {
@@ -27,17 +28,20 @@ const RCDTextScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDText'>
 
 const scriptSubmitHandler = async () => {
   try {
+    setIsLoading(true);
     // throw new Error('스크립트 저장 오류')
+    //navigation.navigate('RCDRecord', { type, item, gptRes, alarmId,voiceFileId:10,content:text });
+    // await new Promise(resolve => setTimeout(resolve, 1000));
      const content: string = text;
      const res = await postSaveScript(alarmId, content);
      const voiceFileId = res.result.voiceFileId
      navigation.navigate('RCDRecord', { type, item, gptRes, alarmId,voiceFileId,content });
-    //navigation.navigate('RCDRecord', { type, item, gptRes, alarmId,voiceFileId:10,content:text });
-
   } catch (e) {
     setIsError(true)
     setIsToast(true)
     console.log('스크립트 저장 오류:', e);
+    } finally{
+      setIsLoading(false);
     }
   };  
 
