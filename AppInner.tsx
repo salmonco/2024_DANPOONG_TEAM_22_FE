@@ -79,7 +79,7 @@ const AppInner = () => {
       {isLoggedIn ? (
         <Stack.Group>
           {/* <Stack.Screen name="AppTabNav" component={AppTabNav} /> */}
-          {role === 'HELPER' && (
+          {role !== 'HELPER' && (
             <Stack.Screen name="AppTabNav" component={AppTabNav} />
           )}
           <Stack.Screen name="YouthStackNav" component={YouthStackNav} />

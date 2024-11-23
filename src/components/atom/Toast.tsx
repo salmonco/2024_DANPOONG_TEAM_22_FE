@@ -27,7 +27,7 @@ const Toast = ({text,isToast,setIsToast}:{text:string,isToast:boolean,setIsToast
   if(!isToast) return null
 
   return (
-    <View className='w-full items-center justify-center absolute top-8 '>
+    <View className='w-full items-center justify-center absolute top-[150] '>
     <Animated.View 
       className='w-auto h-auto flex-row bg-tabIcon px-[27] py-[16] z-50' 
       style={{

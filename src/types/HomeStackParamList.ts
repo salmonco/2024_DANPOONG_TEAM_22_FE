@@ -3,9 +3,9 @@ import { PostAskGPTResponse } from "@apis/RCDApis/postAskGPT";
 export type HomeStackParamList = {
     Home: undefined;
     RCDList: {type: 'DAILY' | 'COMFORT'};
-    RCDNotice: {item:RCD};
-    RCDSelectText:{item:RCD};
-    RCDText: {item:RCD,gptRes:PostAskGPTResponse|null,alarmId:number};
-    RCDRecord: {item:RCD,gptRes:PostAskGPTResponse|null,alarmId:number,voiceFileId:number,content:string};
+    RCDNotice: {type: 'DAILY' | 'COMFORT',item:RCD};
+    RCDSelectText:{type: 'DAILY' | 'COMFORT',item:RCD};
+    RCDText: {type: 'DAILY' | 'COMFORT',item:RCD,gptRes:PostAskGPTResponse|null,alarmId:number};
+    RCDRecord: {type: 'DAILY' | 'COMFORT',item:RCD,gptRes:PostAskGPTResponse|null,alarmId:number,voiceFileId:number,content:string};
     RCDFeedBack: undefined;
   };
