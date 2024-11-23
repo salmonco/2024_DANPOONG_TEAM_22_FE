@@ -20,10 +20,4 @@ type AlarmCategoryResponseData = {
   title: string;
 };
 
-export type {
-  AlarmType,
-  AlarmData,
-  AlarmComfortResponseData,
-  AlarmCategoryRequestData,
-  AlarmCategoryResponseData,
-};
+export type { AlarmType, AlarmData, AlarmComfortResponseData, AlarmCategoryRequestData, AlarmCategoryResponseData };
