@@ -16,8 +16,8 @@ import { postVoiceAnalysis } from '@apis/RCDApis/postVoiceAnalysis'
 const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDRecord'>}) => {
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
   const {item,gptRes,alarmId,voiceFileId,content} = route.params;
-  const [isError,setIsError] = useState<boolean>(true)
-  const [errType,setErrType] = useState<'bad'|'noisy'|'server'>('server')
+  const [isError,setIsError] = useState<boolean>(false)
+  const [errType,setErrType] = useState<'bad'|'noisy'|'server'>('bad')
   //
   const [recording, setRecording] = useState<Audio.Recording | undefined>(undefined) // 녹음 상태 관리
   const [permissionResponse, requestPermission] = Audio.usePermissions() // 오디오 권한 요청 및 응답 관리
