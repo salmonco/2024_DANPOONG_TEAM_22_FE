@@ -20,7 +20,7 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
   const {item,gptRes,alarmId,voiceFileId,content,type} = route.params;
   const [isError,setIsError] = useState<boolean>(false)
   const [errType,setErrType] = useState<'bad'|'noisy'|'server'>('bad')
-  //
+  // 
   const [recording, setRecording] = useState<Audio.Recording | undefined>(undefined) // 녹음 상태 관리
   const [permissionResponse, requestPermission] = Audio.usePermissions() // 오디오 권한 요청 및 응답 관리
   const [uri, setUri] = useState<string | null>(null) // 녹음 종료시 생성된 URI 
@@ -217,7 +217,9 @@ const RCDRecordScreen = ({route}: {route: RouteProp<HomeStackParamList, 'RCDReco
           isPaused={isPaused} 
           isDone={isDone}
           setIsDone={setIsDone} 
-          stop={stopRecording}/>
+          stop={stopRecording}
+          type={type}
+          />
           {/* button section */}
           <View className="w-full px-px mt-[40] mb-[70]">
           <RCDBtnBar

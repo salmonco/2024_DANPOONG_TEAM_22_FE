@@ -10,6 +10,7 @@ type RCDTimerProps = {
   setIsDone: (isDone: boolean) => void
   stop: () => void
   isDone: boolean
+  type:'DAILY' | 'COMFORT'
 }
 
 const RCDTimer = ({
@@ -17,17 +18,18 @@ const RCDTimer = ({
   isPaused,
   setIsDone,
   stop,
-  isDone
+  isDone,
+  type
 }: RCDTimerProps) => {
   const [targetTime, setTargetTime] = useState<Date | null>(null)
-  const [remainingTime, setRemainingTime] = useState(15000) // 15초를 밀리초로 변환
+  const [remainingTime, setRemainingTime] = useState(type === 'DAILY' ? 15000 : 30000)
 
   useEffect(() => {
     if (!!recording) {
       const target = new Date()
-      target.setSeconds(target.getSeconds() + 15)
+      target.setSeconds(target.getSeconds() + (type === 'DAILY' ? 15 : 30))
       setTargetTime(target)
-      setRemainingTime(15000)
+      setRemainingTime(type === 'DAILY' ? 15000 : 30000)
     }
   }, [recording])
 
@@ -36,8 +38,6 @@ const RCDTimer = ({
       setRemainingTime(0)
     }
   }, [isDone])
-
-
 
   useInterval(() => {
     if (recording && !isPaused && targetTime && !isDone) {
